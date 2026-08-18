@@ -40,6 +40,7 @@ import {
 // Interfaces
 // -------------------------------------------------------------
 
+
 interface Lender {
   _id: string;
   name: string;
@@ -131,6 +132,7 @@ export default function AdminPortal() {
   const [editingLender, setEditingLender] = useState<Lender | null>(null);
   const [isSubmittingLender, setIsSubmittingLender] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [lenderFormTab, setLenderFormTab] = useState<"general" | "terms" | "eligibility">("general");
   const [lenderFormData, setLenderFormData] = useState({
     name: "",
     logo: "",
@@ -381,11 +383,13 @@ export default function AdminPortal() {
       loanTypes: "instant, personal",
       isActive: true,
     });
+    setLenderFormTab("general");
     setIsLenderModalOpen(true);
   };
 
   const handleOpenEditLender = (lender: Lender) => {
     setEditingLender(lender);
+    setLenderFormTab("general");
     setLenderFormData({
       name: lender.name || "",
       logo: lender.logo || "",
@@ -1459,215 +1463,321 @@ export default function AdminPortal() {
               {editingLender ? `Update details for ${editingLender.name}` : "Configure affiliate links, logo and eligibility criteria"}
             </p>
 
-            <form onSubmit={handleSubmitLenderForm} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                    Lender Name <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. KreditBee"
-                    value={lenderFormData.name}
-                    onChange={(e) => setLenderFormData({ ...lenderFormData, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                  />
-                </div>
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-100 mb-6 gap-2">
+              <button
+                type="button"
+                onClick={() => setLenderFormTab("general")}
+                className={`flex-1 pb-3 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 flex items-center justify-center gap-2 ${
+                  lenderFormTab === "general"
+                    ? "border-[#FF7819] text-[#FF7819]"
+                    : "border-transparent text-gray-400 hover:text-[#08101E]"
+                }`}
+              >
+                <Globe className="w-4 h-4" />
+                General Info
+              </button>
+              <button
+                type="button"
+                onClick={() => setLenderFormTab("terms")}
+                className={`flex-1 pb-3 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 flex items-center justify-center gap-2 ${
+                  lenderFormTab === "terms"
+                    ? "border-[#FF7819] text-[#FF7819]"
+                    : "border-transparent text-gray-400 hover:text-[#08101E]"
+                }`}
+              >
+                <Layers className="w-4 h-4" />
+                Terms & Features
+              </button>
+              <button
+                type="button"
+                onClick={() => setLenderFormTab("eligibility")}
+                className={`flex-1 pb-3 text-xs md:text-sm font-bold uppercase tracking-wider transition-all border-b-2 flex items-center justify-center gap-2 ${
+                  lenderFormTab === "eligibility"
+                    ? "border-[#FF7819] text-[#FF7819]"
+                    : "border-transparent text-gray-400 hover:text-[#08101E]"
+                }`}
+              >
+                <Sliders className="w-4 h-4" />
+                Rules & Status
+              </button>
+            </div>
 
-                <div>
-                  <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                    Direct UTM Link / Apply URL
-                  </label>
-                  <input
-                    type="url"
-                    placeholder="https://partner.com/?utm_source=covermantra"
-                    value={lenderFormData.UTM}
-                    onChange={(e) => setLenderFormData({ ...lenderFormData, UTM: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                  Logo Image URL
-                </label>
-                <div className="flex gap-3 items-center">
-                  <input
-                    type="url"
-                    placeholder="https://example.com/logo.png"
-                    value={lenderFormData.logo}
-                    onChange={(e) => setLenderFormData({ ...lenderFormData, logo: e.target.value })}
-                    className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                  />
-                  {lenderFormData.logo && (
-                    <div className="w-12 h-12 rounded-xl bg-[#FFF4E5] border border-[#FF7819]/20 p-2 flex items-center justify-center flex-shrink-0">
-                      <img src={lenderFormData.logo} alt="Preview" className="max-w-full max-h-full object-contain" />
+            <form onSubmit={handleSubmitLenderForm} className="space-y-5">
+              
+              {/* TAB 1: GENERAL INFO */}
+              {lenderFormTab === "general" && (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                        <CheckCircle className="w-3.5 h-3.5 text-gray-400" />
+                        Lender Name <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. KreditBee"
+                        value={lenderFormData.name}
+                        onChange={(e) => setLenderFormData({ ...lenderFormData, name: e.target.value })}
+                        className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                      />
                     </div>
-                  )}
+
+                    <div>
+                      <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                        <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
+                        Direct UTM Link / Apply URL
+                      </label>
+                      <input
+                        type="url"
+                        placeholder="https://partner.com/?utm_source=covermantra"
+                        value={lenderFormData.UTM}
+                        onChange={(e) => setLenderFormData({ ...lenderFormData, UTM: e.target.value })}
+                        className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                      <Globe className="w-3.5 h-3.5 text-gray-400" />
+                      Logo Image URL
+                    </label>
+                    <div className="flex gap-4 items-start">
+                      <input
+                        type="url"
+                        placeholder="https://example.com/logo.png"
+                        value={lenderFormData.logo}
+                        onChange={(e) => setLenderFormData({ ...lenderFormData, logo: e.target.value })}
+                        className="flex-1 px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                      />
+                      <div className="w-16 h-16 rounded-2xl bg-[#FFF4E5] border border-[#FF7819]/20 p-2 flex items-center justify-center flex-shrink-0 shadow-inner">
+                        {lenderFormData.logo ? (
+                          <img src={lenderFormData.logo} alt="Preview" className="max-w-full max-h-full object-contain filter drop-shadow-sm" />
+                        ) : (
+                          <span className="text-[10px] text-gray-400 font-bold text-center">No Logo</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                      <Layers className="w-3.5 h-3.5 text-gray-400" />
+                      Loan Types / Categories (Comma separated)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. instant, personal, short_term"
+                      value={lenderFormData.loanTypes}
+                      onChange={(e) => setLenderFormData({ ...lenderFormData, loanTypes: e.target.value })}
+                      className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div>
-                  <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                    Min Income (₹)
-                  </label>
-                  <input
-                    type="number"
-                    value={lenderFormData.minIncome}
-                    onChange={(e) => setLenderFormData({ ...lenderFormData, minIncome: Number(e.target.value) })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                  />
+              {/* TAB 2: TERMS & FEATURES */}
+              {lenderFormTab === "terms" && (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                        <Sliders className="w-3.5 h-3.5 text-gray-400" />
+                        Max Loan Limit
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Up to ₹5,00,000"
+                        value={lenderFormData.loanAmount}
+                        onChange={(e) => setLenderFormData({ ...lenderFormData, loanAmount: e.target.value })}
+                        className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-gray-400" />
+                        Rating (1-5)
+                      </label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        min="1"
+                        max="5"
+                        value={lenderFormData.ratings}
+                        onChange={(e) => setLenderFormData({ ...lenderFormData, ratings: Number(e.target.value) })}
+                        className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                        <FileSpreadsheet className="w-3.5 h-3.5 text-gray-400" />
+                        Processing Fee
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Starting from 2%"
+                        value={lenderFormData.processingFee}
+                        onChange={(e) => setLenderFormData({ ...lenderFormData, processingFee: e.target.value })}
+                        className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                      <ArrowRight className="w-3.5 h-3.5 text-gray-400" />
+                      Interest Rate Description
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Starting from 1.5% per month"
+                      value={lenderFormData.interestRate}
+                      onChange={(e) => setLenderFormData({ ...lenderFormData, interestRate: e.target.value })}
+                      className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                      <Plus className="w-3.5 h-3.5 text-gray-400" />
+                      Key Features (Comma separated list)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Instant Approval, Paperless Process, Direct Bank Transfer"
+                      value={lenderFormData.features}
+                      onChange={(e) => setLenderFormData({ ...lenderFormData, features: e.target.value })}
+                      className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                    />
+                  </div>
                 </div>
+              )}
 
-                <div>
-                  <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                    Min Age
-                  </label>
-                  <input
-                    type="number"
-                    value={lenderFormData.age}
-                    onChange={(e) => setLenderFormData({ ...lenderFormData, age: Number(e.target.value) })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                  />
+              {/* TAB 3: ELIGIBILITY & RULES */}
+              {lenderFormTab === "eligibility" && (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                        <Users className="w-3.5 h-3.5 text-gray-400" />
+                        Min Monthly Income (₹)
+                      </label>
+                      <input
+                        type="number"
+                        value={lenderFormData.minIncome}
+                        onChange={(e) => setLenderFormData({ ...lenderFormData, minIncome: Number(e.target.value) })}
+                        className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-gray-400" />
+                        Min Age Required
+                      </label>
+                      <input
+                        type="number"
+                        value={lenderFormData.age}
+                        onChange={(e) => setLenderFormData({ ...lenderFormData, age: Number(e.target.value) })}
+                        className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5 flex items-center gap-1.5">
+                      <Sliders className="w-3.5 h-3.5 text-gray-400" />
+                      Target Pincodes (* for All India)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="* or 110001, 400001, 500001"
+                      value={lenderFormData.pincodes}
+                      onChange={(e) => setLenderFormData({ ...lenderFormData, pincodes: e.target.value })}
+                      className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between bg-gradient-to-r from-gray-50 to-white p-4 rounded-2xl border border-gray-200 shadow-sm">
+                    <div>
+                      <span className="font-black text-sm text-[#08101E] flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-[#FF7819]" />
+                        Live Active Status
+                      </span>
+                      <span className="text-[10px] text-gray-400 font-semibold block mt-0.5">Toggle visibility on the main website portal</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setLenderFormData({ ...lenderFormData, isActive: !lenderFormData.isActive })}
+                      className="focus:outline-none transition-transform active:scale-95"
+                    >
+                      {lenderFormData.isActive ? (
+                        <ToggleRight className="w-12 h-12 text-[#FF7819]" />
+                      ) : (
+                        <ToggleLeft className="w-12 h-12 text-gray-300" />
+                      )}
+                    </button>
+                  </div>
                 </div>
+              )}
 
-                <div>
-                  <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                    Max Loan
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Up to ₹5,00,000"
-                    value={lenderFormData.loanAmount}
-                    onChange={(e) => setLenderFormData({ ...lenderFormData, loanAmount: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                    Rating (1-5)
-                  </label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    min="1"
-                    max="5"
-                    value={lenderFormData.ratings}
-                    onChange={(e) => setLenderFormData({ ...lenderFormData, ratings: Number(e.target.value) })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                    Interest Rate
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Starting from 1.5% per month"
-                    value={lenderFormData.interestRate}
-                    onChange={(e) => setLenderFormData({ ...lenderFormData, interestRate: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                    Processing Fee
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Starting from 2%"
-                    value={lenderFormData.processingFee}
-                    onChange={(e) => setLenderFormData({ ...lenderFormData, processingFee: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                  Key Features (Comma separated)
-                </label>
-                <input
-                  type="text"
-                  placeholder="Instant Approval, Paperless Process, Direct Bank Transfer"
-                  value={lenderFormData.features}
-                  onChange={(e) => setLenderFormData({ ...lenderFormData, features: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                    Loan Types / Categories (Comma separated)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="instant, personal, quick"
-                    value={lenderFormData.loanTypes}
-                    onChange={(e) => setLenderFormData({ ...lenderFormData, loanTypes: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-black text-gray-500 uppercase tracking-wider block mb-1.5">
-                    Pincodes (* for All India)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="* or 110001, 400001, 500001"
-                    value={lenderFormData.pincodes}
-                    onChange={(e) => setLenderFormData({ ...lenderFormData, pincodes: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:border-[#FF7819]"
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-200">
-                <div>
-                  <span className="font-black text-sm text-[#08101E] block">Live Status</span>
-                  <span className="text-[11px] text-gray-400 font-semibold">Visible to website users</span>
-                </div>
-                <input
-                  type="checkbox"
-                  checked={lenderFormData.isActive}
-                  onChange={(e) => setLenderFormData({ ...lenderFormData, isActive: e.target.checked })}
-                  className="w-6 h-6 accent-[#FF7819] rounded cursor-pointer"
-                />
-              </div>
-
-              <div className="flex gap-3 pt-4 border-t border-gray-100">
+              {/* Action Buttons */}
+              <div className="flex gap-3 pt-6 border-t border-gray-100 mt-6">
                 <button
                   type="button"
                   onClick={() => setIsLenderModalOpen(false)}
-                  className="flex-1 px-6 py-3.5 border border-gray-200 text-gray-600 rounded-xl font-black text-sm hover:bg-gray-50 transition-colors"
+                  className="px-5 py-3 border border-gray-200 text-gray-500 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  disabled={isSubmittingLender}
-                  className="flex-1 bg-gradient-to-r from-[#FF7819] to-[#E65C00] text-white py-3.5 rounded-xl font-black text-sm shadow-lg hover:scale-101 active:scale-98 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-                >
-                  {isSubmittingLender ? (
-                    <>
-                      <RefreshCw className="w-4 h-4 animate-spin" /> Saving...
-                    </>
-                  ) : editingLender ? (
-                    "Save Changes"
-                  ) : (
-                    "+ Add Lender Now"
+                
+                <div className="flex-1 flex gap-2 justify-end">
+                  {lenderFormTab !== "general" && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (lenderFormTab === "terms") setLenderFormTab("general");
+                        else if (lenderFormTab === "eligibility") setLenderFormTab("terms");
+                      }}
+                      className="px-5 py-3 border border-gray-200 text-gray-600 rounded-xl font-black text-xs uppercase tracking-wider hover:bg-gray-50 transition-colors flex items-center gap-1"
+                    >
+                      <ChevronLeft className="w-4 h-4" /> Back
+                    </button>
                   )}
-                </button>
+                  
+                  {lenderFormTab !== "eligibility" ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (lenderFormTab === "general") setLenderFormTab("terms");
+                        else if (lenderFormTab === "terms") setLenderFormTab("eligibility");
+                      }}
+                      className="px-6 py-3 bg-[#08101E] text-white rounded-xl font-black text-xs uppercase tracking-wider hover:bg-opacity-90 transition-all flex items-center gap-1"
+                    >
+                      Next <ChevronRight className="w-4 h-4" />
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      disabled={isSubmittingLender}
+                      className="px-8 py-3 bg-gradient-to-r from-[#FF7819] to-[#E65C00] text-white rounded-xl font-black text-xs uppercase tracking-wider shadow-lg hover:scale-102 active:scale-98 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                    >
+                      {isSubmittingLender ? (
+                        <>
+                          <RefreshCw className="w-4 h-4 animate-spin" /> Saving...
+                        </>
+                      ) : editingLender ? (
+                        "Save Changes"
+                      ) : (
+                        "Add Partner"
+                      )}
+                    </button>
+                  )}
+                </div>
               </div>
             </form>
           </div>
