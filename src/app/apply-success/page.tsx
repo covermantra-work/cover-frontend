@@ -154,6 +154,7 @@ export default function ApplySuccessPage() {
             <button 
               type="button"
               onClick={() => router.push("/profile")}
+              suppressHydrationWarning={true}
               className="mt-2 inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-black uppercase text-[#FF7819] tracking-widest hover:text-[#e66a15] transition-colors focus:outline-none"
             >
               Continue to Web Profile <ArrowRight className="w-3.5 h-3.5" />

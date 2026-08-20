@@ -9,7 +9,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Smartphone } from "lucide-react";
 
 // Swiper CSS
 import "swiper/css";
@@ -96,15 +95,6 @@ useEffect(() => {
             </button>
           )}
 
-          <a
-            href="https://play.google.com/store/apps/details?id=com.covermantra.loan"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto group inline-flex items-center justify-center gap-2.5 px-8 sm:px-10 py-3.5 sm:py-4 bg-white/5 hover:bg-white/15 text-white font-black rounded-2xl text-xs sm:text-sm tracking-wider border border-white/10 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.02)] cursor-pointer"
-          >
-            <Smartphone size={16} className="text-[#FF690B] group-hover:scale-110 transition-transform" />
-            <span>DOWNLOAD APP</span>
-          </a>
         </div>
       </div>
 

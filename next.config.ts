@@ -7,6 +7,7 @@ const allowedImageHosts = [
   "www.fdplfinance.com",
   "www.flexsalary.com",
   "www.getzype.com",
+  "loan.credittnow.com",
 ];
 
 const nextConfig: NextConfig = {

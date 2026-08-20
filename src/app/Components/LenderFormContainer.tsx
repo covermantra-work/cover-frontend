@@ -55,7 +55,14 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
         const { data: formConfig } = await api.get(`/api/partners/${normalizedLenderId}/form-config`);
         setConfig(formConfig);
 
-        // Fetch User profile to auto-fill fields
+        // Initialize empty fields to prevent controlled/uncontrolled React warnings
+        const initialData: Record<string, any> = {};
+        formConfig.fields.forEach((f: FormField) => {
+          initialData[f.name] = "";
+        });
+        setFormData(initialData);
+
+        // Fetch User profile to auto-fill fields if phone is available
         const storedPhone = Cookies.get("co_phone") || localStorage.getItem("co_phone");
         if (storedPhone) {
           try {
@@ -63,18 +70,14 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
             const user = userData.user;
             if (user) {
               const filledData = autoFillFields(formConfig.fields, user);
-              setFormData(filledData);
+              setFormData((prev) => ({
+                ...prev,
+                ...filledData,
+              }));
             }
           } catch (profileError) {
             console.error("Failed to pre-populate user profile:", profileError);
           }
-        } else {
-          // Initialize empty fields if no user profile
-          const initialData: Record<string, any> = {};
-          formConfig.fields.forEach((f: FormField) => {
-            initialData[f.name] = "";
-          });
-          setFormData(initialData);
         }
       } catch (error) {
         console.error("Failed to load lender form configuration:", error);
@@ -116,6 +119,12 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
         data[name] = user.pincode || "";
       } else if (name === "employmentType" || name === "employment_type_id") {
         data[name] = employmentMap[user.employment as string] || "";
+      } else if (name === "salary" || name === "income") {
+        data[name] = user.income || user.salary || "";
+      } else if (name === "city") {
+        data[name] = user.city || "";
+      } else if (name === "address" || name === "addresss") {
+        data[name] = user.address || user.addresss || "";
       } else {
         data[name] = "";
       }
@@ -143,7 +152,8 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
       fatakpay: "https://web.fatakpay.com/authentication/login?utm_source=651_TT83W&utm_medium=covermantra",
       vivifi: "https://online.flexsalary.com/CustomerLogin/Index?CampaignID=9192300#x",
       zype: "https://zype.onelink.me/vx8a?af_xp=custom&pid=CustomerSource&af_dp=com.zype.mobile%3A%2F%2F&deep_link_value=myZype&af_click_lookback=30d&c=Spiraea",
-      moneyview: "https://moneyview.in/personal-loan?utm_source=covermantra"
+      moneyview: "https://moneyview.in/personal-loan?utm_source=covermantra",
+      credify: "https://loan.credittnow.com/auth/login?utm_source=cover_mantra&utm_medium=website&utm_campaign=loan_campaign"
     };
 
     const targetFallbackUrl = partnerUrlMap[normalizedLenderId] || config?.redirectUrlOnSuccess || "/personal-loans";
@@ -208,7 +218,8 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
           fatakpay: "FATAKPAY Loans",
           vivifi: "FlexSalary (Vivifi)",
           zype: "Zype",
-          moneyview: "MoneyView"
+          moneyview: "MoneyView",
+          credify: "Credify"
         };
         const displayName = mappedNames[normalizedLenderId] || normalizedLenderId;
         const updated = [...new Set([...current, displayName])];

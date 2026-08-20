@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import GlobalModal from "./globalmodel";
 import Image from "next/image";
 import { useAuthStore } from "../../store/useAuthStore";
+import { FaGooglePlay } from "react-icons/fa";
 
 export const triggerLoginStatusChange = () => {
   if (typeof window !== "undefined") {
@@ -136,16 +137,49 @@ export default function Navbar() {
 
           {/* Right Side: Login/Profile */}
           <div className="hidden lg:flex items-center gap-3">
+            {/* Play Store App Download */}
+            <a
+              href="https://play.google.com/store/apps/details?id=com.covermantra.loan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`group flex items-center gap-2 px-3 py-2 rounded-xl font-bold text-xs transition-all border ${
+                scrolled 
+                ? "bg-[#1A2332]/50 border-white/10 text-white hover:bg-[#FF690B] hover:text-white hover:border-[#FF690B]" 
+                : "bg-white/10 border-white/20 backdrop-blur-sm text-white hover:bg-[#FF690B] hover:text-white hover:border-[#FF690B]"
+              }`}
+            >
+              <FaGooglePlay className="text-[#FF690B] group-hover:text-white transition-colors" />
+              <span>Download App</span>
+            </a>
+
             {isLoggedIn ? (
-              <div className={`flex items-center gap-2 p-1 pr-4 rounded-full border transition-all ${scrolled ? 'bg-[#1A2332] border-white/10' : 'bg-white/10 border-white/20 backdrop-blur-sm'}`}>
-                <div 
-                  className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#FF690B] cursor-pointer"
+              <>
+                <button 
                   onClick={() => router.push("/profile")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm transition-all shadow-lg active:scale-95 border ${
+                    scrolled 
+                    ? "bg-[#1A2332] border-white/10 text-white hover:bg-[#FF690B] hover:text-white hover:border-[#FF690B]" 
+                    : "bg-white/10 border-white/20 backdrop-blur-sm text-white hover:bg-[#FF690B] hover:text-white hover:border-[#FF690B]"
+                  }`}
                 >
-                  <Image src="/image/user.png" alt="User" width={32} height={32} className="object-cover" />
-                </div>
-                <button onClick={handleLogout} className="text-white/60 hover:text-white text-[10px] font-black uppercase tracking-wider">Logout</button>
-              </div>
+                  <div className="w-6 h-6 rounded-full overflow-hidden border border-white/40 shrink-0">
+                    <Image src="/image/user.png" alt="User" width={24} height={24} className="object-cover" />
+                  </div>
+                  <span>Profile</span>
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm transition-all shadow-lg active:scale-95 border ${
+                    scrolled 
+                    ? "bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500" 
+                    : "bg-red-500/10 border-red-500/20 backdrop-blur-sm text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500"
+                  }`}
+                >
+                  <LogOut size={16} />
+                  <span>Logout</span>
+                </button>
+              </>
             ) : (
               <button
                 onClick={() => setLoginOpen(true)}
@@ -160,13 +194,25 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile Hamburger */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden relative z-[110] p-2 bg-white/5 rounded-xl border border-white/10 text-white active:scale-90 transition-transform"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile Play Store & Hamburger Container */}
+          <div className="flex items-center gap-2 lg:hidden relative z-[110]">
+            <a
+              href="https://play.google.com/store/apps/details?id=com.covermantra.loan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 bg-white/5 hover:bg-[#FF690B] text-white/80 hover:text-white border border-white/10 hover:border-[#FF690B]/30 rounded-xl transition-all active:scale-90 flex items-center justify-center"
+              title="Download App Now"
+            >
+              <FaGooglePlay size={16} className="text-[#FF690B] group-hover:text-white" />
+            </a>
+            
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 bg-white/5 rounded-xl border border-white/10 text-white active:scale-90 transition-transform"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -190,6 +236,17 @@ export default function Navbar() {
               {item.name}
             </button>
           ))}
+
+          {/* Mobile App Download Button in Overlay */}
+          <a
+            href="https://play.google.com/store/apps/details?id=com.covermantra.loan"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full text-center p-4 rounded-2xl text-lg font-black border bg-[#FF690B]/10 border-[#FF690B]/25 text-[#FF690B] flex items-center justify-center gap-2.5 hover:bg-[#FF690B] hover:text-white hover:border-transparent transition-all duration-300"
+          >
+            <FaGooglePlay size={20} />
+            <span>DOWNLOAD APP NOW</span>
+          </a>
 
           {isLoggedIn ? (
             <div className="mt-auto mb-8 grid grid-cols-2 gap-3">

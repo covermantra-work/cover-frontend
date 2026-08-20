@@ -41,6 +41,11 @@ export default function OurPartners() {
       logo: "https://www.fdplfinance.com/assets/images/logo/FatakLoans.svg",
       link: "https://www.fdplfinance.com/"
     },
+    {
+      name: "Credify",
+      logo: "https://loan.credittnow.com/favicon.ico",
+      link: "https://loan.credittnow.com/"
+    },
   ];
 
   useEffect(() => {

@@ -41,6 +41,15 @@ const lenders = [
     phone: "080-4718-5511",
     timings: "9:00 AM - 6:00 PM (Mon - Sat)",
   },
+  {
+    name: "Credify (Creditt+)",
+    logo: "https://loan.credittnow.com/favicon.ico",
+    officer: "Mr. Devansh Gala",
+    address: `39, Iscon Greens Society, Near Lal Gebi Ashram, Bopal-Ghuma Road, Ghuma, Ahmedabad - 380058`,
+    email: "grievance@creditt.in",
+    phone: "80974 52970",
+    timings: "10:00 AM – 7:00 PM (Mon – Sat, excluding public holidays)",
+  },
 ];
 
 export default function LenderGrievance() {
@@ -100,6 +109,7 @@ export default function LenderGrievance() {
                     width={180}
                     height={60}
                     className="object-contain"
+                    style={{ height: "auto" }}
                     priority={index < 3}
                   />
                 </div>

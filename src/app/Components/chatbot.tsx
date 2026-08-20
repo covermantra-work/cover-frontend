@@ -347,7 +347,9 @@ export default function Bot() {
       const eligible = data.filter((l: Lender) => {
         const ageMatch = ageVal >= l.age;
         const incomeMatch = incomeVal >= l.minIncome;
-        const pincodeMatch = l.pincodes.includes("*") || l.pincodes.includes(pincodeVal);
+        const pincodesArr = l.pincodes || [];
+        const isBlacklisted = pincodesArr.some((p: string) => typeof p === "string" && p.startsWith("!") && String(pincodeVal).startsWith(p.slice(1)));
+        const pincodeMatch = !isBlacklisted && (pincodesArr.includes("*") || pincodesArr.includes(pincodeVal));
         return ageMatch && incomeMatch && pincodeMatch;
       });
 
@@ -365,7 +367,9 @@ export default function Bot() {
         const eligible = data.filter((l: Lender) => {
           const ageMatch = ageVal >= l.age;
           const incomeMatch = incomeVal >= l.minIncome;
-          const pincodeMatch = l.pincodes.includes("*") || l.pincodes.includes(formData.pincode);
+          const pincodesArr = l.pincodes || [];
+          const isBlacklisted = pincodesArr.some((p: string) => typeof p === "string" && p.startsWith("!") && String(formData.pincode).startsWith(p.slice(1)));
+          const pincodeMatch = !isBlacklisted && (pincodesArr.includes("*") || pincodesArr.includes(formData.pincode));
           return ageMatch && incomeMatch && pincodeMatch;
         });
         setEligibleLenders(eligible);

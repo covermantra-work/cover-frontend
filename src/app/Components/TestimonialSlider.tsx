@@ -101,14 +101,24 @@ const testimonials = [
 
 export default function TestimonialSlider() {
   return (
-    <section className="bg-[#FFF4E5] py-20 px-4 md:px-10">
-      <div className="max-w-6xl mx-auto">
+    <section className="bg-white py-24 px-4 md:px-10 relative overflow-hidden">
+      {/* Decorative Blur Orbs */}
+      <div className="absolute top-1/4 left-[-10%] w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-[-10%] w-96 h-96 bg-[#FF690B]/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Heading */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[#08101E] tracking-tight mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#FFF4E5] rounded-full mb-4 border border-[#FF690B]/10">
+            <div className="w-2 h-2 bg-[#FF690B] rounded-full animate-pulse" />
+            <span className="uppercase tracking-widest text-xs font-bold text-[#FF690B]">
+              Testimonials
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black text-[#08101E] tracking-tight mb-4">
             Our Happy Customers
           </h2>
-          <p className="text-lg text-[#08101E]/70">
+          <p className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
             Real stories from real people who trusted CoverMantra
           </p>
         </div>
@@ -118,8 +128,8 @@ export default function TestimonialSlider() {
           slidesPerView={1}
           pagination={{ 
             clickable: true,
-            bulletClass: "swiper-pagination-bullet !bg-[#FF690B]/30",
-            bulletActiveClass: "!bg-[#FF690B] !w-3 !h-3"
+            bulletClass: "swiper-pagination-bullet !bg-slate-200",
+            bulletActiveClass: "!bg-[#FF690B] !w-6 !h-2 !rounded-full transition-all duration-300"
           }}
           autoplay={{ 
             delay: 4500, 
@@ -131,47 +141,47 @@ export default function TestimonialSlider() {
             1024: { slidesPerView: 3 },
           }}
           modules={[Pagination, Autoplay]}
-          className="pb-12"
+          className="pb-16"
         >
           {testimonials.map((testimonial, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-white rounded-3xl p-8 md:p-10 shadow-xl border border-white/60 
-                            hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 
-                            min-h-80 flex flex-col relative">
+              <div className="bg-slate-50 rounded-[2.5rem] p-8 md:p-10 border border-slate-100 
+                            hover:border-[#FF690B]/20 hover:bg-white hover:shadow-[0_20px_50px_rgba(255,105,11,0.06)] 
+                            hover:-translate-y-2 transition-all duration-500 min-h-80 flex flex-col relative h-full">
                 
                 {/* Quote Icon */}
-                <div className="text-6xl text-[#FF690B]/20 absolute top-6 right-6">“</div>
+                <div className="text-6xl font-serif text-[#FF690B]/10 absolute top-4 right-6 select-none">“</div>
 
                 {/* Testimonial Text */}
-                <p className="text-[#5b4637] text-[15.5px] leading-relaxed grow mb-8">
+                <p className="text-slate-500 text-[14.5px] sm:text-[15px] leading-relaxed grow mb-8 font-medium">
                   {testimonial.text}
                 </p>
 
                 {/* User Info */}
                 <div className="mt-auto flex items-center gap-4">
-                  <div className="w-12 h-12 bg-linear-to-br from-[#FF690B] to-[#FF8C00] 
-                                rounded-2xl flex items-center justify-center shrink-0">
-                    <span className="text-white text-xl font-bold">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#FF690B] to-[#FF8C00] 
+                                rounded-2xl flex items-center justify-center shrink-0 shadow-md shadow-[#FF690B]/25">
+                    <span className="text-white text-lg font-black">
                       {testimonial.name[0]}
                     </span>
                   </div>
                   
                   <div>
-                    <p className="font-semibold text-[#08101E] text-lg">
+                    <p className="font-black text-[#08101E] text-base leading-tight">
                       {testimonial.name}
                     </p>
-                    <p className="text-sm text-[#5b4637]">
+                    <p className="text-xs text-slate-400 font-semibold mt-0.5">
                       {testimonial.description}
                     </p>
                     
                     {/* Rating Stars */}
-                    <div className="flex mt-2">
+                    <div className="flex mt-1.5 gap-0.5">
                       {Array.from({ length: 5 }, (_, i) => (
                         <span
                           key={i}
-                          className={`text-xl ${i < Math.floor(testimonial.rating) 
+                          className={`text-base ${i < Math.floor(testimonial.rating) 
                             ? "text-[#FF690B]" 
-                            : "text-gray-300"}`}
+                            : "text-slate-200"}`}
                         >
                           ★
                         </span>

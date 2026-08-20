@@ -190,11 +190,13 @@ function Footer() {
                 placeholder="Your email address" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                suppressHydrationWarning={true}
                 className="w-full pl-3.5 pr-10 py-2.5 bg-white/[0.03] border border-white/10 focus:border-[#FF690B] focus:outline-none text-white text-xs rounded-xl transition-all duration-300 placeholder:text-white/30"
                 required
               />
               <button 
                 type="submit"
+                suppressHydrationWarning={true}
                 className="absolute right-1 top-1 bottom-1 w-8.5 flex items-center justify-center bg-gradient-to-r from-[#FF690B] to-[#FF8C00] text-white rounded-lg hover:shadow-[0_0_10px_rgba(255,105,11,0.3)] transition-all cursor-pointer animate-pulse"
                 aria-label="Subscribe"
               >
@@ -242,6 +244,7 @@ function Footer() {
               </div>
               <button 
                 onClick={scrollToTop}
+                suppressHydrationWarning={true}
                 className="flex items-center justify-center w-8 h-8 bg-white/5 hover:bg-[#FF690B]/20 text-[#FF690B] border border-white/10 hover:border-[#FF690B]/30 rounded-lg transition-all duration-300 hover:-translate-y-0.5 group cursor-pointer"
                 aria-label="Scroll to top"
               >

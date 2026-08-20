@@ -85,6 +85,7 @@ export default function SeoFooter() {
               {/* Header */}
               <button
                 onClick={() => toggle(section.id)}
+                suppressHydrationWarning={true}
                 className="w-full flex justify-between items-center text-left lg:pointer-events-none lg:cursor-default focus:outline-none"
               >
                 <div className="flex items-center gap-3">

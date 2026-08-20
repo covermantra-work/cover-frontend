@@ -9,7 +9,6 @@ import LoanInfo from "./LoanInfo";
 import TestimonialSlider from "./TestimonialSlider";
 import TrustSection from "./Trust";
 import WhyChooseUs from "./WhyChooseUs";
-import Achievement from "./achievement";
 import Security from "./Security";
 import DownloadSection from "./DownloadSection";
 
@@ -22,7 +21,6 @@ export default function Body() {
       <HeroSection />
       <LoanInfo />
       <HowItWorks />
-      <Achievement />
       <Security />
       <TrustSection />
       <WhyChooseUs />

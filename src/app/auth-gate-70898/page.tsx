@@ -1026,6 +1026,7 @@ export default function AdminPortal() {
                           <option value="moneyview">MoneyView</option>
                           <option value="vivifi">Vivifi</option>
                           <option value="fatakPay">FatakPay</option>
+                          <option value="credify">Credify</option>
                         </select>
 
                         <button

@@ -339,6 +339,7 @@ export default function AdminLeadsCRM() {
                   <option value="moneyview">MoneyView</option>
                   <option value="vivifi">Vivifi</option>
                   <option value="fatakPay">FatakPay</option>
+                  <option value="credify">Credify</option>
                 </select>
 
                 {/* Export CSV */}

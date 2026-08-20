@@ -86,8 +86,8 @@ export default function DownloadAppSection() {
               >
                 <FaGooglePlay className="text-3xl group-hover:scale-110 transition" />
                 <div className="text-left">
-                  <div className="text-xs opacity-75">GET IT ON</div>
-                  <div className="text-lg tracking-tight">Google Play</div>
+                  <div className="text-[10px] font-bold opacity-75 tracking-wider">DOWNLOAD APP NOW</div>
+                  <div className="text-lg tracking-tight font-black">Google Play</div>
                 </div>
               </button>
 
