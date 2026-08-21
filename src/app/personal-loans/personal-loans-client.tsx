@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import api from "../../lib/axios";
 
 interface LenderCard {
+  id?: string;
   provider: string;
   approval: string;
   loanAmount: string;
@@ -151,6 +152,7 @@ export default function PersonalLoansPage() {
         const { data } = await api.get("/api/lenders");
         if (data && data.length > 0) {
           const mapped = data.map((l: any) => ({
+            id: l._id,
             provider: l.name,
             logo: l.logo,
             applyLink: l.applyLink || l.UTM || `/LenderAPI/${l._id}`,
@@ -208,7 +210,7 @@ export default function PersonalLoansPage() {
     }
   };
 
-  const handleApply = (providerName: string, applyLink: string) => {
+  const handleApply = (lenderId: string, providerName: string, applyLink: string) => {
     const now = Date.now();
     const saved = localStorage.getItem("co_applied_lenders_timestamp") || "{}";
     let timestampsObj: Record<string, number> = {};
@@ -222,7 +224,14 @@ export default function PersonalLoansPage() {
     setAppliedLenders(updated);
     localStorage.setItem("co_applied_lenders", JSON.stringify(updated));
 
-    const decoratedUrl = decorateUrl(applyLink);
+    let targetUrl = applyLink;
+    if (lenderId && applyLink.startsWith("http") && !applyLink.includes("click-redirect")) {
+      const phone = Cookies.get("co_phone") || localStorage.getItem("co_phone") || "";
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://www.covermantra.com' : 'http://localhost:5001');
+      targetUrl = `${apiBaseUrl}/api/partners/click-redirect?lenderId=${lenderId}&phone=${phone}`;
+    }
+
+    const decoratedUrl = decorateUrl(targetUrl);
     window.location.href = decoratedUrl;
   };
 
@@ -302,7 +311,7 @@ export default function PersonalLoansPage() {
                     </span>
                   )}
                   <button 
-                    onClick={() => handleApply(card.provider, card.applyLink)}
+                    onClick={() => handleApply(card.id || "", card.provider, card.applyLink)}
                     className="w-full md:w-auto bg-[#FF7819] hover:bg-[#e66a15] text-white font-bold py-3 px-10 rounded-2xl shadow-lg shadow-[#FF7819]/30 transition-all active:scale-95 flex items-center justify-center animate-pulse"
                   >
                     Apply Now

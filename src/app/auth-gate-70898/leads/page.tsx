@@ -9,6 +9,7 @@ interface LenderResponseItem {
   lenderName: string;
   apiResponse: any;
   createdDate: string;
+  utmUrl?: string;
 }
 
 interface Lead {
@@ -397,18 +398,17 @@ export default function AdminLeadsCRM() {
                             </span>
                           </td>
                           <td className="px-6 py-4">
-                            <div className="flex flex-col gap-1">
+                            <div className="flex flex-wrap gap-1.5 max-w-[200px]">
                               {lead.lenderResponses.map((r, i) => (
-                                <button
+                                <span
                                   key={i}
-                                  onClick={() => setSelectedResponse(r)}
-                                  className="text-left text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1.5"
+                                  className="px-2.5 py-1 bg-[#FF7819]/10 text-[#FF7819] border border-[#FF7819]/30 rounded-lg text-[10px] font-black uppercase tracking-wide inline-block"
                                 >
-                                  📄 {r.lenderName} Response
-                                </button>
+                                  {r.lenderName}
+                                </span>
                               ))}
                               {lead.lenderResponses.length === 0 && (
-                                <span className="text-xs font-bold text-gray-400 italic">No integrations triggered</span>
+                                <span className="text-xs font-bold text-gray-400 italic">No lenders clicked</span>
                               )}
                             </div>
                           </td>
@@ -455,28 +455,7 @@ export default function AdminLeadsCRM() {
         )}
       </div>
 
-      {/* API Response JSON Modal */}
-      {selectedResponse && (
-        <div className="fixed inset-0 bg-[#08101E]/80 backdrop-blur-md flex items-center justify-center p-4 z-[200]">
-          <div className="bg-white rounded-[2.5rem] w-full max-w-2xl p-8 border border-white/20 shadow-2xl relative">
-            <button
-              onClick={() => setSelectedResponse(null)}
-              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-[#FF7819] hover:text-white transition-all font-black flex items-center justify-center"
-            >
-              ✕
-            </button>
-            <h3 className="text-xl font-black text-[#08101E] mb-1 uppercase tracking-tight">
-              {selectedResponse.lenderName} Payload Log
-            </h3>
-            <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-6">
-              Recorded on {selectedResponse.createdDate}
-            </p>
-            <div className="bg-gray-950 p-6 rounded-2xl overflow-y-auto max-h-[50vh] font-mono text-xs text-green-400 shadow-inner">
-              <pre>{JSON.stringify(selectedResponse.apiResponse, null, 2)}</pre>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* API Response Modal Removed as click tracking is now simplified to inline badges */}
     </div>
   );
 }

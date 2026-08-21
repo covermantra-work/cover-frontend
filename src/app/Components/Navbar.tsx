@@ -105,11 +105,6 @@ export default function Navbar() {
                 <span className="text-white" style={{ WebkitTextStroke: "1px #FF690B", }}>Cover</span>
                 <span className="text-[#FF690B]">Mantra</span>
               </span>
-              <span className="flex items-center gap-1.5 text-[7px] sm:text-[8px] lg:text-[9px] tracking-[0.2em] uppercase font-black mt-1">
-                <span className="text-[#FF690B]">Smart Cover</span>
-                <span className="w-1 h-1 rounded-full bg-white/30"></span>
-                <span className="text-slate-300">Sure Trust</span>
-              </span>
             </div>
           </Link>
 

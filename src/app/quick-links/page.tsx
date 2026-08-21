@@ -154,7 +154,7 @@ export default function Page() {
     }
   };
 
-  const handleApply = (providerName: string, applyLink: string) => {
+  const handleApply = (lenderId: string, providerName: string, applyLink: string) => {
     const now = Date.now();
     const saved = localStorage.getItem("co_applied_lenders_timestamp") || "{}";
     let timestampsObj: Record<string, number> = {};
@@ -168,7 +168,14 @@ export default function Page() {
     setAppliedLenders(updated);
     localStorage.setItem("co_applied_lenders", JSON.stringify(updated));
 
-    const decoratedUrl = decorateUrl(applyLink);
+    let targetUrl = applyLink;
+    if (lenderId && applyLink.startsWith("http") && !applyLink.includes("click-redirect")) {
+      const phone = Cookies.get("co_phone") || localStorage.getItem("co_phone") || "";
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://www.covermantra.com' : 'http://localhost:5001');
+      targetUrl = `${apiBaseUrl}/api/partners/click-redirect?lenderId=${lenderId}&phone=${phone}`;
+    }
+
+    const decoratedUrl = decorateUrl(targetUrl);
     window.location.href = decoratedUrl;
   };
 
@@ -359,7 +366,7 @@ export default function Page() {
                         </div>
                       )}
                       <motion.button 
-                        onClick={() => handleApply(lender.name, lender.url)}
+                        onClick={() => handleApply(lender.id || "", lender.name, lender.url)}
                         whileTap={{ scale: 0.95 }}
                         className="w-full bg-[#08101E] hover:bg-[#FF7819] text-white font-black py-5 rounded-[1.8rem] shadow-xl transition-all flex items-center justify-center gap-3 uppercase tracking-widest text-[10px]"
                       >

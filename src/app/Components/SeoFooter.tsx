@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { ChevronDown, Sparkles, Percent, ShieldCheck, Calculator, AlertTriangle } from "lucide-react";
+import { Sparkles, Percent, ShieldCheck, Calculator, AlertTriangle } from "lucide-react";
 
 interface SeoLink {
   name: string;
@@ -19,12 +19,6 @@ interface SeoSection {
 }
 
 export default function SeoFooter() {
-  const [openSection, setOpenSection] = useState<string | null>(null);
-
-  const toggle = (section: string) => {
-    setOpenSection(openSection === section ? null : section);
-  };
-
   const sections: SeoSection[] = [
     {
       id: "loans",
@@ -39,6 +33,7 @@ export default function SeoFooter() {
         { name: "Loan Against Property", href: "/loans-against-property", desc: "Unlock value from your property", comingSoon: true },
       ],
     },
+    /*
     {
       id: "insurance",
       title: "Insurance Policies",
@@ -52,6 +47,7 @@ export default function SeoFooter() {
         { name: "Home Protection Insurance", href: "/insurance/home", desc: "Safeguard property from natural disasters", comingSoon: true },
       ],
     },
+    */
     {
       id: "calculators",
       title: "Tools & Calculators",
@@ -60,7 +56,6 @@ export default function SeoFooter() {
         { name: "Smart EMI Calculator", href: "/emi-calculator", desc: "Calculate your monthly loan payments", comingSoon: false },
         { name: "Eligibility Checker", href: "/quick-links", desc: "Check maximum loan eligibility in seconds", comingSoon: false },
         { name: "Loan Comparison Tool", href: "/quick-links", desc: "Compare interest rates & processing fees", comingSoon: false },
-        { name: "Insurance Premium Estimator", href: "/insurance", desc: "Compare premium quotes online", comingSoon: true },
       ],
     },
   ];
@@ -71,73 +66,48 @@ export default function SeoFooter() {
   ];
 
   return (
-    <div className="border-t border-white/10 pt-12 pb-8 w-full">
-      {/* Sections Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+    <div className="border-t border-white/10 pt-8 pb-4 w-full">
+      {/* Sections Vertical Stack of Horizontal Rows */}
+      <div className="flex flex-col gap-6">
         {sections.map((section) => {
-          const isOpen = openSection === section.id;
           const IconComponent = section.icon;
           return (
             <div 
               key={section.id} 
-              className="bg-white/[0.02] border border-white/5 rounded-2xl p-5 hover:border-white/10 transition-all duration-300 hover:shadow-xl hover:shadow-[#FF690B]/5 group"
+              className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 pb-6 border-b border-white/5 last:border-b-0"
             >
-              {/* Header */}
-              <button
-                onClick={() => toggle(section.id)}
-                suppressHydrationWarning={true}
-                className="w-full flex justify-between items-center text-left lg:pointer-events-none lg:cursor-default focus:outline-none"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#FF690B]/10 rounded-xl text-[#FF690B] group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent size={20} />
-                  </div>
-                  <h4 className="text-base font-bold text-white tracking-wide">
-                    {section.title}
-                  </h4>
+              {/* Header / Section Label */}
+              <div className="flex items-center gap-2.5 shrink-0 sm:w-56 text-left">
+                <div className="p-1.5 bg-[#FF690B]/10 rounded-xl text-[#FF690B] shrink-0">
+                  <IconComponent size={16} />
                 </div>
-                <ChevronDown
-                  size={18}
-                  className={`text-[#FF690B] transition-transform duration-300 lg:hidden ${
-                    isOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
+                <h4 className="text-xs font-black text-white tracking-wider uppercase">
+                  {section.title}
+                </h4>
+              </div>
 
-              {/* Links list */}
-              <div
-                className={`transition-all duration-500 ease-in-out overflow-hidden lg:block ${
-                  isOpen 
-                    ? "max-h-[500px] opacity-100 mt-5" 
-                    : "max-h-0 opacity-0 lg:max-h-[500px] lg:opacity-100 lg:mt-5"
-                }`}
-              >
-                <ul className="space-y-4 border-t border-white/5 pt-4">
-                  {section.links.map((link, idx) => (
-                    <li key={idx} className="group/item">
-                      <Link
-                        href={link.href}
-                        className="block focus:outline-none"
-                      >
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-sm font-semibold text-white/80 group-hover/item:text-[#FF690B] transition-colors">
-                            {link.name}
-                          </span>
-                          {link.comingSoon && (
-                            <span className="text-[8px] font-bold px-1.5 py-0.5 bg-[#FF690B]/10 text-[#FF690B]/70 rounded-md border border-[#FF690B]/15 uppercase tracking-wide shrink-0">
-                              Soon
-                            </span>
-                          )}
-                        </div>
-                        {link.desc && (
-                          <span className="text-xs text-white/40 block mt-0.5 group-hover/item:text-white/60 transition-colors">
-                            {link.desc}
-                          </span>
-                        )}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+              {/* Links list - horizontal flex wrap */}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs">
+                {section.links.map((link, idx) => (
+                  <React.Fragment key={idx}>
+                    <Link
+                      href={link.href}
+                      className="inline-flex items-center gap-1 group/item focus:outline-none"
+                    >
+                      <span className="text-white/60 hover:text-[#FF690B] transition-colors font-semibold">
+                        {link.name}
+                      </span>
+                      {link.comingSoon && (
+                        <span className="text-[7px] font-bold px-1.5 py-0.2 bg-[#FF690B]/10 text-[#FF690B]/70 rounded-md border border-[#FF690B]/15 uppercase tracking-wide shrink-0 scale-90">
+                          Soon
+                        </span>
+                      )}
+                    </Link>
+                    {idx < section.links.length - 1 && (
+                      <span className="text-white/20 select-none font-light">•</span>
+                    )}
+                  </React.Fragment>
+                ))}
               </div>
             </div>
           );

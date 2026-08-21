@@ -98,7 +98,6 @@ function Footer() {
                   <span className="text-white" style={{ WebkitTextStroke: "0.5px rgba(255,105,11,0.5)" }}>Cover</span>
                   <span className="text-[#FF690B]">Mantra</span>
                 </span>
-                <span className="text-[7px] tracking-[0.2em] uppercase font-bold text-white/40 mt-1">Smart Cover • Sure Trust</span>
               </div>
             </Link>
 
@@ -144,12 +143,6 @@ function Footer() {
                 >
                   Personal Loans
                 </button>
-              </li>
-              <li>
-                <Link href="/insurance" className="hover:text-[#FF690B] hover:translate-x-1 inline-flex items-center gap-1.5 transition-all duration-300">
-                  <span>Insurance Policies</span>
-                  <span className="text-[7px] font-bold px-1.5 py-0.2 bg-[#FF690B]/10 text-[#FF690B]/85 rounded border border-[#FF690B]/15 uppercase tracking-wide">Soon</span>
-                </Link>
               </li>
             </ul>
           </div>
