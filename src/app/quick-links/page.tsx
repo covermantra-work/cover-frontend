@@ -285,10 +285,10 @@ export default function Page() {
             <FaShieldAlt className="animate-pulse" /> Verified RBI Lenders
           </div>
           <h2 className="text-4xl md:text-7xl font-black text-[#08101E] tracking-tighter mb-6 leading-tight uppercase italic">
-            Compare & Get <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] to-[#FF690B]">Instant Loans</span> 💰
+            Compare & Find <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] to-[#FF690B]">Best Loan Offers</span> 💰
           </h2>
           <p className="text-[#08101E]/60 text-sm md:text-xl font-bold max-w-2xl mx-auto italic">
-            Get instant access to verified lenders and apply online in minutes. No hidden charges, just pure transparency.
+            Compare interest rates, tenure, and processing fees from verified RBI-regulated lenders. Apply online through a secure and transparent digital process.
           </p>
         </motion.div>
 
