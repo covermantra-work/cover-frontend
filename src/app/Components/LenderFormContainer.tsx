@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../../lib/axios";
@@ -327,7 +327,7 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
       </AnimatePresence>
 
       {/* Header Banner */}
-      <div className="h-72 bg-[#08101E] relative flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+      <div className="min-h-[18rem] pt-20 md:pt-24 bg-[#08101E] relative flex flex-col items-center justify-center text-center px-4 overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30"></div>
         <div className="absolute -top-24 -left-24 w-64 h-64 bg-[#FF7819] rounded-full blur-[120px] opacity-20"></div>
 

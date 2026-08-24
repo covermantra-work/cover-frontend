@@ -6,14 +6,14 @@ import { useAuthStore } from "../../store/useAuthStore";
 import LoginModal from "./LoginModal";
 import GlobalModal from "./globalmodel";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade, Pagination } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 // Swiper CSS
 import "swiper/css";
-import "swiper/css/effect-fade";
 import "swiper/css/pagination";
+import "swiper/css/autoplay";
 
 export default function HeroSection() {
   const router = useRouter();
@@ -40,22 +40,22 @@ useEffect(() => {
 
   const slides = [
     {
-      src: "/image/himg.png",
-      tagline: "India's Trusted Applicant-Lender Connector",
-      headline: "Finance ka <br /> <span class='text-transparent bg-clip-text bg-linear-to-r from-[#FF690B] to-[#FFD700]'>Smart Mantra</span>",
-      description: "Seamlessly connecting you to RBI-Registered Lenders for instant loan approvals."
+      src: "/image/herosec1.png",
+      tagline: "Unsecured Personal Loans",
+      headline: "Sapne Aapke, <br /> <span class='text-transparent bg-clip-text bg-linear-to-r from-[#FF690B] to-[#FFD700]'>Smart Mantra</span>",
+      description: "Compare and apply for unsecured personal loans up to ₹5,00,000 from India's top RBI-registered partners. 100% digital process."
     },
     {
-      src: "/image/himg2.png",
-      tagline: "Naye India ka Digital Mantra",
-      headline: "Turant Manzoori <br /> <span class='text-transparent bg-clip-text bg-linear-to-r from-[#FF690B] to-[#FFD700]'>Quick Approval</span>",
-      description: "Empowering agricultural growth with easy digital applications."
+      src: "/image/herosec2.png",
+      tagline: "Instant Loan Approval",
+      headline: "Turant Manzoori, <br /> <span class='text-transparent bg-clip-text bg-linear-to-r from-[#FF690B] to-[#FFD700]'>Quick Process</span>",
+      description: "Get instant loan approval with paperless online documentation and fast disbursal directly to your bank account."
     },
     {
-      src: "/image/himg3.png",
-      tagline: "Full-Range Fintech Mantra",
-      headline: "Loans. Insurance. <br /> <span class='text-transparent bg-clip-text bg-linear-to-r from-[#FF690B] to-[#FFD700]'>Growth.</span>",
-      description: "Home, Business, Car Loans, and Instant Insurance Covers."
+      src: "/image/herosec3.png",
+      tagline: "Small Amount Loans",
+      headline: "Chota Loan, <br /> <span class='text-transparent bg-clip-text bg-linear-to-r from-[#FF690B] to-[#FFD700]'>Badi Sahuliyat</span>",
+      description: "Need quick cash for urgent requirements? Get instant small-ticket loans with minimal documents and flexible repayment."
     },
   ];
 
@@ -127,11 +127,11 @@ useEffect(() => {
               </div>
 
               <h1 
-                className="text-3xl sm:text-5xl lg:text-7xl font-black leading-[1.1] mb-4"
+                className="text-[28px] xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.1] mb-4 tracking-tight"
                 dangerouslySetInnerHTML={{ __html: slides[activeSlide].headline }}
               />
 
-              <p className="text-sm sm:text-base lg:text-lg text-white/60 max-w-lg mb-2 leading-relaxed">
+              <p className="text-xs sm:text-sm md:text-base lg:text-lg text-white/60 max-w-lg mb-4 leading-relaxed">
                 {slides[activeSlide].description}
               </p>
             </motion.div>
@@ -141,10 +141,10 @@ useEffect(() => {
         {/* RIGHT IMAGE COMPONENT */}
         <div className="order-1 md:order-2 w-full relative h-64 sm:h-80 md:h-96 lg:h-120 flex items-center justify-center mt-4 md:mt-0">
           <Swiper
-            modules={[Autoplay, EffectFade, Pagination]}
-            effect="fade"
+            modules={[Autoplay, Pagination]}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             pagination={{ clickable: true }}
+            loop={true}
             onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
             className="h-full w-full"
           >

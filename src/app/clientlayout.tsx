@@ -141,6 +141,8 @@ export default function ClientLayout({
 
   }, []);
 
+  const isLenderPage = pathname?.startsWith("/lenders/");
+
   if (isAdminPage) {
     return (
       <ModalProvider>
@@ -155,7 +157,7 @@ export default function ClientLayout({
 
       <div className="relative min-h-screen">
 
-        <Navbar />
+        {!isLenderPage && <Navbar />}
 
         <main>
           {children}
