@@ -146,7 +146,7 @@ export default function ClientLayout({
   if (isAdminPage) {
     return (
       <ModalProvider>
-        <main className="min-h-screen bg-[#FFF4E5]">{children}</main>
+        <main className="min-h-screen w-full m-0 p-0">{children}</main>
         <GlobalModal />
       </ModalProvider>
     );

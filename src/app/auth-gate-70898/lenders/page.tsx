@@ -120,21 +120,21 @@ export default function AdminLenderManagement() {
         <div className="mb-12 p-2 md:p-4">
           <div className="inline-block px-4 py-1.5 mb-6 border border-[#FF7819]/30 bg-[#FF7819]/10 rounded-full shadow-lg backdrop-blur-md">
             <span className="text-[#FF7819] font-bold text-[10px] md:text-xs uppercase tracking-[0.3em]">
-              Admin Dashboard
+              Mantra Central Routing
             </span>
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70 mb-4 tracking-tighter drop-shadow-sm">
-            Lender <span className="bg-gradient-to-r from-[#FF7819] to-yellow-400 bg-clip-text text-transparent">Priority</span>
+            Routing <span className="bg-gradient-to-r from-[#FF7819] to-yellow-400 bg-clip-text text-transparent">Engine</span>
           </h1>
           <p className="text-white/70 mb-8 font-medium text-sm md:text-lg max-w-2xl leading-relaxed">
-            Drag and drop the lenders below to change their display order dynamically. The top lender will be shown first to the users.
+            Reorder dispatch rules dynamically. Top partner receives primary routing allocation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 items-center bg-white/10 backdrop-blur-xl p-3 md:p-4 rounded-[1.5rem] md:rounded-[2rem] border border-white/20 shadow-2xl">
             <div className="relative w-full sm:w-auto flex-grow">
               <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
               <input 
                 type="password" 
-                placeholder="Enter Admin Secret Key" 
+                placeholder="Enter Master Access Token" 
                 className="bg-black/20 w-full pl-12 pr-4 py-3.5 md:py-4 rounded-xl md:rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#FF7819]/50 transition-all font-medium border border-white/10 focus:border-transparent"
                 value={adminSecret}
                 onChange={(e) => {

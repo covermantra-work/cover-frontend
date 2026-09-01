@@ -171,14 +171,14 @@ class LenderService {
   };
 
   return (
-    <div className="min-h-screen bg-[#070c15] text-gray-100 font-sans pb-16">
+    <div className="min-h-screen bg-[#070c15] text-gray-100 font-sans pt-24 pb-16">
       
       {/* Dynamic Saffron Neon Glows */}
       <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-[#FF7819] opacity-10 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="absolute bottom-10 left-10 w-[300px] h-[300px] bg-[#00f2fe] opacity-5 blur-[120px] rounded-full pointer-events-none"></div>
 
       {/* HEADER SECTION */}
-      <header className="border-b border-gray-800 bg-[#0d1527]/50 backdrop-blur-md sticky top-0 z-50 px-6 py-4">
+      <header className="border-b border-gray-800 bg-[#0d1527]/50 backdrop-blur-md relative z-40 px-6 py-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#FF7819] flex items-center justify-center shadow-lg shadow-[#FF7819]/25 text-white">

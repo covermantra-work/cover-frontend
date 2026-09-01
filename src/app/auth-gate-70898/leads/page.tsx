@@ -59,33 +59,65 @@ export default function AdminLeadsCRM() {
   useEffect(() => {
     const cachedSecret = sessionStorage.getItem("co_admin_secret");
     if (cachedSecret) {
-      setAdminSecret(cachedSecret);
-      setIsAuthenticated(true);
+      const lastActive = sessionStorage.getItem("cm_last_active");
+      if (lastActive && Date.now() - Number(lastActive) > 5 * 60 * 1000) {
+        sessionStorage.removeItem("co_admin_secret");
+        sessionStorage.removeItem("cm_last_active");
+        setAdminSecret("");
+        setIsAuthenticated(false);
+      } else {
+        setAdminSecret(cachedSecret);
+        setIsAuthenticated(true);
+        sessionStorage.setItem("cm_last_active", String(Date.now()));
+      }
     }
   }, []);
 
-  const handleLock = () => {
+  const handleLock = (reason?: string | React.MouseEvent) => {
     sessionStorage.removeItem("co_admin_secret");
+    sessionStorage.removeItem("cm_last_active");
     setAdminSecret("");
     setIsAuthenticated(false);
-    toast.info("CRM Portal Locked.");
+    if (typeof reason === "string" && reason.trim()) {
+      toast.warning(reason);
+    } else {
+      toast.info("Mantra Central Locked.");
+    }
   };
 
-  // Inactivity / Idle Logout Timer (15 minutes)
+  // Inactivity / Idle Logout Timer (Strict 5 minutes)
   useEffect(() => {
     if (!isAuthenticated) return;
 
+    const INACTIVITY_LIMIT_MS = 5 * 60 * 1000; // 5 minutes
+
     let timeoutId: NodeJS.Timeout;
 
-    const resetTimer = () => {
-      if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        handleLock();
-        toast.warning("Logged out due to 15 minutes of inactivity.");
-      }, 15 * 60 * 1000); // 15 minutes
+    const performLock = () => {
+      handleLock("Mantra Central locked due to 5 minutes of inactivity.");
     };
 
-    const events = ["mousemove", "keydown", "click", "scroll"];
+    const resetTimer = () => {
+      sessionStorage.setItem("cm_last_active", String(Date.now()));
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(performLock, INACTIVITY_LIMIT_MS);
+    };
+
+    const checkInactivity = () => {
+      const stored = sessionStorage.getItem("cm_last_active");
+      const lastActive = stored ? Number(stored) : Date.now();
+      const elapsed = Date.now() - lastActive;
+
+      if (elapsed >= INACTIVITY_LIMIT_MS) {
+        performLock();
+      } else {
+        const remaining = INACTIVITY_LIMIT_MS - elapsed;
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = setTimeout(performLock, remaining);
+      }
+    };
+
+    const events = ["mousemove", "keydown", "click", "scroll", "touchstart"];
 
     let lastReset = 0;
     const throttledReset = () => {
@@ -98,15 +130,25 @@ export default function AdminLeadsCRM() {
 
     resetTimer();
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        checkInactivity();
+      }
+    };
+
     events.forEach((event) => {
-      window.addEventListener(event, throttledReset);
+      window.addEventListener(event, throttledReset, { passive: true });
     });
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", checkInactivity);
 
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
       events.forEach((event) => {
         window.removeEventListener(event, throttledReset);
       });
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", checkInactivity);
     };
   }, [isAuthenticated]);
 
@@ -234,23 +276,23 @@ export default function AdminLeadsCRM() {
         <div className="mb-12 p-2 md:p-4 text-left">
           <div className="inline-block px-4 py-1.5 mb-6 border border-[#FF7819]/30 bg-[#FF7819]/10 rounded-full shadow-lg backdrop-blur-md">
             <span className="text-[#FF7819] font-bold text-[10px] md:text-xs uppercase tracking-[0.3em]">
-              Leads CRM Management
+              Mantra Central Pipeline
             </span>
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70 mb-4 tracking-tighter drop-shadow-sm">
-            Customer <span className="bg-gradient-to-r from-[#FF7819] to-yellow-400 bg-clip-text text-transparent">Leads</span>
+            Pipeline <span className="bg-gradient-to-r from-[#FF7819] to-yellow-400 bg-clip-text text-transparent">Stream</span>
           </h1>
           <p className="text-white/70 mb-8 font-medium text-sm md:text-lg max-w-2xl leading-relaxed">
-            Monitor incoming consumer leads, check bank API validation eligibility logs, filter by status, and export list to CSV.
+            Monitor incoming application stream, check bank API eligibility logs, filter by status, and export list.
           </p>
 
-          {/* Admin Authentication Box */}
+          {/* Authorization Box */}
           <div className="flex flex-col sm:flex-row gap-4 items-center bg-white/10 backdrop-blur-xl p-3 md:p-4 rounded-[1.5rem] md:rounded-[2rem] border border-white/20 shadow-2xl max-w-3xl">
             <div className="relative w-full sm:w-auto flex-grow">
               <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
               <input 
                 type="password" 
-                placeholder="Enter Admin Secret Key to Unlock CRM" 
+                placeholder="Enter Master Access Token to Authorize" 
                 className="bg-black/20 w-full pl-12 pr-4 py-3.5 md:py-4 rounded-xl md:rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#FF7819]/50 transition-all font-medium border border-white/10 focus:border-transparent"
                 value={adminSecret}
                 onChange={(e) => {
