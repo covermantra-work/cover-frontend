@@ -38,7 +38,7 @@ const fallbackCards: LenderCard[] = [
     provider: "FATAKPAY Loans",
     approval: "Good",
     loanAmount: "Up to ₹2,00,000",
-    interestRate: "Starting from 12% to 35.95% per month",
+    interestRate: "Starting from 12% to 35.95% per annum (APR)",
     processingFee: "Starting from 2.5% of the approved loan amount",
     support: "24/7 customer support",
     ratings: 4.0,
@@ -278,12 +278,12 @@ export default function PersonalLoansPage() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white rounded-3xl p-6 md:p-8 shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white hover:border-[#FF7819]/30 transition-all hover:shadow-[0_20px_50px_rgba(255,120,25,0.1)] group"
+              className="bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 backdrop-blur-2xl rounded-[3rem] p-7 md:p-9 shadow-[0_25px_60px_-15px_rgba(255,120,25,0.18),0_10px_25px_rgba(0,0,0,0.04),inset_0_3px_6px_rgba(255,255,255,1)] border-4 border-white hover:border-[#FF7819]/40 hover:-translate-y-1.5 transition-all group"
             >
               {/* Provider Info */}
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-[#FFF4E5] p-2 flex-shrink-0 shadow-inner flex items-center justify-center">
+                  <div className="w-18 h-18 md:w-20 md:h-20 rounded-3xl bg-white p-2.5 flex-shrink-0 shadow-[0_8px_20px_rgba(255,120,25,0.15),inset_0_2px_4px_rgba(255,255,255,1)] border-2 border-slate-100 flex items-center justify-center">
                     <img
                       src={card.logo}
                       alt={card.provider}
@@ -291,13 +291,13 @@ export default function PersonalLoansPage() {
                     />
                   </div>
                   <div>
-                    <h3 className="text-xl md:text-2xl font-bold text-[#08101E]">{card.provider}</h3>
-                    <div className="flex items-center gap-3 mt-1">
-                      <span className="text-[10px] font-bold uppercase bg-green-100 text-green-700 px-2 py-0.5 rounded">
+                    <h3 className="text-xl md:text-2xl font-black text-[#08101E] tracking-tight">{card.provider}</h3>
+                    <div className="flex items-center gap-3 mt-1.5">
+                      <span className="text-[10px] font-black uppercase bg-emerald-100/80 text-emerald-800 px-2.5 py-0.5 rounded-full border border-emerald-200 shadow-sm">
                         {card.approval} Approval
                       </span>
                       <div className="flex items-center gap-1">
-                        <span className="text-xs font-bold text-gray-600">{card.ratings}</span>
+                        <span className="text-xs font-black text-gray-700">{card.ratings}</span>
                         <StarRating value={card.ratings} />
                       </div>
                     </div>
@@ -306,16 +306,18 @@ export default function PersonalLoansPage() {
                 
                 <div className="flex flex-col items-end gap-2 w-full md:w-auto">
                   {appliedLenders.includes(card.provider) && (
-                    <span className="text-[10px] font-bold text-green-700 bg-green-50 px-3 py-1 rounded-full border border-green-200 uppercase tracking-wider">
+                    <span className="text-[10px] font-black text-emerald-800 bg-emerald-50 px-3.5 py-1 rounded-full border border-emerald-200 uppercase tracking-wider shadow-sm">
                       ✓ Applied (In-Progress)
                     </span>
                   )}
-                  <button 
+                  <motion.button 
+                    whileHover={{ scale: 1.03, y: -2 }}
+                    whileTap={{ scale: 0.96, y: 3 }}
                     onClick={() => handleApply(card.id || "", card.provider, card.applyLink)}
-                    className="w-full md:w-auto bg-[#FF7819] hover:bg-[#e66a15] text-white font-bold py-3 px-10 rounded-2xl shadow-lg shadow-[#FF7819]/30 transition-all active:scale-95 flex items-center justify-center animate-pulse"
+                    className="w-full md:w-auto bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white font-black py-4 px-10 rounded-2xl shadow-[0_6px_0_#C2410C,0_15px_25px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.5)] active:shadow-[0_1px_0_#C2410C] transition-all flex items-center justify-center text-sm uppercase tracking-wider cursor-pointer"
                   >
-                    Apply Now
-                  </button>
+                    Apply Now →
+                  </motion.button>
                 </div>
               </div>
 

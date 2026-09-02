@@ -82,15 +82,18 @@ export default function Navbar() {
     setMobileMenuOpen(false);
   };
 
+  const isDarkHeroPage = pathname === "/" || pathname === "/about";
+  const isSolidNav = scrolled || !isDarkHeroPage;
+
   if (!isClient) return <div className="h-20 bg-[#08101E]" />;
 
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
-          scrolled 
-          ? "py-3 bg-[#08101E]/90 backdrop-blur-xl border-b border-white/10 shadow-2xl" 
-          : "py-5 bg-transparent"
+        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${
+          isSolidNav 
+          ? "py-3 bg-[#08101E]/95 backdrop-blur-2xl border-b border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.35)]" 
+          : "py-4 sm:py-5 bg-[#08101E]/30 backdrop-blur-md border-b border-white/5"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
@@ -109,19 +112,17 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className={`hidden lg:flex items-center p-1 rounded-2xl transition-all duration-300 ${scrolled ? 'bg-white/5 border border-white/10' : 'bg-transparent'}`}>
+          <div className={`hidden lg:flex items-center p-1 rounded-2xl transition-all duration-300 ${isSolidNav ? 'bg-white/5 border border-white/10' : 'bg-transparent'}`}>
             {navItems.map((item) => {
               const isActive = pathname === item.path;
               return (
                 <button
                   key={item.name}
                   onClick={() => handleMenuClick(item)}
-                  className={`px-4 lg:px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 ${
+                  className={`px-4 lg:px-5 py-2 rounded-xl text-sm font-bold transition-all duration-300 cursor-pointer ${
                     isActive 
                     ? "bg-linear-to-r from-[#FF690B] to-[#FFB900] text-[#08101E] shadow-lg shadow-orange-600/20" 
-                    : scrolled 
-                      ? "text-white/70 hover:text-white hover:bg-white/10" // Color when navbar is dark
-                      : "text-white/90 hover:text-[#FF690B]" // Color when navbar is transparent
+                    : "text-white/80 hover:text-white hover:bg-white/10"
                   }`}
                 >
                   {item.name}
@@ -132,57 +133,46 @@ export default function Navbar() {
 
           {/* Right Side: Login/Profile */}
           <div className="hidden lg:flex items-center gap-3">
-            {/* Play Store App Download */}
+            {/* Play Store App Download with Official 4-Color Icon */}
             <a
               href="https://play.google.com/store/apps/details?id=com.covermantra.loan"
               target="_blank"
               rel="noopener noreferrer"
-              className={`group flex items-center gap-2 px-3 py-2 rounded-xl font-bold text-xs transition-all border ${
-                scrolled 
-                ? "bg-[#1A2332]/50 border-white/10 text-white hover:bg-[#FF690B] hover:text-white hover:border-[#FF690B]" 
-                : "bg-white/10 border-white/20 backdrop-blur-sm text-white hover:bg-[#FF690B] hover:text-white hover:border-[#FF690B]"
-              }`}
+              className="group flex items-center gap-2 px-3.5 py-2 rounded-2xl font-black text-xs transition-all border border-white/15 bg-white/10 hover:bg-white/20 backdrop-blur-xl shadow-[0_8px_20px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.4)] text-white active:scale-95"
             >
-              <FaGooglePlay className="text-[#FF690B] group-hover:text-white transition-colors" />
-              <span>Download App</span>
+              <svg className="w-4 h-4 shrink-0 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.609 1.814L13.793 12 3.61 22.186A1.9 1.9 0 0 1 3 20.736V3.264c0-.57.23-1.08.609-1.45z" fill="#00C3FF"/>
+                <path d="M17.18 8.613L13.793 12 3.61 1.814A1.89 1.89 0 0 1 4.55 1.43c.34 0 .66.12.91.32l11.72 6.863z" fill="#00E676"/>
+                <path d="M17.18 15.387L5.46 22.25c-.25.2-.57.32-.91.32a1.89 1.89 0 0 1-.94-.384L13.793 12l3.387 3.387z" fill="#FF3A44"/>
+                <path d="M21.54 11.12l-4.36-2.507L13.793 12l3.387 3.387 4.36-2.507c.88-.507.88-1.253 0-1.76z" fill="#FFC800"/>
+              </svg>
+              <span className="tracking-wide">Download App</span>
             </a>
 
             {isLoggedIn ? (
               <>
                 <button 
                   onClick={() => router.push("/profile")}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm transition-all shadow-lg active:scale-95 border ${
-                    scrolled 
-                    ? "bg-[#1A2332] border-white/10 text-white hover:bg-[#FF690B] hover:text-white hover:border-[#FF690B]" 
-                    : "bg-white/10 border-white/20 backdrop-blur-sm text-white hover:bg-[#FF690B] hover:text-white hover:border-[#FF690B]"
-                  }`}
+                  className="flex items-center gap-2 px-4 py-2 rounded-2xl font-black text-xs transition-all border border-white/20 bg-white/10 hover:bg-white/20 backdrop-blur-xl shadow-[0_8px_20px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.4)] text-white active:scale-95 cursor-pointer"
                 >
-                  <div className="w-6 h-6 rounded-full overflow-hidden border border-white/40 shrink-0">
-                    <Image src="/image/user.png" alt="User" width={24} height={24} className="object-cover" />
+                  <div className="w-5 h-5 rounded-full overflow-hidden border border-white/40 shrink-0">
+                    <Image src="/image/user.png" alt="User" width={20} height={20} className="object-cover" />
                   </div>
                   <span>Profile</span>
                 </button>
 
                 <button
                   onClick={handleLogout}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm transition-all shadow-lg active:scale-95 border ${
-                    scrolled 
-                    ? "bg-red-500/10 border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500" 
-                    : "bg-red-500/10 border-red-500/20 backdrop-blur-sm text-red-400 hover:bg-red-500 hover:text-white hover:border-red-500"
-                  }`}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl font-black text-xs transition-all border border-red-500/20 bg-red-500/10 hover:bg-red-500 hover:text-white text-red-400 backdrop-blur-xl active:scale-95 cursor-pointer"
                 >
-                  <LogOut size={16} />
+                  <LogOut size={14} />
                   <span>Logout</span>
                 </button>
               </>
             ) : (
               <button
                 onClick={() => setLoginOpen(true)}
-                className={`px-6 py-2.5 rounded-xl font-black text-sm transition-all shadow-xl active:scale-95 ${
-                  scrolled 
-                  ? "bg-[#FF690B] text-white hover:bg-white hover:text-[#08101E]" 
-                  : "bg-white text-[#08101E] hover:bg-[#FF690B] hover:text-white"
-                }`}
+                className="px-6 py-2.5 rounded-2xl font-black text-xs tracking-wider uppercase transition-all bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white shadow-[0_4px_0_#C2410C,0_10px_20px_rgba(234,88,12,0.35),inset_0_2px_4px_rgba(255,255,255,0.5)] active:shadow-[0_1px_0_#C2410C] active:translate-y-1 hover:brightness-110 cursor-pointer"
               >
                 LOGIN
               </button>

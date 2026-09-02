@@ -322,17 +322,16 @@ export default function Page() {
                      animate={{ opacity: 1, scale: 1 }}
                      exit={{ opacity: 0, scale: 0.8 }}
                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                     whileHover={{ rotateY: -3, rotateX: 3, scale: 1.02 }}
-                     style={{ transformStyle: "preserve-3d" }}
-                     className="group bg-white p-8 rounded-[3rem] border border-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_80px_-20px_rgba(255,120,25,0.15)] transition-all duration-500 relative overflow-hidden"
+                     whileHover={{ y: -6, scale: 1.02 }}
+                     className="group bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 p-8 rounded-[3.5rem] border-4 border-white shadow-[0_25px_60px_-15px_rgba(255,120,25,0.18),0_10px_25px_rgba(0,0,0,0.04),inset_0_3px_6px_rgba(255,255,255,1)] hover:border-[#FF7819]/40 transition-all duration-300 relative overflow-hidden"
                    >
-                     <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF7819]/5 rounded-full -mr-16 -mt-16 group-hover:bg-[#FF7819]/10 transition-colors"></div>
+                     <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF7819]/10 rounded-full -mr-16 -mt-16 group-hover:bg-[#FF7819]/15 transition-colors"></div>
 
                      <div className="flex justify-between items-start mb-8">
-                       <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center h-16 w-32 group-hover:scale-105 transition-transform">
+                       <div className="bg-white p-3 rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.06),inset_0_2px_4px_rgba(255,255,255,1)] border border-slate-100 flex items-center justify-center h-16 w-32 group-hover:scale-105 transition-transform">
                          <img src={lender.logo} alt={lender.name} className="max-h-full max-w-full object-contain grayscale group-hover:grayscale-0 transition-all" />
                        </div>
-                       <div className="flex items-center gap-1.5 bg-green-500 text-white px-4 py-1.5 rounded-full font-black shadow-lg shadow-green-500/20 text-[10px] tracking-tighter">
+                       <div className="flex items-center gap-1.5 bg-emerald-500 text-white px-3.5 py-1.5 rounded-full font-black shadow-md text-[10px] tracking-tight">
                          {lender.approval} SUCCESS
                        </div>
                      </div>
@@ -340,11 +339,11 @@ export default function Page() {
                      <h3 className="text-xl font-black text-[#08101E] mb-6 tracking-tight uppercase italic">{lender.name}</h3>
 
                      <div className="grid grid-cols-2 gap-4 mb-8">
-                       <div className="bg-[#FFF4E5]/50 p-4 rounded-2xl border border-[#FF7819]/5">
+                       <div className="bg-white/80 p-4 rounded-2xl border border-slate-100 shadow-sm">
                          <p className="text-[9px] text-gray-400 font-black uppercase tracking-[0.2em] mb-1">Max Amount</p>
                          <p className="text-sm font-black text-[#FF7819] flex items-center gap-1"><FaHandHoldingUsd /> {lender.amount}</p>
                        </div>
-                       <div className="bg-[#FFF4E5]/50 p-4 rounded-2xl border border-[#FF7819]/5">
+                       <div className="bg-white/80 p-4 rounded-2xl border border-slate-100 shadow-sm">
                          <p className="text-[9px] text-gray-400 font-black uppercase tracking-[0.2em] mb-1">Interest</p>
                          <p className="text-[11px] font-black text-[#08101E] flex items-center gap-1"><FaChartLine /> {lender.rate}</p>
                        </div>
@@ -353,28 +352,29 @@ export default function Page() {
                      <div className="mb-10">
                        <div className="flex flex-wrap gap-2">
                          {lender.features.map((feature: string, i: number) => (
-                           <span key={i} className="flex items-center gap-1.5 text-[9px] font-black bg-gray-50 text-gray-500 px-3 py-2 rounded-xl border border-gray-100 uppercase tracking-wider group-hover:bg-green-50 group-hover:text-green-600 transition-all">
-                             <FaCheckCircle className="text-[10px]" /> {feature}
+                           <span key={i} className="flex items-center gap-1.5 text-[9px] font-black bg-slate-50 text-gray-600 px-3 py-2 rounded-xl border border-slate-200/60 uppercase tracking-wider group-hover:bg-emerald-50 group-hover:text-emerald-700 transition-all">
+                             <FaCheckCircle className="text-[10px] text-emerald-500" /> {feature}
                            </span>
                          ))}
                        </div>
                      </div>
 
                       {appliedLenders.includes(lender.name) && (
-                        <div className="text-[10px] font-bold text-green-700 bg-green-50 px-3 py-1 rounded-full border border-green-200 uppercase tracking-wider text-center w-fit mx-auto mb-2">
+                        <div className="text-[10px] font-black text-emerald-800 bg-emerald-50 px-3.5 py-1 rounded-full border border-emerald-200 uppercase tracking-wider text-center w-fit mx-auto mb-3 shadow-sm">
                           ✓ Applied (In-Progress)
                         </div>
                       )}
                       <motion.button 
                         onClick={() => handleApply(lender.id || "", lender.name, lender.url)}
-                        whileTap={{ scale: 0.95 }}
-                        className="w-full bg-[#08101E] hover:bg-[#FF7819] text-white font-black py-5 rounded-[1.8rem] shadow-xl transition-all flex items-center justify-center gap-3 uppercase tracking-widest text-[10px]"
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.96, y: 3 }}
+                        className="w-full bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white font-black py-4.5 rounded-[2rem] shadow-[0_6px_0_#C2410C,0_15px_25px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.5)] active:shadow-[0_1px_0_#C2410C] transition-all flex items-center justify-center gap-2.5 uppercase tracking-wider text-xs cursor-pointer"
                       >
-                        Apply Instantly <FaBolt className="text-[#FF7819] group-hover:text-white" />
+                        <span>Apply Instantly</span> <FaBolt className="text-white" />
                       </motion.button>
 
                       {appliedLenders.length > 0 && !appliedLenders.includes(lender.name) && (
-                        <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-xl text-[10px] text-amber-800 font-bold text-center">
+                        <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-2xl text-[10px] text-amber-800 font-bold text-center">
                           💡 Tip: Apply to {lender.name} too to increase your approval chances by 80%!
                         </div>
                       )}
@@ -390,41 +390,41 @@ export default function Page() {
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white/80 backdrop-blur-xl p-8 sm:p-12 rounded-[4rem] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.15)] border border-white"
+              className="bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 backdrop-blur-2xl p-8 sm:p-12 rounded-[3.5rem] shadow-[0_30px_70px_-15px_rgba(255,120,25,0.2),0_15px_35px_rgba(0,0,0,0.06),inset_0_3px_6px_rgba(255,255,255,1)] border-4 border-white"
             >
               <h2 className="text-3xl font-black text-[#08101E] mb-2 uppercase tracking-tighter italic text-center">Eligibility Check</h2>
               <p className="text-[11px] text-gray-400 text-center font-bold uppercase tracking-[0.2em] mb-10">Takes less than 60 seconds</p>
               
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-2">
-                  <label className="text-[9px] font-black text-[#08101E] uppercase tracking-widest ml-3">Full Name (PAN)</label>
-                  <input name="name" placeholder="Ex: John Doe" value={form.name} onChange={handleChange} className="w-full bg-[#FFF4E5] border-2 border-transparent rounded-2xl px-6 py-4 focus:bg-white focus:border-[#FF7819] outline-none transition-all font-bold shadow-inner" required />
+                  <label className="text-[9px] font-black text-[#FF7819] uppercase tracking-widest ml-3">Full Name (PAN)</label>
+                  <input name="name" placeholder="Ex: John Doe" value={form.name} onChange={handleChange} className="w-full bg-slate-50/90 border-2 border-slate-200/80 rounded-2xl px-6 py-4 focus:bg-white focus:border-[#FF7819] outline-none transition-all font-bold shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm text-[#08101E]" required />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[9px] font-black text-[#08101E] uppercase tracking-widest ml-3">Email Address</label>
-                  <input name="email" type="email" placeholder="example@domain.com" value={form.email} onChange={handleChange} className="w-full bg-[#FFF4E5] border-2 border-transparent rounded-2xl px-6 py-4 focus:bg-white focus:border-[#FF7819] outline-none transition-all font-bold shadow-inner" required />
+                  <label className="text-[9px] font-black text-[#FF7819] uppercase tracking-widest ml-3">Email Address</label>
+                  <input name="email" type="email" placeholder="example@domain.com" value={form.email} onChange={handleChange} className="w-full bg-slate-50/90 border-2 border-slate-200/80 rounded-2xl px-6 py-4 focus:bg-white focus:border-[#FF7819] outline-none transition-all font-bold shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm text-[#08101E]" required />
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-[#08101E] uppercase tracking-widest ml-3">Phone</label>
-                    <input name="phone" placeholder="+91" value={form.phone} onChange={handleChange} className="w-full bg-[#FFF4E5] border-2 border-transparent rounded-2xl px-6 py-4 outline-none font-bold shadow-inner" required />
+                    <label className="text-[9px] font-black text-[#FF7819] uppercase tracking-widest ml-3">Phone</label>
+                    <input name="phone" placeholder="+91" value={form.phone} onChange={handleChange} className="w-full bg-slate-50/90 border-2 border-slate-200/80 rounded-2xl px-6 py-4 focus:bg-white focus:border-[#FF7819] outline-none transition-all font-bold shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm text-[#08101E]" required />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-[#08101E] uppercase tracking-widest ml-3">PAN Card</label>
-                    <input name="pan" placeholder="ABCDE1234F" value={form.pan} onChange={handleChange} className="w-full bg-[#FFF4E5] border-2 border-transparent rounded-2xl px-6 py-4 outline-none font-bold shadow-inner uppercase" required />
+                    <label className="text-[9px] font-black text-[#FF7819] uppercase tracking-widest ml-3">PAN Card</label>
+                    <input name="pan" placeholder="ABCDE1234F" value={form.pan} onChange={handleChange} className="w-full bg-slate-50/90 border-2 border-slate-200/80 rounded-2xl px-6 py-4 focus:bg-white focus:border-[#FF7819] outline-none transition-all font-bold shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm text-[#08101E] uppercase tracking-wider" required />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-[#08101E] uppercase tracking-widest ml-3">Date of Birth</label>
-                    <input name="dob" type="date" value={form.dob} onChange={handleChange} className="w-full bg-[#FFF4E5] border-2 border-transparent rounded-2xl px-6 py-4 outline-none font-bold shadow-inner text-[#08101E]" required />
+                    <label className="text-[9px] font-black text-[#FF7819] uppercase tracking-widest ml-3">Date of Birth</label>
+                    <input name="dob" type="date" value={form.dob} onChange={handleChange} className="w-full bg-slate-50/90 border-2 border-slate-200/80 rounded-2xl px-6 py-4 focus:bg-white focus:border-[#FF7819] outline-none transition-all font-bold shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm text-[#08101E]" required />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-[#08101E] uppercase tracking-widest ml-3">Gender</label>
-                    <select name="gender" value={form.gender} onChange={handleChange} className="w-full bg-[#FFF4E5] border-2 border-transparent rounded-2xl px-6 py-4 outline-none font-bold shadow-inner text-[#08101E] appearance-none focus:border-[#FF7819] focus:bg-white" required>
+                    <label className="text-[9px] font-black text-[#FF7819] uppercase tracking-widest ml-3">Gender</label>
+                    <select name="gender" value={form.gender} onChange={handleChange} className="w-full bg-slate-50/90 border-2 border-slate-200/80 rounded-2xl px-6 py-4 focus:bg-white focus:border-[#FF7819] outline-none transition-all font-bold shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm text-[#08101E] appearance-none" required>
                       <option value="" disabled>Select Gender</option>
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
@@ -435,16 +435,16 @@ export default function Page() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-[#08101E] uppercase tracking-widest ml-3">Employment Type</label>
-                    <select name="employeeType" value={form.employeeType} onChange={handleChange} className="w-full bg-[#FFF4E5] border-2 border-transparent rounded-2xl px-6 py-4 outline-none font-bold shadow-inner text-[#08101E] appearance-none focus:border-[#FF7819] focus:bg-white" required>
+                    <label className="text-[9px] font-black text-[#FF7819] uppercase tracking-widest ml-3">Employment Type</label>
+                    <select name="employeeType" value={form.employeeType} onChange={handleChange} className="w-full bg-slate-50/90 border-2 border-slate-200/80 rounded-2xl px-6 py-4 focus:bg-white focus:border-[#FF7819] outline-none transition-all font-bold shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm text-[#08101E] appearance-none" required>
                       <option value="" disabled>Select Type</option>
                       <option value="Salaried">Salaried</option>
                       <option value="Self-Employed">Self-Employed</option>
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-[#08101E] uppercase tracking-widest ml-3">Monthly Income</label>
-                    <input name="income" type="number" placeholder="₹" value={form.income} onChange={handleChange} className="w-full bg-[#FFF4E5] border-2 border-transparent rounded-2xl px-6 py-4 outline-none font-bold shadow-inner" required />
+                    <label className="text-[9px] font-black text-[#FF7819] uppercase tracking-widest ml-3">Monthly Income</label>
+                    <input name="income" type="number" placeholder="₹" value={form.income} onChange={handleChange} className="w-full bg-slate-50/90 border-2 border-slate-200/80 rounded-2xl px-6 py-4 focus:bg-white focus:border-[#FF7819] outline-none transition-all font-bold shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm text-[#08101E]" required />
                   </div>
                 </div>
 
@@ -453,44 +453,46 @@ export default function Page() {
                     const name = item.toLowerCase() as "city" | "state" | "pincode";
                     return (
                       <div key={item} className="space-y-1">
-                        <label className="text-[8px] font-black text-[#08101E] uppercase tracking-widest ml-1">{item}</label>
-                        <input name={name} value={form[name] || ""} placeholder={item} onChange={handleChange} className="w-full bg-[#FFF4E5] border-2 border-transparent rounded-xl py-4 text-center outline-none font-black shadow-inner text-[10px] uppercase focus:border-[#FF7819] focus:bg-white" required />
+                        <label className="text-[8px] font-black text-[#FF7819] uppercase tracking-widest ml-1">{item}</label>
+                        <input name={name} value={form[name] || ""} placeholder={item} onChange={handleChange} className="w-full bg-slate-50/90 border-2 border-slate-200/80 rounded-xl py-4 text-center outline-none font-black shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-[10px] uppercase focus:border-[#FF7819] focus:bg-white" required />
                       </div>
                     );
                   })}
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[9px] font-black text-[#08101E] uppercase tracking-widest ml-3">Loan Amount Required</label>
-                  <input name="loanAmount" type="number" placeholder="₹" value={form.loanAmount} onChange={handleChange} className="w-full bg-[#FFF4E5] border-2 border-transparent rounded-2xl px-6 py-4 outline-none font-bold shadow-inner" required />
+                  <label className="text-[9px] font-black text-[#FF7819] uppercase tracking-widest ml-3">Loan Amount Required</label>
+                  <input name="loanAmount" type="number" placeholder="₹" value={form.loanAmount} onChange={handleChange} className="w-full bg-slate-50/90 border-2 border-slate-200/80 rounded-2xl px-6 py-4 focus:bg-white focus:border-[#FF7819] outline-none transition-all font-bold shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm text-[#08101E]" required />
                 </div>
 
                 <div className="flex items-start gap-4 py-6 mt-6 border-t border-[#08101E]/5">
                   <input type="checkbox" id="consent" checked={consent} onChange={() => setConsent(!consent)} className="mt-1 w-5 h-5 accent-[#FF7819] cursor-pointer" required />
-                  <label htmlFor="consent" className="text-[10px] text-[#08101E]/50 font-black uppercase tracking-tight leading-relaxed italic cursor-pointer">
+                  <label htmlFor="consent" className="text-[10px] text-[#08101E]/60 font-bold leading-relaxed cursor-pointer">
                     I agree to the <Link href="/terms" target="_blank" onClick={(e) => e.stopPropagation()} className="text-[#FF7819] hover:underline">Terms & Conditions</Link> & <Link href="/privacy" target="_blank" onClick={(e) => e.stopPropagation()} className="text-[#FF7819] hover:underline">Privacy Policy</Link> and authorize CoverMantra to share my details with lenders and contact me for application updates.
                   </label>
                 </div>
 
                 <motion.button 
-                  whileHover={consent && !isSubmitting ? { scale: 1.02 } : {}}
-                  whileTap={consent && !isSubmitting ? { scale: 0.98 } : {}}
+                  whileHover={consent && !isSubmitting ? { scale: 1.02, y: -2 } : {}}
+                  whileTap={consent && !isSubmitting ? { scale: 0.98, y: 3 } : {}}
                   type="submit" 
                   disabled={!consent || isSubmitting}
-                  className={`w-full py-6 rounded-[2rem] font-black text-xs uppercase tracking-[0.3em] shadow-2xl transition-all flex items-center justify-center gap-2 ${
-                    consent && !isSubmitting ? 'bg-[#FF7819] text-white' : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  className={`w-full py-5 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                    consent && !isSubmitting 
+                      ? 'bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white shadow-[0_8px_0_#C2410C,0_18px_30px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.5)] active:shadow-[0_2px_0_#C2410C]' 
+                      : 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
                   }`}
                 >
                   {isSubmitting ? (
                     <span className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                   ) : (
-                    "Submit Request 🏁"
+                    "SUBMIT REQUEST FOR ELIGIBILITY →"
                   )}
                 </motion.button>
               </form>
 
-              <div className="mt-8 flex items-center justify-center gap-2 text-[#08101E]/30 font-black text-[9px] uppercase tracking-[0.2em]">
-                <FaShieldAlt /> 256-Bit Encrypted & Safe
+              <div className="mt-8 flex items-center justify-center gap-2 text-[#08101E]/40 font-black text-[9px] uppercase tracking-[0.2em]">
+                <FaShieldAlt className="text-[#FF7819]" /> 256-Bit Encrypted & Safe
               </div>
             </motion.div>
           </div>

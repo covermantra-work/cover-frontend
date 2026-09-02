@@ -6,6 +6,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { HiLightningBolt, HiChartBar, HiClipboardCheck } from "react-icons/hi";
 import { FaRocket, FaBuilding, FaCity, FaTools, FaFileInvoiceDollar, FaChartLine } from "react-icons/fa";
+import { Sparkles, ArrowRight } from "lucide-react";
 
 export default function BusinessLoansPage() {
   useEffect(() => {
@@ -19,57 +20,72 @@ export default function BusinessLoansPage() {
   return (
     <main className="min-h-screen bg-[#FFF4E5] text-[#08101E] font-sans selection:bg-[#FF7819]/30 overflow-x-hidden">
 
-      {/* 🚀 HERO SECTION */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#08101E] text-white py-20 px-4">
-        {/* 3D Decorative Orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#FF7819]/20 rounded-full blur-[120px] animate-pulse" />
-          <div className="absolute top-1/2 -right-24 w-80 h-80 bg-green-500/10 rounded-full blur-[100px] animate-bounce duration-[10s]" />
-        </div>
+      {/* 🚀 HERO SECTION WITH 3D VOLUMETRIC STUDIO LIGHTING & FLOATING COINS */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#08101E] text-white py-24 px-4 pt-32">
+        {/* 3D Volumetric Studio Lights */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gradient-to-tr from-amber-500/20 via-[#FF7819]/25 to-transparent rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute -bottom-10 right-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
+
+        {/* 🪙 Floating 3D Gold Coin 1 */}
+        <motion.div
+          animate={{ y: [0, -14, 0], rotate: [0, 8, -4, 0] }}
+          transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }}
+          className="hidden lg:flex absolute top-32 left-12 xl:left-24 w-16 h-16 rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-200 p-1 shadow-[0_15px_35px_rgba(245,158,11,0.4)] items-center justify-center text-amber-950 font-black text-2xl border-2 border-white/70 select-none pointer-events-none z-20"
+        >
+          ₹
+        </motion.div>
+
+        {/* 🪙 Floating 3D Gold Coin 2 */}
+        <motion.div
+          animate={{ y: [0, 14, 0], rotate: [0, -8, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut", delay: 0.4 }}
+          className="hidden lg:flex absolute bottom-20 right-10 xl:right-24 w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-200 p-1 shadow-[0_15px_30px_rgba(245,158,11,0.35)] items-center justify-center text-amber-950 font-black text-xl border-2 border-white/70 select-none pointer-events-none z-20"
+        >
+          ₹
+        </motion.div>
 
         <div className="relative max-w-6xl mx-auto text-center z-10">
           {/* COMING SOON Badge */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="inline-flex items-center gap-2 px-5 py-2 mb-8 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full shadow-[0_0_20px_rgba(255,120,25,0.2)]"
+            className="inline-flex items-center gap-2 px-5 py-2 mb-8 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-[0_0_25px_rgba(255,120,25,0.3)]"
           >
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF7819] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-[#FF7819]"></span>
-            </span>
-            <span className="text-sm font-black tracking-[0.2em] text-[#FF7819] uppercase">
-              Coming Soon
+            <Sparkles size={14} className="text-[#FF7819]" />
+            <span className="text-xs font-black tracking-[0.2em] text-[#FF7819] uppercase">
+              Fast-Track Enterprise Capital
             </span>
           </motion.div>
 
-          <h1 className="text-4xl md:text-7xl font-black mb-8 leading-[1.1] tracking-tighter">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 leading-[1.1] tracking-tighter">
             Empower Your Business with <br className="hidden md:block"/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] to-[#FFB076]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] via-[#FFB900] to-[#FF8A33]">
               Flexible Funding
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl mb-16 text-gray-400 max-w-3xl mx-auto font-medium">
+          <p className="text-base md:text-xl mb-16 text-slate-300 max-w-3xl mx-auto font-medium leading-relaxed">
             Tailored loan solutions for Startups, MSMEs, and Enterprises. <br className="hidden md:block"/>
-            Faster approvals. Lower interest. Zero hassle.
+            Faster digital approvals. Competitive interest rates. Zero hassle.
           </p>
 
-          {/* Target Cards Row */}
+          {/* Target Cards 3D Row */}
           <div className="grid gap-6 md:grid-cols-3 text-left">
             {[
-              { icon: <FaRocket />, title: "For Startups", desc: "Instant working capital and funds to build and scale your product." },
-              { icon: <FaBuilding />, title: "For SMEs", desc: "Grow your business with machinery, marketing, and team expansion loans." },
-              { icon: <FaCity />, title: "For Enterprises", desc: "Large-scale funding with flexible repayment and premium support." },
+              { icon: <FaRocket />, title: "For Startups", desc: "Instant working capital and seed-stage funds to build, hire, and scale your product." },
+              { icon: <FaBuilding />, title: "For SMEs", desc: "Grow your business with inventory, machinery, marketing, and team expansion loans." },
+              { icon: <FaCity />, title: "For Enterprises", desc: "Large-scale credit lines with customized tenure, competitive APR, and dedicated support." },
             ].map((card, i) => (
               <motion.div
                 key={i}
-                whileHover={{ y: -10, backgroundColor: "rgba(255,255,255,0.08)" }}
-                className="bg-white/5 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/10 transition-all duration-500 shadow-2xl group"
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="bg-white/[0.04] backdrop-blur-2xl p-8 rounded-[2.8rem] border-2 border-white/10 hover:border-[#FF7819]/50 hover:bg-white/[0.07] transition-all duration-300 shadow-2xl group"
               >
-                <div className="text-3xl text-[#FF7819] mb-5 group-hover:scale-110 transition-transform">{card.icon}</div>
-                <h3 className="text-xl font-bold mb-3">{card.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{card.desc}</p>
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FF7819] to-[#E65C00] flex items-center justify-center text-white text-2xl mb-6 shadow-[0_8px_20px_rgba(234,88,12,0.4)] group-hover:scale-110 transition-transform">
+                  {card.icon}
+                </div>
+                <h3 className="text-xl font-black text-white mb-3 tracking-tight">{card.title}</h3>
+                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-medium">{card.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -78,43 +94,46 @@ export default function BusinessLoansPage() {
 
       {/* 📖 EDUCATIONAL SECTION */}
       <section className="py-24 px-4 max-w-4xl mx-auto text-center" data-aos="fade-up">
-        <h2 className="text-3xl md:text-5xl font-black mb-8 text-[#08101E] tracking-tight">
-          What is a <span className="text-[#FF7819]">Business Loan?</span>
+        <h2 className="text-3xl md:text-5xl font-black mb-6 text-[#08101E] tracking-tight">
+          What is a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] to-[#E65C00]">Business Loan?</span>
         </h2>
-        <div className="p-1 bg-gradient-to-r from-transparent via-[#FF7819]/20 to-transparent mb-8" />
-        <p className="text-[#08101E]/70 text-lg md:text-xl leading-relaxed font-medium">
-          A business loan provides financial support for growth, working capital, expansion,
-          equipment, or other operational needs. Whether you're launching a startup or growing
-          an enterprise, our business loans fuel your vision.
+        <div className="w-20 h-1.5 bg-[#FF7819] mx-auto rounded-full mb-8 shadow-sm" />
+        <p className="text-[#08101E]/70 text-base md:text-lg leading-relaxed font-semibold">
+          A business loan provides financial support for growth, working capital, commercial expansion,
+          equipment purchase, or other operational needs. Whether you're launching a venture or taking an established
+          business to the next stage, our digital loan solutions fuel your vision with total transparency.
         </p>
       </section>
 
-      {/* 💎 TYPES SECTION */}
-      <section className="py-24 px-4 bg-white/50 relative overflow-hidden">
+      {/* 💎 TYPES SECTION - 3D CLAYMORPHIC CARDS */}
+      <section className="py-24 px-4 sm:px-6 relative overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black mb-16 text-center text-[#08101E] tracking-tight">
-            Types of <span className="text-[#FF7819]">Business Loans</span>
-          </h2>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-[#08101E] tracking-tight">
+              Types of <span className="text-[#FF7819]">Business Loans</span>
+            </h2>
+            <p className="text-slate-500 font-semibold text-sm mt-3">Tailored financial vehicles matched to your operational needs</p>
+          </div>
 
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { icon: <FaTools />, title: "Working Capital Loans", desc: "Short-term loans for everyday operations." },
-              { icon: <FaRocket />, title: "Startup Loans", desc: "Capital to launch and scale your startup." },
-              { icon: <FaBuilding />, title: "Equipment Financing", desc: "Buy or lease essential business equipment." },
-              { icon: <FaFileInvoiceDollar />, title: "Invoice Financing", desc: "Convert pending invoices into quick cash." },
-              { icon: <FaChartLine />, title: "Term Loans", desc: "Long-term funds for expansion or investment." },
-              { icon: <HiChartBar />, title: "Business Line of Credit", desc: "Flexible revolving credit for recurring needs." },
+              { icon: <FaTools />, title: "Working Capital Loans", desc: "Short-term funds to balance seasonal cash flows, vendor payments, and daily overheads." },
+              { icon: <FaRocket />, title: "Startup Seed Loans", desc: "Collateral-free capital designed to help registered startups scale early traction." },
+              { icon: <FaBuilding />, title: "Equipment Financing", desc: "Specialized asset-backed financing to purchase modern heavy machinery or technology." },
+              { icon: <FaFileInvoiceDollar />, title: "Invoice Discounting", desc: "Unlock immediate liquidity by converting verified pending client invoices into cash." },
+              { icon: <FaChartLine />, title: "Term Growth Loans", desc: "Long-term structured growth funding with predictable monthly repayment schedules." },
+              { icon: <HiChartBar />, title: "Revolving Credit Line", desc: "Draw funds as you need them and pay interest strictly on the utilized amount." },
             ].map((item, i) => (
               <motion.div
                 key={i}
-                whileHover={{ scale: 1.02 }}
-                className="p-8 bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.03)] border border-gray-100 hover:border-[#FF7819]/30 transition-all group"
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="p-8 bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 rounded-[2.8rem] border-4 border-white shadow-[0_20px_50px_-15px_rgba(255,120,25,0.12),0_10px_25px_rgba(0,0,0,0.04),inset_0_3px_6px_rgba(255,255,255,1)] hover:border-[#FF7819]/40 transition-all duration-300 group"
               >
-                <div className="w-14 h-14 rounded-2xl bg-[#FFF4E5] flex items-center justify-center text-[#FF7819] mb-6 group-hover:bg-[#FF7819] group-hover:text-white transition-all duration-300">
+                <div className="w-14 h-14 rounded-2xl bg-[#FF7819]/10 flex items-center justify-center text-[#FF7819] mb-6 group-hover:bg-[#FF7819] group-hover:text-white transition-all duration-300 shadow-sm">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-[#08101E]">{item.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
+                <h3 className="text-xl font-black mb-3 text-[#08101E] tracking-tight">{item.title}</h3>
+                <p className="text-slate-600 text-xs sm:text-sm font-medium leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -123,68 +142,67 @@ export default function BusinessLoansPage() {
 
       {/* 🏆 WHY CHOOSE US */}
       <section className="py-24 px-4 max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-5xl font-black mb-20 text-center text-[#08101E] tracking-tight">
-          Why Choose Our <br className="md:hidden"/> <span className="text-[#FF7819]">Business Loans?</span>
+        <h2 className="text-3xl md:text-5xl font-black mb-16 text-center text-[#08101E] tracking-tight">
+          Why Choose Our <span className="text-[#FF7819]">Business Loans?</span>
         </h2>
 
-        <div className="grid gap-12 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-3">
           {[
             {
               icon: <HiLightningBolt />,
               title: "Fast Disbursal",
-              desc: "Quick approval and instant fund transfer for urgent needs.",
+              desc: "Automated underwriting algorithms ensure rapid decisions and swift capital deployment.",
             },
             {
               icon: <HiChartBar />,
               title: "Custom Loan Plans",
-              desc: "Tailored funding solutions crafted for every business model.",
+              desc: "Flexible tenure and repayment terms crafted to match your business revenue cycles.",
             },
             {
               icon: <HiClipboardCheck />,
               title: "Minimal Documentation",
-              desc: "Quick, hassle-free process with simple paperwork.",
+              desc: "Digitally upload bank statements and GST filings with zero physical branch visits.",
             },
           ].map((item, i) => (
             <motion.div
               key={i}
-              whileHover={{ y: -15 }}
-              className="relative p-10 bg-[#08101E] rounded-[3rem] text-center group overflow-hidden shadow-2xl"
+              whileHover={{ y: -8 }}
+              className="relative p-10 bg-[#08101E] rounded-[3rem] text-center group overflow-hidden shadow-2xl border border-white/10"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF7819]/10 rounded-full blur-3xl group-hover:bg-[#FF7819]/20 transition-all" />
+              <div className="absolute top-0 right-0 w-36 h-36 bg-[#FF7819]/15 rounded-full blur-3xl group-hover:bg-[#FF7819]/25 transition-all" />
               <div className="relative z-10">
                 <div className="text-5xl text-[#FF7819] flex justify-center mb-6">{item.icon}</div>
-                <h3 className="text-2xl font-bold mb-4 text-white">{item.title}</h3>
-                <p className="text-gray-400 font-medium">{item.desc}</p>
+                <h3 className="text-2xl font-black mb-4 text-white tracking-tight">{item.title}</h3>
+                <p className="text-slate-300 text-sm font-medium leading-relaxed">{item.desc}</p>
               </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* 📣 CTA SECTION */}
-      <section className="py-20 px-6">
+      {/* 📣 3D CANDY CTA SECTION */}
+      <section className="py-20 px-4 sm:px-6">
         <motion.div 
           whileHover={{ scale: 1.01 }}
-          className="max-w-6xl mx-auto rounded-[4rem] p-12 md:p-24 bg-gradient-to-br from-[#FF7819] to-[#E65C00] text-center text-white shadow-[0_30px_100px_-20px_rgba(255,120,25,0.4)] relative overflow-hidden"
+          className="max-w-6xl mx-auto rounded-[3.5rem] md:rounded-[4.5rem] p-10 md:p-20 bg-gradient-to-br from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-center text-white shadow-[0_30px_70px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.4)] border-4 border-white/20 relative overflow-hidden"
         >
-          {/* Glass Background Pattern */}
-          <div className="absolute inset-0 opacity-10 pointer-events-none" 
-               style={{ backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
+          <div className="absolute -top-10 -right-10 w-48 md:w-80 h-48 md:h-80 bg-white/20 rounded-full blur-3xl pointer-events-none" />
           
-          <h2 className="text-4xl md:text-6xl font-black mb-8 relative z-10 tracking-tighter">
-            Ready to Grow Your <br className="hidden md:block"/> Business?
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black mb-6 relative z-10 tracking-tight">
+            Ready to Accelerate Your Business?
           </h2>
-          <p className="mb-12 text-lg md:text-xl text-white/80 max-w-2xl mx-auto font-medium relative z-10">
-            Apply today and get funding designed to help your business thrive. 
-            Join 10,000+ happy entrepreneurs.
+          <p className="mb-10 text-base md:text-lg text-white font-semibold max-w-2xl mx-auto relative z-10 leading-relaxed">
+            Apply today and unlock smart capital designed to help your enterprise thrive. 100% digital and transparent.
           </p>
 
           <motion.a
-            whileTap={{ scale: 0.95 }}
-            href="/business-loans"
-            className="inline-flex items-center gap-3 bg-[#08101E] text-white px-10 py-5 rounded-2xl font-black text-lg hover:bg-black transition-all shadow-2xl relative z-10"
+            whileHover={{ scale: 1.03, y: -2 }}
+            whileTap={{ scale: 0.97, y: 3 }}
+            href="/contact"
+            className="inline-flex items-center gap-3 bg-[#08101E] text-white px-10 py-4.5 rounded-2xl font-black text-sm uppercase tracking-wider shadow-[0_8px_0_#040810,0_20px_35px_rgba(0,0,0,0.5),inset_0_2px_4px_rgba(255,255,255,0.2)] active:shadow-[0_2px_0_#040810] transition-all relative z-10 cursor-pointer"
           >
-            Apply for Business Loan <FaPaperPlane className="text-sm" />
+            <span>Talk to a Loan Specialist</span>
+            <ArrowRight size={18} className="text-[#FF7819]" />
           </motion.a>
         </motion.div>
       </section>
@@ -192,9 +210,3 @@ export default function BusinessLoansPage() {
     </main>
   );
 }
-
-const FaPaperPlane = ({className}: {className?: string}) => (
-  <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" className={className} height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-    <path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"></path>
-  </svg>
-);

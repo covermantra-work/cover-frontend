@@ -45,8 +45,30 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[#FFF4E5] text-[#08101E] font-sans selection:bg-[#FF7819]/30 overflow-x-hidden">
       
-      {/* HERO SECTION */}
+      {/* HERO SECTION WITH 3D STUDIO LIGHTING & FLOATING COINS */}
       <section className="relative text-center pt-24 pb-16 md:pt-32 md:pb-24 px-4 sm:px-6 bg-[#08101E] overflow-hidden">
+        {/* 🌟 Warm 3D Studio Ambient Lighting */}
+        <div className="absolute w-[500px] md:w-[700px] h-[350px] md:h-[500px] bg-gradient-to-tr from-amber-500/20 via-[#FF7819]/25 to-transparent rounded-full blur-[140px] pointer-events-none -top-12 left-1/2 -translate-x-1/2" />
+        <div className="absolute w-[300px] md:w-[450px] h-[300px] md:h-[450px] bg-gradient-to-bl from-blue-500/15 to-cyan-500/10 rounded-full blur-[120px] pointer-events-none -bottom-10 right-0" />
+
+        {/* 🪙 Floating 3D Gold Coin 1 (Left) */}
+        <motion.div
+          animate={{ y: [0, -14, 0], rotate: [0, 8, -4, 0] }}
+          transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }}
+          className="hidden lg:flex absolute top-28 left-12 xl:left-24 w-16 h-16 rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-200 p-1 shadow-[0_15px_35px_rgba(245,158,11,0.4)] items-center justify-center text-amber-950 font-black text-2xl border-2 border-white/70 select-none pointer-events-none z-30"
+        >
+          ₹
+        </motion.div>
+
+        {/* 🪙 Floating 3D Gold Coin 2 (Right) */}
+        <motion.div
+          animate={{ y: [0, 14, 0], rotate: [0, -8, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut", delay: 0.4 }}
+          className="hidden lg:flex absolute bottom-16 right-10 xl:right-24 w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-200 p-1 shadow-[0_15px_30px_rgba(245,158,11,0.35)] items-center justify-center text-amber-950 font-black text-xl border-2 border-white/70 select-none pointer-events-none z-30"
+        >
+          ₹
+        </motion.div>
+
         {/* 🔱 Mantra Strip */}
         <div className="absolute top-24 left-1/2 -translate-x-1/2 z-20 opacity-100 hidden lg:block pointer-events-none">
           <div className="flex items-center gap-4 text-white font-serif tracking-[0.4em] uppercase text-xs font-bold">
@@ -55,54 +77,52 @@ export default function AboutPage() {
             <span className="h-[1px] w-16 bg-gradient-to-l from-transparent via-white/50 to-white" />
           </div>
         </div>
-        <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#FF7819]/10 rounded-full blur-[100px] md:blur-[150px] pointer-events-none"></div>
-        <div className="absolute -bottom-20 -left-20 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-[#FF7819]/5 rounded-full blur-[70px] md:blur-[100px] pointer-events-none"></div>
 
         <div className="relative z-10 max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-[#FF7819]/10 border border-[#FF7819]/20 text-[#FF7819] text-[10px] md:text-xs font-black tracking-widest uppercase mb-6 md:mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#FF7819] text-[10px] md:text-xs font-black tracking-widest uppercase mb-6 md:mb-8 shadow-lg"
           >
-            <Zap size={14} /> Shaping The Future of Fintech
+            <Zap size={14} className="text-[#FF7819]" /> Shaping The Future of Fintech
           </motion.div>
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white mb-6 md:mb-8 leading-[1.1] tracking-tighter">
             Driving Innovation in <br className="hidden sm:block"/> 
-            <span className="text-[#FF7819]">Global Finance</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] via-[#FFB900] to-[#FF8A33]">Global Finance</span>
           </h1>
 
-          <p className="text-base md:text-xl max-w-3xl mx-auto text-gray-400 leading-relaxed font-medium px-2">
+          <p className="text-base md:text-xl max-w-3xl mx-auto text-gray-300 leading-relaxed font-medium px-2">
             At <span className="text-white font-bold">CoverMantra</span>, we are redefining how people interact with money. Our cutting-edge financial technology delivers seamless and intelligent solutions.
           </p>
         </div>
       </section>
 
-      {/* MISSION SECTION */}
+      {/* MISSION SECTION (3D CLAYMORPHIC VAULT CARD) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24">
-        <div className="relative bg-white rounded-[2rem] md:rounded-[3.5rem] p-8 md:p-20 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.05)] border border-[#FF7819]/10 overflow-hidden">
+        <div className="relative bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 backdrop-blur-2xl rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-16 shadow-[0_30px_70px_-15px_rgba(255,120,25,0.18),0_15px_35px_rgba(0,0,0,0.06),inset_0_3px_6px_rgba(255,255,255,1)] border-4 border-white overflow-hidden">
           <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             <div data-aos="fade-right">
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-[#FFF4E5] rounded-xl md:rounded-2xl flex items-center justify-center text-[#FF7819] mb-6 md:mb-8 shadow-inner">
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-tr from-[#FF7819] via-[#FF8A33] to-[#FFA756] rounded-2xl md:rounded-3xl flex items-center justify-center text-white mb-6 md:mb-8 shadow-[0_10px_20px_rgba(234,88,12,0.35),inset_0_2px_4px_rgba(255,255,255,0.7)]">
                 <Target size={32} className="w-6 h-6 md:w-8 md:h-8" />
               </div>
               <h2 className="text-3xl md:text-5xl font-black text-[#08101E] mb-6 tracking-tight">
                 Our Mission
               </h2>
-              <p className="text-[#08101E]/70 text-base md:text-lg leading-relaxed font-medium mb-6">
+              <p className="text-[#08101E]/70 text-base md:text-lg leading-relaxed font-semibold mb-6">
                 We aim to bridge the gap between technology and finance by providing cutting-edge fintech solutions. 
               </p>
-              <p className="text-[#08101E]/70 text-base md:text-lg leading-relaxed font-medium">
+              <p className="text-[#08101E]/70 text-base md:text-lg leading-relaxed font-semibold">
                 Whether you are an individual or a business, we deliver tools that drive innovation and create financial freedom.
               </p>
             </div>
             
             <div className="relative order-first md:order-last" data-aos="zoom-in">
-              <div className="absolute inset-0 bg-[#FF7819]/10 blur-[40px] md:blur-[80px] rounded-full"></div>
+              <div className="absolute inset-0 bg-[#FF7819]/15 blur-[40px] md:blur-[80px] rounded-full"></div>
               <img
                 src="https://img.freepik.com/free-vector/financial-growth-concept-illustration_114360-7963.jpg"
                 alt="Our Mission"
-                className="relative w-full max-w-sm md:max-w-md mx-auto rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl border-4 md:border-8 border-white"
+                className="relative w-full max-w-sm md:max-w-md mx-auto rounded-[2rem] md:rounded-[3rem] shadow-2xl border-4 md:border-8 border-white"
               />
             </div>
           </div>
@@ -203,12 +223,15 @@ export default function AboutPage() {
                 key={i}
                 data-aos="zoom-in"
                 data-aos-delay={i * 200}
-                className="p-8 md:p-10 bg-white rounded-[2rem] md:rounded-[3rem] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.05)] border-b-4 md:border-b-8 border-[#FF7819] transition-all duration-300"
+                className="p-8 md:p-10 bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 backdrop-blur-xl rounded-[2.5rem] md:rounded-[3rem] shadow-[0_25px_50px_-15px_rgba(255,120,25,0.15),inset_0_3px_6px_rgba(255,255,255,1)] border-4 border-white transition-all duration-300 hover:-translate-y-2"
               >
-                <h3 className="text-xl md:text-2xl font-black text-[#08101E] mb-4 tracking-tight">
+                <div className="w-10 h-10 rounded-2xl bg-[#FF7819]/15 text-[#FF7819] flex items-center justify-center font-black text-sm mb-5 shadow-sm">
+                  0{i + 1}
+                </div>
+                <h3 className="text-xl md:text-2xl font-black text-[#08101E] mb-3 tracking-tight">
                   {item.title}
                 </h3>
-                <p className="text-[#08101E]/60 text-sm md:text-base font-medium leading-relaxed">
+                <p className="text-[#08101E]/60 text-sm md:text-base font-semibold leading-relaxed">
                   {item.desc}
                 </p>
               </div>
@@ -221,23 +244,25 @@ export default function AboutPage() {
       <section className="max-w-6xl mx-auto mb-16 md:mb-24 px-4 sm:px-6">
         <motion.div 
            whileHover={{ scale: 1.01 }}
-           className="relative bg-gradient-to-br from-[#FF7819] to-[#E65C00] rounded-[2.5rem] md:rounded-[4rem] p-10 md:p-20 text-white text-center overflow-hidden shadow-2xl"
+           className="relative bg-gradient-to-br from-[#FF7819] via-[#FF8A33] to-[#E65C00] rounded-[3rem] md:rounded-[4.5rem] p-10 md:p-20 text-white text-center overflow-hidden shadow-[0_30px_70px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.4)] border-4 border-white/20"
         >
-          <div className="absolute -top-10 -right-10 w-32 md:w-64 h-32 md:h-64 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute -top-10 -right-10 w-48 md:w-80 h-48 md:h-80 bg-white/20 rounded-full blur-3xl"></div>
           
           <h2 data-aos="fade-up" className="relative z-10 text-3xl md:text-6xl font-black mb-6 md:mb-8 leading-tight tracking-tighter">
             Empower Your <br className="hidden sm:block"/> Financial Journey
           </h2>
-          <p data-aos="fade-up" data-aos-delay="200" className="relative z-10 max-w-2xl mx-auto mb-8 md:mb-10 text-base md:text-xl text-white/90 font-medium leading-relaxed">
+          <p data-aos="fade-up" data-aos-delay="200" className="relative z-10 max-w-2xl mx-auto mb-8 md:mb-10 text-base md:text-xl text-white font-semibold leading-relaxed">
             Take control of your future with smart tools designed for your confidence.
           </p>
           
           <motion.button
-            whileTap={{ scale: 0.95 }}
-            className="relative z-10 px-8 py-4 md:px-10 md:py-5 bg-[#08101E] text-white text-sm md:text-base font-black rounded-xl md:rounded-2xl flex items-center gap-3 mx-auto shadow-2xl"
+            whileHover={{ scale: 1.03, y: -2 }}
+            whileTap={{ scale: 0.97, y: 3 }}
+            className="relative z-10 px-8 py-4.5 md:px-12 md:py-5 bg-[#08101E] text-white text-sm md:text-base font-black rounded-2xl flex items-center gap-3 mx-auto shadow-[0_8px_0_#040810,0_20px_35px_rgba(0,0,0,0.5),inset_0_2px_4px_rgba(255,255,255,0.2)] active:shadow-[0_2px_0_#040810] transition-all cursor-pointer uppercase tracking-wider"
             onClick={() => router.push("/personal-loans")}
           >
-            Get Started Now <ArrowRight size={20} />
+            <span>Get Started Now</span>
+            <ArrowRight size={20} className="text-[#FF7819]" />
           </motion.button>
         </motion.div>
       </section>

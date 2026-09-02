@@ -273,37 +273,37 @@ function Contact() {
             </div>
           </div>
 
-          {/* ✍️ Form Container (Glassmorphism 3D) */}
+          {/* ✍️ Form Container (Pixar 3D Claymorphic Vault Card) */}
           <div className="lg:col-span-7 order-1 lg:order-2" data-aos="fade-left">
             <motion.div 
-              whileHover={{ rotateY: 2 }}
-              className="bg-white/80 backdrop-blur-xl p-8 md:p-16 rounded-[4rem] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.08)] border border-white"
+              whileHover={{ y: -3 }}
+              className="bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 backdrop-blur-2xl p-8 md:p-14 rounded-[3.5rem] shadow-[0_30px_70px_-15px_rgba(255,120,25,0.2),0_15px_35px_rgba(0,0,0,0.06),inset_0_3px_6px_rgba(255,255,255,1)] border-4 border-white"
             >
               <div className="flex items-center gap-4 mb-2">
                 <h3 className="text-3xl md:text-5xl font-black text-[#08101E] tracking-tighter uppercase italic">Send a <span className="text-[#FF7819]">Message</span></h3>
               </div>
-              <p className="text-sm md:text-lg text-[#08101E]/50 font-bold mb-12 italic">We usually respond within 2 business hours.</p>
+              <p className="text-sm md:text-base text-gray-500 font-bold mb-10">We usually respond within 2 business hours.</p>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <label htmlFor="name" className="text-[10px] font-black text-[#08101E] uppercase tracking-[0.3em] ml-2">Full Name</label>
+                  <div className="space-y-2.5">
+                    <label htmlFor="name" className="text-[10px] font-black text-[#FF7819] uppercase tracking-[0.2em] ml-2">Full Name</label>
                     <input 
                       suppressHydrationWarning={true}
                       type="text" id="name" value={form.name} onChange={handleChange} required placeholder="Ex. Rahul Kumar"
-                      className={`w-full bg-[#FFF4E5] border-2 ${errors.name ? 'border-red-500' : 'border-transparent focus:border-[#FF7819]'} focus:bg-white rounded-[1.5rem] py-4 px-8 text-[#08101E] font-bold outline-none transition-all shadow-inner`}
+                      className={`w-full bg-slate-50/90 border-2 ${errors.name ? 'border-red-500' : 'border-slate-200/80 focus:border-[#FF7819]'} focus:bg-white rounded-[1.6rem] py-4 px-6 text-[#08101E] font-bold outline-none transition-all shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm`}
                     />
                     {errors.name && (
                       <p className="text-red-500 text-[10px] font-black uppercase tracking-wider mt-1 ml-2">{errors.name}</p>
                     )}
                   </div>
 
-                  <div className="space-y-3">
-                    <label htmlFor="email" className="text-[10px] font-black text-[#08101E] uppercase tracking-[0.3em] ml-2">Email Address</label>
+                  <div className="space-y-2.5">
+                    <label htmlFor="email" className="text-[10px] font-black text-[#FF7819] uppercase tracking-[0.2em] ml-2">Email Address</label>
                     <input 
                       suppressHydrationWarning={true}
                       type="email" id="email" value={form.email} onChange={handleChange} required placeholder="rahul@business.com"
-                      className={`w-full bg-[#FFF4E5] border-2 ${errors.email ? 'border-red-500' : 'border-transparent focus:border-[#FF7819]'} focus:bg-white rounded-[1.5rem] py-4 px-8 text-[#08101E] font-bold outline-none transition-all shadow-inner`}
+                      className={`w-full bg-slate-50/90 border-2 ${errors.email ? 'border-red-500' : 'border-slate-200/80 focus:border-[#FF7819]'} focus:bg-white rounded-[1.6rem] py-4 px-6 text-[#08101E] font-bold outline-none transition-all shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm`}
                     />
                     {errors.email && (
                       <p className="text-red-500 text-[10px] font-black uppercase tracking-wider mt-1 ml-2">{errors.email}</p>
@@ -311,64 +311,67 @@ function Contact() {
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <label htmlFor="phone" className="text-[10px] font-black text-[#08101E] uppercase tracking-[0.3em] ml-2">Phone Number</label>
+                <div className="space-y-2.5">
+                  <label htmlFor="phone" className="text-[10px] font-black text-[#FF7819] uppercase tracking-[0.2em] ml-2">Phone Number</label>
                   <input 
                     suppressHydrationWarning={true}
                     type="tel" id="phone" value={form.phone} onChange={handleChange} required placeholder="9876543210"
                     maxLength={10}
-                    className={`w-full bg-[#FFF4E5] border-2 ${errors.phone ? 'border-red-500' : 'border-transparent focus:border-[#FF7819]'} focus:bg-white rounded-[1.5rem] py-4 px-8 text-[#08101E] font-bold outline-none transition-all shadow-inner`}
+                    className={`w-full bg-slate-50/90 border-2 ${errors.phone ? 'border-red-500' : 'border-slate-200/80 focus:border-[#FF7819]'} focus:bg-white rounded-[1.6rem] py-4 px-6 text-[#08101E] font-bold outline-none transition-all shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm`}
                   />
                   {errors.phone && (
                     <p className="text-red-500 text-[10px] font-black uppercase tracking-wider mt-1 ml-2">{errors.phone}</p>
                   )}
                 </div>
 
-                <div className="space-y-3">
-                  <label htmlFor="message" className="text-[10px] font-black text-[#08101E] uppercase tracking-[0.3em] ml-2">Your Message</label>
+                <div className="space-y-2.5">
+                  <label htmlFor="message" className="text-[10px] font-black text-[#FF7819] uppercase tracking-[0.2em] ml-2">Your Message</label>
                   <textarea 
                     suppressHydrationWarning={true}
-                    id="message" rows={4} value={form.message} onChange={handleChange} required placeholder="Tell us how we can help you thrive..."
-                    className={`w-full bg-[#FFF4E5] border-2 ${errors.message ? 'border-red-500' : 'border-transparent focus:border-[#FF7819]'} focus:bg-white rounded-[2rem] py-5 px-8 text-[#08101E] font-bold outline-none transition-all resize-none shadow-inner`}
+                    id="message" rows={4} value={form.message} onChange={handleChange} required placeholder="Tell us how we can help you..."
+                    className={`w-full bg-slate-50/90 border-2 ${errors.message ? 'border-red-500' : 'border-slate-200/80 focus:border-[#FF7819]'} focus:bg-white rounded-[1.8rem] py-4 px-6 text-[#08101E] font-bold outline-none transition-all resize-none shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] text-sm`}
                   />
                   {errors.message && (
                     <p className="text-red-500 text-[10px] font-black uppercase tracking-wider mt-1 ml-2">{errors.message}</p>
                   )}
                 </div>
 
-                <div className="flex items-center gap-4 p-5 bg-[#08101E]/5 rounded-[2rem] border border-[#FF7819]/10 transform hover:scale-[1.01] transition-transform">
+                <div className="flex items-center gap-4 p-5 bg-[#FF7819]/5 rounded-[1.8rem] border-2 border-[#FF7819]/20 hover:border-[#FF7819]/40 transition-all cursor-pointer shadow-[inset_0_1px_3px_rgba(255,255,255,0.8)]">
                   <input 
                     type="checkbox" id="consent" checked={consent} onChange={() => setConsent(!consent)}
-                    className="w-6 h-6 rounded-lg accent-[#FF7819] cursor-pointer" required 
+                    className="w-5 h-5 accent-[#FF7819] cursor-pointer shrink-0" required 
                   />
-                  <label htmlFor="consent" className="text-[10px] md:text-xs text-[#08101E]/70 font-black uppercase tracking-wider cursor-pointer leading-tight italic">
+                  <label htmlFor="consent" className="text-[11px] md:text-xs text-gray-700 font-bold leading-tight cursor-pointer">
                     I authorize Cover Mantra to contact me via Email, WhatsApp, or Call for expert financial guidance.
                   </label>
                 </div>
 
                 <motion.button 
                   suppressHydrationWarning={true}
-                  whileHover={consent ? { scale: 1.02, boxShadow: "0 30px 60px -15px rgba(255, 120, 25, 0.4)" } : {}}
-                  whileTap={consent ? { scale: 0.98 } : {}}
+                  whileHover={consent && !isSubmitting ? { scale: 1.02, y: -2 } : {}}
+                  whileTap={consent && !isSubmitting ? { scale: 0.98, y: 3 } : {}}
                   type="submit" 
                   disabled={!consent || isSubmitting}
-                  className={`w-full py-6 rounded-[2rem] font-black text-lg md:text-xl flex items-center justify-center gap-4 transition-all uppercase tracking-[0.2em] italic ${
-                    consent 
-                    ? 'bg-gradient-to-r from-[#FF7819] to-[#FF690B] text-white shadow-2xl' 
-                    : 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
+                  className={`w-full py-5 rounded-[2rem] font-black text-sm uppercase tracking-wider flex items-center justify-center gap-3 transition-all cursor-pointer ${
+                    consent && !isSubmitting
+                      ? 'bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white shadow-[0_8px_0_#C2410C,0_18px_30px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.5)] active:shadow-[0_2px_0_#C2410C]' 
+                      : 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
                   }`}
                 >
                   {isSubmitting ? (
-                    <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                   ) : (
-                    <>Send Message <FaPaperPlane className="group-hover:translate-x-2 transition-transform" /></>
+                    <>
+                      <span>SEND MESSAGE</span>
+                      <FaPaperPlane className="text-white text-xs" />
+                    </>
                   )}
                 </motion.button>
               </form>
 
               {/* 🛡️ Secure Note */}
-              <div className="mt-8 flex items-center justify-center gap-2 text-[#08101E]/40 font-black text-[9px] uppercase tracking-widest">
-                <FaShieldAlt /> 128-bit SSL Secured Connection
+              <div className="mt-8 flex items-center justify-center gap-2 text-gray-400 font-black text-[10px] uppercase tracking-widest">
+                <FaShieldAlt className="text-[#FF7819]" /> 256-bit SSL Secured & Protected
               </div>
             </motion.div>
           </div>

@@ -224,6 +224,8 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
         const displayName = mappedNames[normalizedLenderId] || normalizedLenderId;
         const updated = [...new Set([...current, displayName])];
         localStorage.setItem("co_applied_lenders", JSON.stringify(updated));
+        localStorage.setItem("co_last_applied_partner", displayName);
+        localStorage.setItem("co_last_partner_url", decoratedUrl);
       } catch (err) {}
 
       setTimeout(() => {
@@ -232,23 +234,30 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
         } else {
           window.open(decoratedUrl, "_blank");
         }
-        window.location.href = "/apply-success";
+        const mappedNames: Record<string, string> = {
+          fatakpay: "FATAKPAY Loans",
+          vivifi: "FlexSalary (Vivifi)",
+          zype: "Zype",
+          moneyview: "MoneyView",
+          credify: "Credify"
+        };
+        const displayName = mappedNames[normalizedLenderId] || normalizedLenderId;
+        window.location.href = `/apply-success?partner=${encodeURIComponent(displayName)}&url=${encodeURIComponent(decoratedUrl)}`;
       }, 2500);
 
     } catch (error: any) {
-      const decoratedUrl = decorateUrl(targetFallbackUrl);
-      showModal(
-        `✅ Application Submitted Successfully!\nRedirecting to partner website...`,
-        "success"
-      );
-      setTimeout(() => {
-        if (newTab) {
-          newTab.location.href = decoratedUrl;
-        } else {
-          window.open(decoratedUrl, "_blank");
-        }
-        window.location.href = "/apply-success";
-      }, 2500);
+      console.error("Partner registration API error:", error);
+
+      if (newTab && !newTab.closed) {
+        newTab.close();
+      }
+
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        "Unable to process application with partner. Please try again.";
+
+      showModal(`❌ Application Failed: ${errorMessage}`, "error");
     } finally {
       setLoading(false);
     }
@@ -354,9 +363,9 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           onSubmit={handleSubmit}
-          className="max-w-2xl w-full bg-white/95 backdrop-blur-xl p-8 md:p-12 rounded-[3.5rem] shadow-[0_25px_60px_rgba(0,0,0,0.15)] border border-white"
+          className="max-w-2xl w-full bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 backdrop-blur-2xl p-8 md:p-12 rounded-[3.5rem] shadow-[0_30px_70px_-15px_rgba(255,120,25,0.22),0_15px_35px_rgba(0,0,0,0.06),inset_0_3px_6px_rgba(255,255,255,1)] border-4 border-white"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
             {config.fields.map((field) => {
               const val = formData[field.name] || "";
 
@@ -370,7 +379,7 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
                       name={field.name}
                       value={val}
                       onChange={handleChange}
-                      className="w-full p-4.5 bg-gray-50 border-2 border-transparent rounded-2xl focus:border-[#FF7819] focus:bg-white outline-none transition-all font-bold text-sm text-[#08101E]"
+                      className="w-full p-4.5 bg-slate-50/90 border-2 border-slate-200/80 rounded-[1.6rem] focus:border-[#FF7819] focus:bg-white outline-none transition-all font-bold text-sm text-[#08101E] shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)]"
                       required={field.required}
                     >
                       <option value="">Select Option</option>
@@ -398,7 +407,7 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
                     pattern={field.pattern || undefined}
                     required={field.required}
                     maxLength={field.name === "pan" ? 10 : undefined}
-                    className={`w-full p-4.5 bg-gray-50 border-2 border-transparent rounded-2xl focus:border-[#FF7819] focus:bg-white outline-none transition-all font-bold text-sm text-[#08101E] placeholder:text-gray-300 ${
+                    className={`w-full p-4.5 bg-slate-50/90 border-2 border-slate-200/80 rounded-[1.6rem] focus:border-[#FF7819] focus:bg-white outline-none transition-all font-bold text-sm text-[#08101E] placeholder:text-gray-300 shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] ${
                       field.uppercase ? "uppercase tracking-[0.2em] font-mono" : ""
                     }`}
                   />
@@ -410,40 +419,42 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
           {/* Consent Checkbox */}
           <motion.label
             whileTap={{ scale: 0.98 }}
-            className="mt-10 flex items-center gap-4 p-5 bg-[#08101E]/5 rounded-3xl border-2 border-transparent hover:border-[#FF7819]/20 transition-all cursor-pointer"
+            className="mt-8 flex items-center gap-4 p-5 bg-[#FF7819]/5 rounded-3xl border-2 border-[#FF7819]/20 hover:border-[#FF7819]/40 transition-all cursor-pointer shadow-[inset_0_1px_3px_rgba(255,255,255,0.8)]"
           >
             <input
               type="checkbox"
               name="consent"
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
-              className="w-6 h-6 accent-[#FF7819] shrink-0"
+              className="w-5 h-5 accent-[#FF7819] shrink-0"
               required
             />
-            <span className="text-[11px] md:text-xs text-gray-600 font-bold leading-snug">
+            <span className="text-[11px] md:text-xs text-gray-700 font-bold leading-snug">
               {config.consentText}
             </span>
           </motion.label>
 
-          {/* Submit Button */}
-          <button
+          {/* 3D Tactile Extruded Candy Submit Button */}
+          <motion.button
+            whileHover={{ scale: 1.01, y: -2 }}
+            whileTap={{ scale: 0.98, y: 3 }}
             type="submit"
             disabled={!consent || loading}
-            className={`w-full mt-10 py-6 rounded-[2rem] font-black text-white text-xl tracking-tighter shadow-2xl transition-all active:scale-95 ${
+            className={`w-full mt-8 py-5 rounded-[2rem] font-black text-white text-base md:text-lg tracking-wider uppercase transition-all flex items-center justify-center gap-3 cursor-pointer ${
               !consent || loading
-                ? "bg-gray-300 cursor-not-allowed shadow-none"
-                : "bg-[#FF7819] hover:bg-[#08101E] shadow-[#FF7819]/30"
+                ? "bg-gray-300 cursor-not-allowed shadow-none text-gray-500"
+                : "bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] shadow-[0_8px_0_#C2410C,0_18px_30px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.5)] active:shadow-[0_2px_0_#C2410C]"
             }`}
           >
             {loading ? (
               <span className="flex items-center justify-center gap-3">
                 <div className="w-6 h-6 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
-                SUBMITTING...
+                SUBMITTING APPLICATION...
               </span>
             ) : (
-              "SUBMIT APPLICATION"
+              "SUBMIT APPLICATION FOR VERIFICATION →"
             )}
-          </button>
+          </motion.button>
         </motion.form>
       </div>
     </div>

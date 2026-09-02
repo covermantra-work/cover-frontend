@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { ChevronDown, HelpCircle, Briefcase, User, Search, X } from "lucide-react";
+import Link from "next/link";
+import { ChevronDown, HelpCircle, Briefcase, User, Search, X, ArrowRight } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -95,37 +96,45 @@ export default function FAQPage() {
       </section>
 
       {/* 📁 TABBED CONTENT SECTION */}
-      <section className="max-w-5xl mx-auto px-6 -mt-24 relative z-20 pb-24">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 -mt-24 relative z-20 pb-24">
         
-        {/* Tab Switcher */}
-        <div className="flex p-2 bg-white rounded-3xl shadow-2xl mb-12 border border-gray-100 max-w-md mx-auto" data-aos="zoom-in">
+        {/* 3D Tab Switcher */}
+        <div className="flex p-2 bg-gradient-to-b from-white to-[#FFFDFB] rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1),inset_0_2px_4px_rgba(255,255,255,1)] mb-12 border-4 border-white max-w-md mx-auto" data-aos="zoom-in">
           <button 
             onClick={() => { setActiveTab("personal"); setOpen(null); }}
-            className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl font-bold transition-all ${activeTab === 'personal' ? 'bg-[#FF7819] text-white shadow-lg' : 'text-gray-500 hover:bg-gray-50'}`}
+            className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider transition-all cursor-pointer ${
+              activeTab === 'personal' 
+              ? 'bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white shadow-[0_4px_0_#C2410C,0_10px_20px_rgba(234,88,12,0.35),inset_0_2px_4px_rgba(255,255,255,0.5)]' 
+              : 'text-slate-500 hover:bg-slate-50'
+            }`}
           >
-            <User size={18} /> Personal
+            <User size={16} /> Personal Loans
           </button>
           <button 
             onClick={() => { setActiveTab("business"); setOpen(null); }}
-            className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl font-bold transition-all ${activeTab === 'business' ? 'bg-[#FF7819] text-white shadow-lg' : 'text-gray-500 hover:bg-gray-50'}`}
+            className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider transition-all cursor-pointer ${
+              activeTab === 'business' 
+              ? 'bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white shadow-[0_4px_0_#C2410C,0_10px_20px_rgba(234,88,12,0.35),inset_0_2px_4px_rgba(255,255,255,0.5)]' 
+              : 'text-slate-500 hover:bg-slate-50'
+            }`}
           >
-            <Briefcase size={18} /> Business
+            <Briefcase size={16} /> Business Loans
           </button>
         </div>
 
-        {/* FAQ Accordion List */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between mb-8 px-2">
+        {/* FAQ Accordion List - 3D Claymorphic Cards */}
+        <div className="space-y-5">
+          <div className="flex items-center justify-between mb-6 px-3">
              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[#08101E] rounded-xl flex items-center justify-center text-[#FF7819]">
-                   {activeTab === 'personal' ? <User size={20} /> : <Briefcase size={20} />}
+                <div className="w-10 h-10 bg-gradient-to-br from-[#FF7819] to-[#E65C00] rounded-xl flex items-center justify-center text-white shadow-md">
+                   {activeTab === 'personal' ? <User size={18} /> : <Briefcase size={18} />}
                 </div>
-                <h2 className="text-2xl font-black uppercase italic tracking-tight text-[#08101E]">
-                  {activeTab} Loan <span className="text-[#FF7819]">Knowledge</span>
+                <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#08101E]">
+                  {activeTab === 'personal' ? 'Personal Loan' : 'Business Loan'} <span className="text-[#FF7819]">Knowledge</span>
                 </h2>
              </div>
              {searchQuery && (
-               <span className="text-sm font-bold text-gray-400 bg-gray-100 px-3 py-1 rounded-full">
+               <span className="text-xs font-black text-slate-500 bg-white px-3.5 py-1.5 rounded-full shadow-xs border border-slate-200">
                  Showing {filteredFaqs.length} results
                </span>
              )}
@@ -138,23 +147,31 @@ export default function FAQPage() {
               return (
                 <div
                   key={id}
-                  className={`bg-white rounded-[2rem] border-2 transition-all duration-300 overflow-hidden ${isActive ? 'border-[#FF7819] shadow-2xl scale-[1.01]' : 'border-gray-50 shadow-sm hover:border-gray-200'}`}
+                  className={`bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 rounded-[2.5rem] border-4 transition-all duration-300 overflow-hidden ${
+                    isActive 
+                    ? 'border-[#FF7819] shadow-[0_25px_60px_-10px_rgba(255,120,25,0.22),inset_0_3px_6px_rgba(255,255,255,1)]' 
+                    : 'border-white shadow-[0_15px_35px_-10px_rgba(0,0,0,0.04),inset_0_2px_4px_rgba(255,255,255,1)] hover:border-slate-200'
+                  }`}
                 >
                   <div
-                    className="flex justify-between items-center p-6 md:p-8 cursor-pointer"
+                    className="flex justify-between items-center p-6 md:p-8 cursor-pointer select-none"
                     onClick={() => toggle(id)}
                   >
-                    <h3 className={`text-lg md:text-xl font-bold transition-colors ${isActive ? 'text-[#FF7819]' : 'text-[#08101E]'}`}>
+                    <h3 className={`text-base sm:text-lg md:text-xl font-black transition-colors ${isActive ? 'text-[#FF7819]' : 'text-[#08101E]'}`}>
                       {item.q}
                     </h3>
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${isActive ? 'bg-[#FF7819] text-white rotate-180' : 'bg-gray-100 text-gray-500'}`}>
-                      <ChevronDown size={20} />
+                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all shrink-0 ml-4 ${
+                      isActive 
+                      ? 'bg-gradient-to-br from-[#FF7819] to-[#E65C00] text-white rotate-180 shadow-md' 
+                      : 'bg-slate-100 text-slate-500'
+                    }`}>
+                      <ChevronDown size={18} />
                     </div>
                   </div>
                   
                   <div className={`transition-all duration-300 ease-in-out ${isActive ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <div className="p-6 md:p-8 pt-0 border-t border-gray-50">
-                      <p className="text-gray-600 text-base md:text-lg leading-relaxed font-medium">
+                    <div className="p-6 md:p-8 pt-0 border-t border-slate-100">
+                      <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-semibold">
                         {item.a}
                       </p>
                     </div>
@@ -163,13 +180,13 @@ export default function FAQPage() {
               );
             })
           ) : (
-            <div className="text-center py-20 bg-white rounded-[3rem] border-2 border-dashed border-gray-200" data-aos="zoom-in">
-               <div className="text-gray-300 mb-4 flex justify-center"><Search size={48} /></div>
-               <h3 className="text-xl font-bold text-gray-500">No matching questions found.</h3>
-               <p className="text-gray-400 mt-2">Try different keywords or check another category.</p>
+            <div className="text-center py-20 bg-white rounded-[3rem] border-4 border-dashed border-slate-200" data-aos="zoom-in">
+               <div className="text-slate-300 mb-4 flex justify-center"><Search size={48} /></div>
+               <h3 className="text-xl font-black text-slate-600">No matching questions found.</h3>
+               <p className="text-slate-400 mt-2 text-sm font-medium">Try different keywords or switch categories.</p>
                <button 
                  onClick={() => setSearchQuery("")}
-                 className="mt-6 text-[#FF7819] font-bold underline"
+                 className="mt-6 text-[#FF7819] font-black underline cursor-pointer"
                >
                  Clear Search
                </button>
@@ -177,13 +194,23 @@ export default function FAQPage() {
           )}
         </div>
 
-        {/* 📞 CONTACT SECTION */}
-        <div className="mt-20 bg-[#08101E] rounded-[3rem] p-10 md:p-16 text-center relative overflow-hidden shadow-2xl shadow-[#FF7819]/10">
+        {/* 📞 3D OBSIDIAN VAULT CONTACT SECTION */}
+        <div className="mt-20 bg-gradient-to-br from-[#08101E] via-[#0D1829] to-[#050811] rounded-[3.5rem] p-10 md:p-16 text-center relative overflow-hidden shadow-[0_35px_80px_rgba(0,0,0,0.4)] border-2 border-white/10">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#FF7819]/15 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10">
-            <h2 className="text-3xl md:text-5xl font-black text-white uppercase italic mb-6">Still Need <span className="text-[#FF7819]">Help?</span></h2>
-            <button className="bg-[#FF7819] text-white px-10 py-4 rounded-2xl font-black text-lg hover:shadow-[0_15px_40px_rgba(255,120,25,0.4)] transition-all transform hover:scale-105">
-              Talk to an Expert
-            </button>
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+              Still Have Unanswered <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] to-amber-400">Questions?</span>
+            </h2>
+            <p className="text-slate-300 text-sm sm:text-base font-medium max-w-xl mx-auto mb-8">
+              Our financial advisors are available 6 days a week to guide you through offers, interest comparisons, and eligibility.
+            </p>
+            <Link 
+              href="/contact"
+              className="inline-flex items-center gap-2.5 bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white px-10 py-5 rounded-[2rem] font-black text-sm uppercase tracking-wider shadow-[0_8px_0_#C2410C,0_18px_30px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.5)] active:shadow-[0_2px_0_#C2410C] active:translate-y-1.5 transition-all cursor-pointer"
+            >
+              <span>Talk to a Loan Specialist</span>
+              <ArrowRight size={18} />
+            </Link>
           </div>
         </div>
       </section>

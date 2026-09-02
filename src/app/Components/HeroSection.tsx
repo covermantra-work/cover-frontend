@@ -64,43 +64,67 @@ useEffect(() => {
   return (
     <section className="relative bg-[#08101E] min-h-screen flex flex-col justify-start text-white overflow-hidden pt-4 sm:pt-6">
       
-      {/* 🔱 Top Central Master Block (Gaps and margins strictly reduced here) */}
+      {/* 🌟 Warm 3D Studio Ambient Lighting */}
+      <div className="absolute w-[600px] h-[400px] bg-gradient-to-tr from-amber-500/20 via-[#FF7819]/25 to-transparent rounded-full blur-[140px] pointer-events-none -top-12 left-1/2 -translate-x-1/2" />
+      <div className="absolute w-[400px] h-[400px] bg-gradient-to-bl from-blue-500/15 to-cyan-500/10 rounded-full blur-[120px] pointer-events-none -bottom-10 right-0" />
+
+      {/* 🪙 Floating 3D Gold Coin 1 (Left) */}
+      <motion.div
+        animate={{ y: [0, -14, 0], rotate: [0, 8, -4, 0] }}
+        transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }}
+        className="hidden lg:flex absolute top-24 left-10 xl:left-20 w-16 h-16 rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-200 p-1 shadow-[0_15px_35px_rgba(245,158,11,0.4)] items-center justify-center text-amber-950 font-black text-2xl border-2 border-white/70 select-none pointer-events-none z-30"
+      >
+        ₹
+      </motion.div>
+
+      {/* 🪙 Floating 3D Gold Coin 2 (Right) */}
+      <motion.div
+        animate={{ y: [0, 14, 0], rotate: [0, -8, 6, 0] }}
+        transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut", delay: 0.4 }}
+        className="hidden lg:flex absolute bottom-24 right-8 xl:right-16 w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-200 p-1 shadow-[0_15px_30px_rgba(245,158,11,0.35)] items-center justify-center text-amber-950 font-black text-xl border-2 border-white/70 select-none pointer-events-none z-30"
+      >
+        ₹
+      </motion.div>
+
+      {/* 🔱 Top Central Master Block */}
       <div className="w-full max-w-4xl mx-auto text-center px-4 pt-12 sm:pt-16 md:pt-20 z-50 flex flex-col items-center">
         
         {/* Satyam Shivam Sundaram Mantra Strip */}
-        <div className="flex items-center justify-center gap-3 sm:gap-4 text-white font-serif tracking-[0.3em] sm:tracking-[0.4em] uppercase text-[11px] sm:text-xs font-bold select-none mb-3 sm:mb-4">
+        <div className="flex items-center justify-center gap-3 sm:gap-4 text-white font-serif tracking-[0.3em] sm:tracking-[0.4em] uppercase text-[11px] sm:text-xs font-bold select-none mb-4">
           <span className="h-px w-10 sm:w-20 bg-gradient-to-r from-transparent via-white/40 to-white" />
           <span className="drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] whitespace-nowrap">सत्यम शिवम सुंदरम</span>
           <span className="h-px w-10 sm:w-20 bg-gradient-to-l from-transparent via-white/40 to-white" />
         </div>
 
-        {/* 🎯 Apply Now & Download App Buttons - Flex layout side by side */}
-        <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-4 mb-2 max-w-lg">
+        {/* 🎯 Singular High-Converting 3D Tactile Action Button */}
+        <div className="w-full flex justify-center items-center mb-2 max-w-md">
           {isUserAuthenticated ? (
-            <button
-              disabled={true}
-              className="w-full sm:w-auto flex items-center justify-center gap-3 px-6 sm:px-10 py-3.5 sm:py-4 bg-white/10 text-white/40 font-black rounded-2xl border border-white/10 text-xs sm:text-sm tracking-wide cursor-not-allowed select-none"
+            <motion.button
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97, y: 3 }}
+              onClick={() => router.push("/personal-loans")}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 sm:px-12 py-4.5 bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white font-black rounded-2xl text-xs sm:text-sm tracking-wider uppercase shadow-[0_8px_0_#C2410C,0_20px_35px_rgba(234,88,12,0.45),inset_0_2px_4px_rgba(255,255,255,0.6)] active:shadow-[0_2px_0_#C2410C] transition-all cursor-pointer"
             >
-              ALREADY LOGGED IN ✨
-            </button>
+              <span>EXPLORE LOAN OFFERS</span>
+              <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">→</span>
+            </motion.button>
           ) : (
-            <button
+            <motion.button
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97, y: 3 }}
               onClick={handleApplyNow}
-              className="w-full sm:w-auto group inline-flex items-center justify-center gap-3 sm:gap-5 px-8 sm:px-10 py-3.5 sm:py-4 bg-white text-[#08101E] font-black rounded-2xl text-xs sm:text-sm tracking-wider shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:bg-[#FF690B] hover:text-white transition-all duration-300 animate-pulse cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 sm:px-12 py-4.5 bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white font-black rounded-2xl text-xs sm:text-sm tracking-wider uppercase shadow-[0_8px_0_#C2410C,0_20px_35px_rgba(234,88,12,0.45),inset_0_2px_4px_rgba(255,255,255,0.6)] active:shadow-[0_2px_0_#C2410C] transition-all cursor-pointer"
             >
-              APPLY NOW
-              <div className={`w-5 h-5 sm:w-6 sm:h-6 ${activeSlide === 1 ? 'bg-green-600' : 'bg-[#FF690B]'} rounded-full flex items-center justify-center group-hover:bg-white transition-colors`}>
-                <span className="text-white group-hover:text-[#08101E] text-xs sm:text-sm">→</span>
-              </div>
-            </button>
+              <span>APPLY FOR INSTANT LOAN</span>
+              <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">→</span>
+            </motion.button>
           )}
-
         </div>
       </div>
 
       {/* Dynamic Background Glow Layer */}
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-200 aspect-square rounded-full blur-[130px] opacity-15 -z-10 transition-colors duration-1000 ${
-        activeSlide === 1 ? "bg-green-500" : "bg-[#FF690B]"
+        activeSlide === 1 ? "bg-green-500" : "bg-[#FF7819]"
       }`} />
 
       {/* Content Layout Grid (Space strictly reduced by changing mt-8 to mt-2/mt-4) */}

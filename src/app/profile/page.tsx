@@ -186,48 +186,48 @@ export default function ProfilePage() {
             animate={{ opacity: 1, x: 0 }}
             className="md:w-1/3 flex flex-col gap-6"
           >
-            <div className="bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] p-8 border border-white">
-              <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-6">Account Status</h3>
+            <div className="bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 backdrop-blur-2xl rounded-[3rem] shadow-[0_25px_60px_-15px_rgba(255,120,25,0.18),0_10px_25px_rgba(0,0,0,0.04),inset_0_3px_6px_rgba(255,255,255,1)] p-8 border-4 border-white">
+              <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6">Account Status</h3>
               
-              <div className="flex items-center gap-4 p-4 bg-green-50 rounded-2xl border border-green-100 mb-6">
-                <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-500/30">
+              <div className="flex items-center gap-4 p-4 bg-emerald-50 rounded-2xl border-2 border-emerald-200/80 mb-6 shadow-xs">
+                <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white shadow-md">
                   <ShieldCheck size={20} />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-green-900">Verified Profile</p>
-                  <p className="text-xs text-green-700 font-medium">Phone & OTP Secured</p>
+                  <p className="text-sm font-black text-emerald-950">Verified Profile</p>
+                  <p className="text-xs text-emerald-700 font-semibold">Phone & OTP Secured</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <button 
                   onClick={() => router.push("/personal-loans")}
-                  className="w-full py-4 bg-[#08101E] text-white font-bold rounded-2xl shadow-lg hover:bg-[#1a2a44] transition-all flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-[0_6px_0_#C2410C,0_15px_25px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.5)] active:shadow-[0_1px_0_#C2410C] active:translate-y-1 transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <Briefcase size={18} /> Apply for New Loan
+                  <Briefcase size={16} /> Apply for New Loan
                 </button>
                 {isEditing ? (
                   <div className="flex gap-2">
                     <button 
                       onClick={handleSave}
                       disabled={isSaving}
-                      className="flex-1 py-4 bg-green-500 text-white font-bold rounded-2xl shadow-lg hover:bg-green-600 transition-all flex items-center justify-center gap-2"
+                      className="flex-1 py-3.5 bg-emerald-500 text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-[0_5px_0_#059669] active:shadow-[0_1px_0_#059669] active:translate-y-1 transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      {isSaving ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <Save size={18} />} {isSaving ? "Saving..." : "Save"}
+                      {isSaving ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <Save size={16} />} {isSaving ? "Saving..." : "Save"}
                     </button>
                     <button 
                       onClick={() => { setIsEditing(false); setEditData(userData); }}
-                      className="flex-1 py-4 bg-gray-100 text-gray-500 font-bold rounded-2xl border border-gray-200 hover:bg-gray-200 transition-all flex items-center justify-center gap-2"
+                      className="flex-1 py-3.5 bg-slate-100 text-slate-600 font-black text-xs uppercase tracking-wider rounded-2xl border-2 border-slate-200 active:translate-y-1 transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <XCircle size={18} /> Cancel
+                      <XCircle size={16} /> Cancel
                     </button>
                   </div>
                 ) : (
                   <button 
                     onClick={() => setIsEditing(true)}
-                    className="w-full py-4 bg-[#FFF4E5] text-[#FF7819] font-bold rounded-2xl border border-[#FF7819]/20 hover:bg-[#FF7819] hover:text-white transition-all flex items-center justify-center gap-2"
+                    className="w-full py-3.5 bg-white text-[#08101E] font-black text-xs uppercase tracking-wider rounded-2xl border-2 border-slate-200 shadow-sm hover:border-[#FF7819] hover:text-[#FF7819] transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    <Edit size={18} /> Edit Profile
+                    <Edit size={16} /> Edit Profile
                   </button>
                 )}
                 <button 
@@ -237,9 +237,9 @@ export default function ProfilePage() {
                     window.dispatchEvent(new Event("loginStatusChanged"));
                     window.location.href = "/"; 
                   }}
-                  className="w-full py-4 bg-red-50 text-red-600 font-bold rounded-2xl hover:bg-red-100 transition-all flex items-center justify-center gap-2 border border-red-100"
+                  className="w-full py-3 bg-red-50 text-red-600 font-black text-xs uppercase tracking-wider rounded-2xl hover:bg-red-100 transition-all flex items-center justify-center gap-2 border border-red-200 cursor-pointer"
                 >
-                  <LogOut size={18} /> Logout Securely
+                  <LogOut size={16} /> Logout Securely
                 </button>
               </div>
             </div>
@@ -250,9 +250,9 @@ export default function ProfilePage() {
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="md:w-2/3 bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] p-8 border border-white"
+            className="md:w-2/3 bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 backdrop-blur-2xl rounded-[3rem] shadow-[0_25px_60px_-15px_rgba(255,120,25,0.18),0_10px_25px_rgba(0,0,0,0.04),inset_0_3px_6px_rgba(255,255,255,1)] p-8 sm:p-10 border-4 border-white"
           >
-            <h3 className="text-sm font-black text-[#FF7819] uppercase tracking-widest mb-8 border-b border-gray-100 pb-4">Personal Details</h3>
+            <h3 className="text-xs font-black text-[#FF7819] uppercase tracking-widest mb-8 border-b border-slate-100 pb-4">Personal Details</h3>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <ProfileField icon={<User />} label="Full Name" name="name" value={isEditing ? editData.name : userData.name} isEditing={isEditing} onChange={handleEditChange} />
