@@ -125,7 +125,7 @@ export default function DownloadAppSection() {
               <div className="relative bg-[#08101E] p-4 rounded-[3.5rem] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5),inset_0_2px_4px_rgba(255,255,255,0.2)] border-4 border-white">
                 <div className="bg-black rounded-[2.6rem] overflow-hidden flex items-center justify-center max-w-[280px]">
                   <img
-                    src="/App.jpg"
+                    src="/image/App.jpeg"
                     alt="CoverMantra App Screenshot"
                     className="w-full h-auto object-cover rounded-3xl"
                     loading="lazy"
