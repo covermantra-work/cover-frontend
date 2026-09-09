@@ -68,12 +68,13 @@ export default function Navbar() {
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Personal Loans", modal: true, path: "/personal-loans" },
+    { name: "Blogs", path: "/Blogs" },
     { name: "Smart Access", modal: true, path: "/quick-links" },
     { name: "Contact", modal: true, path: "/contact" },
   ];
 
   const handleMenuClick = (item: any) => {
-    const excludedModals = ["/quick-links", "/contact"];
+    const excludedModals = ["/quick-links", "/contact", "/Blogs"];
     if (!isLoggedIn && item.modal && !excludedModals.includes(item.path)) {
       setLoginOpen(true);
     } else {
@@ -96,7 +97,7 @@ export default function Navbar() {
           : "py-4 sm:py-5 bg-[#08101E]/30 backdrop-blur-md border-b border-white/5"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 flex justify-between items-center">
           
           {/* Logo Section */}
           <Link href="/" className="flex items-center gap-2 sm:gap-3 group relative z-[110]">

@@ -11,11 +11,11 @@ import TrustSection from "./Trust";
 import WhyChooseUs from "./WhyChooseUs";
 import Security from "./Security";
 import DownloadSection from "./DownloadSection";
+import LatestBlogsSection from "./LatestBlogsSection";
 
 export default function Body() {
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  
   return (
     <>
       <HeroSection />
@@ -24,6 +24,7 @@ export default function Body() {
       <Security />
       <TrustSection />
       <WhyChooseUs />
+      <LatestBlogsSection />
       <TestimonialSlider />
       <DownloadSection />
     </>

@@ -1,214 +1,475 @@
 "use client";
-import React, { useEffect } from "react";
+
+import React, { useState, useMemo, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaPenNib } from "react-icons/fa";
-import { Calendar, ArrowRight, BookOpen, Sparkles } from "lucide-react";
+import {
+  Search,
+  Calendar,
+  Clock,
+  ArrowRight,
+  BookOpen,
+  Sparkles,
+  TrendingUp,
+  ShieldCheck,
+  Zap,
+  Filter,
+  Users,
+  Compass,
+  CheckCircle2,
+  X
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import toast, { Toaster } from "react-hot-toast";
+import { blogsData, getAllCategories, BlogPost } from "./data/blogsData";
 
-export default function InsuranceBlogs() {
+export default function BlogsHub() {
   const router = useRouter();
 
+  const [allBlogs, setAllBlogs] = useState<BlogPost[]>(blogsData);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
+    AOS.init({ duration: 900, once: true });
   }, []);
 
-  const blogs = [
-    {
-      id: 10,
-      title: "Digital Dreams: Creativity in a Connected World",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVqksbeUen4BxKm-YsRtgMugRqvD-UJSmfpg&s",
-      description: "In today’s hyper-connected era, creativity is no longer confined to studios or sketchbooks — it lives in every click, post, and pixel.",
-      link: "/Blogs/Blog10",
-      postedDate: "Sep 30, 2025",
-      category: "Technology"
-    },
-    {
-      id: 9,
-      title: "The Power of Small Wins: Tiny Achievements, Big Success",
-      image: "https://www.thedawoodibohras.com/wp-content/uploads/2019/07/Failure_Success-blog-featured-image-862x559.jpg",
-      description: "Discover how celebrating small victories every day can build confidence, motivation, and momentum toward achieving your biggest goals.",
-      link: "/Blogs/Blog9",
-      postedDate: "Sep 26, 2025",
-      category: "Mindset"
-    },
-    {
-      id: 8,
-      title: "How Minimalism in a Digital World Can Boost Creativity",
-      image: "https://i.postimg.cc/GpcsDLJL/abstract-still-life-universe-composition.jpg",
-      description: "Discover how simplifying your digital life—reducing apps, notifications, and online clutter—can free your mind and unlock potential.",
-      link: "/Blogs/Blog8",
-      postedDate: "Sep 25, 2025",
-      category: "Lifestyle"
-    },
-    {
-      id: 7,
-      title: "The Power of Cloud Computing in Today's World",
-      image: "https://i.postimg.cc/2j14k5Sh/saas-concept-collage.jpg",
-      description: "Cloud Computing is a modern technology that delivers computing services such as storage, servers, and databases over the internet.",
-      link: "/Blogs/Blog7",
-      postedDate: "Sep 20, 2025",
-      category: "Innovation"
-    },
-    {
-      id: 6,
-      title: "Social Media Impact on Emotions and Mental Health",
-      image: "https://images.unsplash.com/photo-1683721003111-070bcc053d8b?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE3fHx8ZW58MHx8fHx8",
-      description: "Social media has become an integral part of our daily lives, connecting us to friends, family, and the wider world.",
-      link: "/Blogs/Blog6",
-      postedDate: "Sep 17, 2025",
-      category: "Health"
-    },
-    {
-      id: 5,
-      title: "Smart Money Habits for Young Professionals",
-      image: "https://thumbs.dreamstime.com/b/hand-holding-coins-to-stack-growth-plant-step-concept-saving-money-finance-accounting-135832008.jpg",
-      description: "Learn how to manage your money wisely with simple yet powerful financial habits. From saving first to smart investing.",
-      link: "/Blogs/Blog5",
-      postedDate: "Sep 15, 2025",
-      category: "Finance"
-    },
-    {
-      id: 4,
-      title: "Generative AI : How AI is Reshaping Our Daily Lives",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQovrc4wL1lzSZzK1c0vKxxIfqRwOZ_2zTDcg&s",
-      description: "Generative Artificial Intelligence (AI) tools like ChatGPT and Midjourney have burst from the lab into the mainstream.",
-      link: "/Blogs/Blog4",
-      postedDate: "Sep 12, 2025",
-      category: "AI"
-    },
-    {
-      id: 3,
-      title: "Thriving Solo: The Power of Living Alone",
-      image: "https://miro.medium.com/v2/resize:fit:1400/0*45811YXR0NM3HUYx",
-      description: "Living alone is your chance to grow stronger, bolder, and more independent. Trust yourself and embrace life.",
-      link: "/Blogs/Blog3",
-      postedDate: "Sep 10, 2025",
-      category: "Growth"
-    },
-    {
-      id: 2,
-      title: "Stop Wasting Money: Choosing the Right Loan",
-      image: "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202501/business-loan-273540286-1x1.jpg?VersionId=etpS79p3_nAVVNXxHms5h5ioCAD9pJqo",
-      description: "Choosing the right insurance policy can be confusing. Here's how to compare plans and select the one that suits your needs.",
-      link: "/Blogs/Blog2",
-      postedDate: "Sep 7, 2025",
-      category: "Finance"
-    },
-    {
-      id: 1,
-      title: "Understanding Insurance: Financial Security Foundation",
-      image: "https://media.istockphoto.com/id/1226082621/photo/insurance-concept-stack-of-wooden-blocks-with-words-life-health-legal-expenses-business-house.jpg?s=612x612&w=0&k=20&c=5bKk7pRl9jewZM_nmIquyGOj4Q7BVNiYRcJC9H1smfE=",
-      description: "Protect what matters most. Insurance offers financial security against life's unexpected events and giving you peace of mind.",
-      link: "/Blogs/Blog1",
-      postedDate: "Sep 5, 2025",
-      category: "Security"
-    },
-  ];
+  // Fetch live dynamic blogs from backend API
+  useEffect(() => {
+    const fetchLiveBlogs = async () => {
+      try {
+        const res = await fetch("/api/blogs");
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setAllBlogs(data);
+          }
+        }
+      } catch (err) {
+        // Silently fallback to static blogsData
+        console.warn("Using offline blogs data:", err);
+      }
+    };
+    fetchLiveBlogs();
+  }, []);
+
+  const categories = useMemo(() => {
+    const cats = Array.from(new Set(allBlogs.map((b) => b.category)));
+    return ["All", ...cats];
+  }, [allBlogs]);
+
+  // Filter blogs based on search query and selected category
+  const filteredBlogs = useMemo(() => {
+    return allBlogs.filter((blog) => {
+      const matchesCategory =
+        selectedCategory === "All" || blog.category === selectedCategory;
+
+      const q = searchQuery.toLowerCase().trim();
+      const matchesSearch =
+        !q ||
+        blog.title.toLowerCase().includes(q) ||
+        blog.description.toLowerCase().includes(q) ||
+        (blog.tags && blog.tags.some((t) => t.toLowerCase().includes(q))) ||
+        (blog.author?.name && blog.author.name.toLowerCase().includes(q));
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [allBlogs, searchQuery, selectedCategory]);
+
+  // Featured Blog (Top featured or first one)
+  const featuredBlog = useMemo(() => {
+    return allBlogs.find((b) => b.featured) || allBlogs[0];
+  }, [allBlogs]);
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail || !newsletterEmail.includes("@")) {
+      toast.error("Please enter a valid email address.", {
+        style: {
+          borderRadius: "16px",
+          background: "#08101E",
+          color: "#fff",
+          border: "1px solid rgba(255,105,11,0.2)",
+        },
+      });
+      return;
+    }
+
+    toast.success("Subscribed successfully! Weekly financial insights on your way.", {
+      icon: "🎉",
+      style: {
+        borderRadius: "16px",
+        background: "#08101E",
+        color: "#fff",
+        border: "1px solid rgba(255,105,11,0.2)",
+      },
+    });
+    setNewsletterEmail("");
+  };
 
   return (
-    <div className="min-h-screen bg-[#FFF4E5] font-sans selection:bg-blue-500 selection:text-white pb-20">
-      
-      {/* 🎭 HERO HEADER */}
-      <header className="relative bg-[#08101E] pt-32 pb-24 px-6 rounded-b-[3rem] md:rounded-b-[5rem] overflow-hidden shadow-2xl">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[100px]" />
-        
-        <div className="max-w-4xl mx-auto text-center relative z-10" data-aos="fade-down">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-blue-400 text-sm font-bold mb-6">
-            <Sparkles size={16} /> Insightful Perspectives Daily
+    <div className="min-h-screen bg-[#FFF4E5] text-[#08101E] font-sans selection:bg-[#FF690B] selection:text-white overflow-x-hidden pb-24">
+      <Toaster position="top-right" />
+
+      {/* 🎭 3D DARK HERO HEADER (CoverMantra Signature) */}
+      <header className="relative bg-[#08101E] pt-32 sm:pt-40 pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8 rounded-b-[3rem] md:rounded-b-[5rem] overflow-hidden shadow-2xl">
+        {/* Saffron & Indigo Glowing Orbs */}
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#FF690B]/20 rounded-full blur-[130px] animate-pulse pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[160px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:48px_48px] opacity-40 pointer-events-none" />
+
+        <div data-aos="fade-down" className="max-w-4xl mx-auto text-center relative z-10">
+          
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#FF690B] text-xs font-black uppercase tracking-widest mb-6 shadow-xl backdrop-blur-md">
+            <Sparkles className="w-4 h-4 animate-spin-slow" />
+            CoverMantra Financial Insights & Knowledge Hub
           </div>
-          <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter mb-6 uppercase italic">
-            Knowledge <span className="text-blue-500">Unleashed</span>
+
+          {/* Title */}
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08] mb-6">
+            Smart Knowledge. <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF690B] via-[#FF8C00] to-amber-300">
+              Confident Decisions.
+            </span>
           </h1>
-          <p className="text-gray-400 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
-            Exploring the intersection of technology, finance, and creative living through expert storytelling.
+
+          {/* Subtext */}
+          <p className="text-gray-300 text-base sm:text-xl font-medium max-w-2xl mx-auto leading-relaxed mb-10 opacity-90">
+            Expertly curated guides on personal loans, insurance security, CIBIL optimization, and smart wealth strategies.
           </p>
+
+          {/* 🔍 3D SEARCH BAR */}
+          <div className="max-w-2xl mx-auto relative group" data-aos="fade-up" data-aos-delay="100">
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#FF690B]/40 to-blue-600/30 rounded-3xl blur-md opacity-50 group-hover:opacity-80 transition duration-500" />
+            <div className="relative flex items-center bg-[#050811]/95 backdrop-blur-xl border border-white/15 rounded-2xl sm:rounded-3xl p-2 shadow-2xl">
+              <Search className="w-5 h-5 text-gray-400 ml-4 shrink-0" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by topic, keyword (e.g. loans, insurance, CIBIL)..."
+                className="w-full bg-transparent px-4 py-3 text-sm sm:text-base text-white placeholder:text-gray-500 focus:outline-none font-medium"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="p-2 text-gray-400 hover:text-white transition-colors mr-2 cursor-pointer"
+                  title="Clear search"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </header>
 
-      {/* 📚 BLOG GRID */}
-      <main className="max-w-7xl mx-auto px-6 -mt-16 relative z-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogs.map((blog, idx) => (
-            <article
-              key={blog.id}
-              className="group bg-white rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden flex flex-col h-full transform transition-all duration-500 hover:shadow-2xl hover:-translate-y-3 hover:border-blue-200"
-              data-aos="fade-up"
-              data-aos-delay={idx * 100}
+      {/* 📊 3D QUICK STATS BAR (Overlapping Hero onto #FFF4E5) */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-20" data-aos="fade-up">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-3xl bg-white shadow-[0_20px_50px_rgba(8,16,30,0.1)] border border-orange-100">
+          {[
+            { label: "Expert Guides", val: "10+ Articles", icon: BookOpen },
+            { label: "Lending Partners", val: "30+ Banks", icon: TrendingUp },
+            { label: "Active Readers", val: "50,000+", icon: Users },
+            { label: "Verified Data", val: "100% Free", icon: ShieldCheck }
+          ].map((stat, i) => (
+            <div
+              key={i}
+              className="p-3.5 rounded-2xl bg-[#FFF4E5]/50 flex items-center gap-3.5 hover:bg-[#FFF4E5] transition-colors"
             >
-              {/* Image Container */}
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src={blog.image}
-                  alt={blog.title}
-                  className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
-                />
-                <div className="absolute top-4 left-4 bg-[#08101E]/80 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-white/10">
-                  {blog.category}
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#08101E]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                   <span className="text-white font-bold flex items-center gap-2 text-sm italic">Explore Article <ArrowRight size={14}/></span>
-                </div>
+              <div className="w-10 h-10 rounded-xl bg-[#08101E] text-[#FF690B] flex items-center justify-center shrink-0 shadow-md">
+                <stat.icon className="w-5 h-5" />
               </div>
-
-              {/* Content Container */}
-              <div className="p-8 flex flex-col flex-1">
-                <div className="flex items-center gap-2 text-gray-400 text-xs font-bold uppercase tracking-widest mb-4">
-                  <Calendar size={14} className="text-blue-500" />
-                  {blog.postedDate}
-                </div>
-                
-                <h2 className="text-xl md:text-2xl font-black text-[#08101E] mb-4 leading-tight group-hover:text-blue-600 transition-colors">
-                  {blog.title}
-                </h2>
-                
-                <p className="text-gray-500 text-sm md:text-base leading-relaxed mb-8 line-clamp-3">
-                  {blog.description}
-                </p>
-
-                <div className="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
-                  <button
-                    onClick={() => router.push(blog.link)}
-                    className="flex items-center gap-2 text-[#08101E] font-black text-sm uppercase tracking-tighter group/btn"
-                  >
-                    Read More 
-                    <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center group-hover/btn:bg-blue-600 group-hover/btn:text-white transition-all">
-                      <BookOpen size={14} />
-                    </div>
-                  </button>
-                  <div className="w-2 h-2 rounded-full bg-blue-500 group-hover:animate-ping" />
-                </div>
+              <div className="text-left">
+                <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">{stat.label}</p>
+                <p className="text-sm sm:text-base font-black text-[#08101E]">{stat.val}</p>
               </div>
-            </article>
+            </div>
           ))}
         </div>
+      </div>
 
-        {/* 📬 NEWSLETTER SECTION */}
-        <section className="mt-24 bg-[#08101E] rounded-[3rem] p-10 md:p-20 text-center relative overflow-hidden" data-aos="zoom-in">
-          <div className="absolute top-0 right-0 p-10 opacity-5 text-blue-500">
-             <FaPenNib size={200} />
+      {/* 🧭 MAIN CONTENT SECTION IN #FFF4E5 */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
+        
+        {/* 🌟 3D FEATURED STORY CARD */}
+        {!searchQuery && selectedCategory === "All" && featuredBlog && (
+          <section className="mb-20" data-aos="zoom-in">
+            <div className="relative group rounded-3xl sm:rounded-[3rem] overflow-hidden p-1 sm:p-2 bg-white border border-orange-200/70 shadow-[0_25px_60px_-15px_rgba(8,16,30,0.12)]">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center rounded-[2.2rem] overflow-hidden p-6 sm:p-10">
+                
+                {/* Featured Image (7 cols) */}
+                <div className="lg:col-span-7 relative h-72 sm:h-96 w-full rounded-2xl sm:rounded-3xl overflow-hidden group-hover:scale-[1.02] transition-transform duration-700 shadow-xl">
+                  <img
+                    src={featuredBlog.coverImage}
+                    alt={featuredBlog.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#08101E]/90 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute top-4 left-4 flex items-center gap-2">
+                    <span className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[#FF690B] to-[#FF8C00] text-white text-[11px] font-black uppercase tracking-wider shadow-lg">
+                      ⭐ Featured Story
+                    </span>
+                    <span className="px-3 py-1.5 rounded-full bg-[#08101E]/80 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-wider">
+                      {featuredBlog.category}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Featured Content (5 cols) */}
+                <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                      <span className="flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-[#FF690B]" />
+                        {featuredBlog.postedDate}
+                      </span>
+                      <span>•</span>
+                      <span className="flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5 text-blue-600" />
+                        {featuredBlog.readTime}
+                      </span>
+                    </div>
+
+                    <h2 className="text-2xl sm:text-4xl font-black text-[#08101E] leading-tight hover:text-[#FF690B] transition-colors">
+                      <Link href={`/Blogs/${featuredBlog.slug}`}>
+                        {featuredBlog.title}
+                      </Link>
+                    </h2>
+
+                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed line-clamp-3 font-medium">
+                      {featuredBlog.description}
+                    </p>
+                  </div>
+
+                  {/* Author & Button */}
+                  <div className="pt-6 border-t border-gray-100 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-2xl overflow-hidden border-2 border-orange-200 bg-white p-1 shrink-0 shadow-sm flex items-center justify-center">
+                        <img
+                          src={featuredBlog.author.avatar || "/image/logo.png"}
+                          alt={featuredBlog.author.name}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-[#08101E]">{featuredBlog.author.name}</p>
+                        <p className="text-[11px] text-gray-500 font-medium">{featuredBlog.author.role}</p>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/Blogs/${featuredBlog.slug}`}
+                      className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#FF690B] to-[#FF8C00] text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-[0_8px_20px_rgba(255,105,11,0.35)] hover:scale-105 transition-all group/btn cursor-pointer"
+                    >
+                      Read Now
+                      <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* 🏷️ 3D CATEGORY PILLS BAR */}
+        <section className="mb-12">
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <h3 className="text-xl sm:text-2xl font-black text-[#08101E] flex items-center gap-2.5">
+              <span className="w-2.5 h-6 rounded-full bg-[#FF690B]" />
+              {searchQuery ? `Search Results (${filteredBlogs.length})` : "Browse by Category"}
+            </h3>
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="text-xs text-[#FF690B] font-bold hover:underline cursor-pointer"
+              >
+                Clear Search
+              </button>
+            )}
           </div>
-          <div className="relative z-10 max-w-2xl mx-auto">
-             <h2 className="text-3xl md:text-5xl font-black text-white uppercase italic mb-6">Never Miss a <span className="text-blue-500">Story</span></h2>
-             <p className="text-gray-400 mb-10 font-medium">Join 50,000+ readers who receive our curated weekly insights directly in their inbox.</p>
-             <div className="flex flex-col sm:flex-row gap-4 bg-white/5 p-2 rounded-3xl border border-white/10 backdrop-blur-md">
-                <input 
-                  type="email" 
-                  placeholder="Your premium email address" 
-                  className="bg-transparent flex-1 px-6 py-4 outline-none text-white placeholder:text-gray-500 font-bold"
-                />
-                <button className="bg-blue-600 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-tighter hover:bg-blue-700 transition transform active:scale-95">
-                  Subscribe
+
+          <div className="flex items-center gap-2.5 overflow-x-auto pb-4 scrollbar-none">
+            {categories.map((cat) => {
+              const count =
+                cat === "All"
+                  ? blogsData.length
+                  : blogsData.filter((b) => b.category === cat).length;
+              const isActive = selectedCategory === cat;
+
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`shrink-0 px-4.5 py-2.5 rounded-2xl text-xs font-bold transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-sm ${
+                    isActive
+                      ? "bg-gradient-to-r from-[#FF690B] to-[#FF8C00] text-white shadow-[0_4px_16px_rgba(255,105,11,0.35)] scale-105"
+                      : "bg-white text-gray-700 hover:text-[#08101E] hover:bg-white/90 border border-orange-100"
+                  }`}
+                >
+                  {cat}
+                  <span
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-black ${
+                      isActive ? "bg-black/20 text-white" : "bg-[#FFF4E5] text-gray-700"
+                    }`}
+                  >
+                    {count}
+                  </span>
                 </button>
-             </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* 📚 3D BLOG CARDS GRID */}
+        {filteredBlogs.length > 0 ? (
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredBlogs.map((blog, idx) => (
+              <article
+                key={blog.id}
+                className="group relative flex flex-col h-full rounded-3xl sm:rounded-[2.5rem] bg-white border border-orange-100/80 hover:border-[#FF690B]/60 transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_25px_50px_-10px_rgba(8,16,30,0.15)] overflow-hidden shadow-md"
+                data-aos="fade-up"
+                data-aos-delay={idx * 50}
+              >
+                {/* 3D Top Cover Image */}
+                <div className="relative h-56 w-full overflow-hidden">
+                  <img
+                    src={blog.coverImage}
+                    alt={blog.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#08101E]/70 via-transparent to-transparent pointer-events-none" />
+                  
+                  {/* Category Pill */}
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1 rounded-full bg-[#08101E]/85 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-wider shadow-lg">
+                      {blog.category}
+                    </span>
+                  </div>
+
+                  {/* Read Time */}
+                  <div className="absolute top-4 right-4">
+                    <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[10px] font-bold flex items-center gap-1 border border-white/10">
+                      <Clock className="w-3 h-3 text-[#FF690B]" />
+                      {blog.readTime}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content Area */}
+                <div className="p-6 sm:p-8 flex flex-col flex-1">
+                  
+                  {/* Date & Meta */}
+                  <div className="flex items-center gap-2 text-xs font-bold text-gray-500 mb-3">
+                    <Calendar className="w-3.5 h-3.5 text-[#FF690B]" />
+                    {blog.postedDate}
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-xl sm:text-2xl font-black text-[#08101E] group-hover:text-[#FF690B] transition-colors leading-tight mb-4 line-clamp-2">
+                    <Link href={`/Blogs/${blog.slug}`}>
+                      {blog.title}
+                    </Link>
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-6 line-clamp-3 font-medium">
+                    {blog.description}
+                  </p>
+
+                  {/* Footer with Author and CTA */}
+                  <div className="mt-auto pt-6 border-t border-gray-100 flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-xl overflow-hidden bg-white shrink-0 border border-orange-200 p-0.5 shadow-sm flex items-center justify-center">
+                        <img
+                          src={blog.author.avatar || "/image/logo.png"}
+                          alt={blog.author.name}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                      <span className="text-xs text-gray-700 font-bold line-clamp-1">
+                        {blog.author.name}
+                      </span>
+                    </div>
+
+                    <Link
+                      href={`/Blogs/${blog.slug}`}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF690B] group-hover:translate-x-1 transition-transform"
+                    >
+                      Read Article
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </section>
+        ) : (
+          /* Empty Search State */
+          <div className="py-24 text-center max-w-md mx-auto" data-aos="fade-up">
+            <div className="w-16 h-16 rounded-3xl bg-white border border-orange-200 flex items-center justify-center mx-auto mb-6 text-gray-400 shadow-md">
+              <Search className="w-8 h-8 text-[#FF690B]" />
+            </div>
+            <h3 className="text-2xl font-bold text-[#08101E] mb-2">No Articles Found</h3>
+            <p className="text-gray-600 text-sm mb-6 font-medium">
+              We couldn't find any articles matching "{searchQuery}". Try searching with different keywords or reset filters.
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedCategory("All");
+              }}
+              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#FF690B] to-[#FF8C00] text-white font-bold text-xs uppercase tracking-wider shadow-lg hover:scale-105 transition-transform cursor-pointer"
+            >
+              Reset All Filters
+            </button>
+          </div>
+        )}
+
+        {/* 📬 3D NEWSLETTER SECTION */}
+        <section className="mt-28" data-aos="fade-up">
+          <div className="relative rounded-3xl sm:rounded-[3rem] bg-[#08101E] text-white p-8 sm:p-16 text-center overflow-hidden shadow-2xl border border-white/10">
+            {/* Glowing Orbs */}
+            <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#FF690B]/15 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
+
+            <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FF690B]/15 border border-[#FF690B]/30 text-[#FF690B] text-xs font-bold uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5" /> Zero Spam • Weekly Curation
+              </div>
+
+              <h3 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                Stay Ahead in <span className="text-[#FF690B]">Loans & Finance</span>
+              </h3>
+
+              <p className="text-gray-400 text-sm sm:text-base leading-relaxed font-medium">
+                Join 50,000+ smart borrowers and investors who receive our curated interest rate updates, insurance comparisons, and financial hacks.
+              </p>
+
+              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 pt-4">
+                <input
+                  type="email"
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
+                  placeholder="Enter your email address"
+                  className="flex-1 bg-white/[0.08] border border-white/15 rounded-2xl px-5 py-3.5 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:border-[#FF690B] transition-colors"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[#FF690B] to-[#FF8C00] text-white font-black text-xs uppercase tracking-wider shadow-lg hover:shadow-[0_10px_25px_rgba(255,105,11,0.4)] hover:scale-105 transition-all cursor-pointer"
+                >
+                  Subscribe Free
+                </button>
+              </form>
+            </div>
           </div>
         </section>
       </main>
-
-      <footer className="mt-20 text-center text-gray-400 font-bold uppercase tracking-[0.4em] text-[10px]">
-        Designed for Modern Storytellers © 2026
-      </footer>
     </div>
   );
 }

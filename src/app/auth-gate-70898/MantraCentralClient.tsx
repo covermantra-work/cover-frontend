@@ -6,12 +6,14 @@ import { Reorder, motion, AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "@/lib/axios";
+import BlogsManager from "./BlogsManager";
 import { 
   Menu, 
   X, 
   Users, 
   Sliders, 
   UserX, 
+  BookOpen,
   Lock, 
   Unlock, 
   ChevronLeft, 
@@ -118,7 +120,7 @@ interface Stats {
 // -------------------------------------------------------------
 
 export default function MantraCentral() {
-  const [activeTab, setActiveTab] = useState<"leads" | "lenders" | "deletions">("leads");
+  const [activeTab, setActiveTab] = useState<"leads" | "lenders" | "deletions" | "blogs">("leads");
   
   // Auth State
   const [adminSecret, setAdminSecret] = useState("");
@@ -829,6 +831,14 @@ export default function MantraCentral() {
             >
               <UserX className="w-4 h-4" /> Compliance & Purge
             </button>
+            <button
+              onClick={() => { setActiveTab("blogs"); setIsMobileMenuOpen(false); }}
+              className={`px-4 py-3 rounded-xl text-left font-black text-sm flex items-center gap-3 transition-all ${
+                activeTab === "blogs" ? "bg-gradient-to-r from-[#FF7819] to-[#E65C00] text-white shadow-lg shadow-[#FF7819]/30" : "text-gray-400 hover:text-white"
+              }`}
+            >
+              <BookOpen className="w-4 h-4" /> Editorial & Blogs
+            </button>
             <div className="border-t border-white/5 pt-3 flex justify-between items-center text-xs">
               <span className="text-emerald-400 font-bold flex items-center gap-1.5">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></span> Central Node Active
@@ -917,6 +927,18 @@ export default function MantraCentral() {
               >
                 <UserX className="w-5 h-5 shrink-0" />
                 {!isSidebarCollapsed && <span>Compliance & Purge</span>}
+              </button>
+              <button
+                onClick={() => setActiveTab("blogs")}
+                className={`w-full px-3.5 py-3 rounded-xl font-black text-sm tracking-tight text-left flex items-center gap-3 transition-all ${
+                  activeTab === "blogs"
+                    ? "bg-[#FF7819] text-white shadow-lg shadow-[#FF7819]/20 scale-102"
+                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                } ${isSidebarCollapsed ? "justify-center" : ""}`}
+                title="Editorial & Blogs"
+              >
+                <BookOpen className="w-5 h-5 shrink-0" />
+                {!isSidebarCollapsed && <span>Editorial & Blogs</span>}
               </button>
             </div>
           )}
@@ -1065,6 +1087,7 @@ export default function MantraCentral() {
                   {activeTab === "leads" && "Leads Pipeline"}
                   {activeTab === "lenders" && "Routing Engine"}
                   {activeTab === "deletions" && "Compliance & Purge"}
+                  {activeTab === "blogs" && "Editorial & Blogs CMS"}
                 </span>
               </div>
 
@@ -1840,6 +1863,13 @@ export default function MantraCentral() {
                       )}
                     </div>
                   </div>
+                )}
+
+                {/* -------------------------------------------------------------
+                    TAB 4: EDITORIAL & BLOGS CMS
+                   ------------------------------------------------------------- */}
+                {activeTab === "blogs" && (
+                  <BlogsManager adminSecret={adminSecret} />
                 )}
               </motion.div>
             </AnimatePresence>

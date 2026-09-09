@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "/about", priority: 0.8, changeFrequency: "monthly" as const },
     { url: "/personal-loans", priority: 0.9, changeFrequency: "weekly" as const },
     { url: "/business-loans", priority: 0.9, changeFrequency: "weekly" as const },
+    { url: "/Blogs", priority: 0.9, changeFrequency: "daily" as const },
     { url: "/insurance", priority: 0.9, changeFrequency: "weekly" as const },
     { url: "/insurance/health", priority: 0.8, changeFrequency: "weekly" as const },
     { url: "/insurance/car", priority: 0.8, changeFrequency: "weekly" as const },
