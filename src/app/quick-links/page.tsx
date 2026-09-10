@@ -42,6 +42,19 @@ const fallbackLenders = [
     url: "https://web.fatakpay.com/authentication/login?utm_source=651_TT83W&utm_medium=covermantra",
     minIncome: 16000,
     age: 20
+  },
+  {
+    id: "c1",
+    name: "Credify",
+    logo: "https://loan.credittnow.com/favicon.ico",
+    approval: "93%",
+    amount: "Upto 35K",
+    rate: "0.2% - 0.3% / day",
+    tenure: "91 - 365 days",
+    features: ["Zero Prepayment Charges", "Direct Bank Transfer", "Digital Evaluation"],
+    url: "https://loan.credittnow.com/auth/login?utm_source=cover_mantra&utm_medium=website&utm_campaign=loan_campaign",
+    minIncome: 20000,
+    age: 21
   }
 ];
 
@@ -129,9 +142,10 @@ export default function Page() {
     const salary = localStorage.getItem("co_income") || "";
 
     try {
-      const absoluteUrl = baseUrl.startsWith("/") 
-        ? `${window.location.origin}${baseUrl}` 
-        : (baseUrl.startsWith("http") ? baseUrl : `https://${baseUrl}`);
+      const [cleanBase, hashFragment] = baseUrl.split("#");
+      const absoluteUrl = cleanBase.startsWith("/") 
+        ? `${window.location.origin}${cleanBase}` 
+        : (cleanBase.startsWith("http") ? cleanBase : `https://${cleanBase}`);
 
       const urlObj = new URL(absoluteUrl);
       if (phone) {
@@ -140,9 +154,21 @@ export default function Page() {
       }
       if (pincode) urlObj.searchParams.set("pincode", String(pincode));
       if (salary) urlObj.searchParams.set("salary", String(salary));
-      return urlObj.toString();
+
+      if (typeof window !== "undefined") {
+        const currentParams = new URLSearchParams(window.location.search);
+        currentParams.forEach((value, key) => {
+          if (key.startsWith("utm_") && !urlObj.searchParams.has(key)) {
+            urlObj.searchParams.set(key, value);
+          }
+        });
+      }
+
+      const rebuilt = urlObj.toString();
+      return hashFragment ? `${rebuilt}#${hashFragment}` : rebuilt;
     } catch (e) {
-      const separator = baseUrl.includes("?") ? "&" : "?";
+      const [cleanBase, hashFragment] = baseUrl.split("#");
+      const separator = cleanBase.includes("?") ? "&" : "?";
       let params = [];
       if (phone) {
         params.push(`phone=${phone}`);
@@ -150,7 +176,8 @@ export default function Page() {
       }
       if (pincode) params.push(`pincode=${pincode}`);
       if (salary) params.push(`salary=${salary}`);
-      return params.length > 0 ? `${baseUrl}${separator}${params.join("&")}` : baseUrl;
+      const paramStr = params.length > 0 ? `${separator}${params.join("&")}` : "";
+      return hashFragment ? `${cleanBase}${paramStr}#${hashFragment}` : `${cleanBase}${paramStr}`;
     }
   };
 

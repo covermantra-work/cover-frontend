@@ -15,8 +15,22 @@ import {
   FaPhone, 
   FaLock, 
   FaArrowRight, 
-  FaRegPaperPlane 
+  FaRegPaperPlane,
+  FaCalculator,
+  FaUniversity,
+  FaClock
 } from "react-icons/fa";
+
+interface RepresentativeExample {
+  loanAmount: string;
+  tenure: string;
+  interestRate: string;
+  apr: string;
+  processingFee: string;
+  monthlyEmi: string;
+  totalRepayment: string;
+  totalCost: string;
+}
 
 interface FallbackLender {
   id: string;
@@ -36,6 +50,13 @@ interface FallbackLender {
   description: string;
   docsRequired: string[];
   faqs: Array<{ q: string; a: string }>;
+  // Meta & RBI Policy Compliance Fields
+  tenure?: string;
+  minTenure?: string;
+  maxTenure?: string;
+  apr?: string;
+  nbfcPartner?: string;
+  representativeExample?: RepresentativeExample;
 }
 
 interface LenderLandingClientProps {
@@ -262,7 +283,8 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
     // Decorate final landing URL with UTM and user info query parameters
     const decorateTargetUrl = (baseUrl: string) => {
       try {
-        const urlObj = new URL(baseUrl.startsWith("http") ? baseUrl : `https://${baseUrl}`);
+        const [cleanUrl, hashFragment] = baseUrl.split("#");
+        const urlObj = new URL(cleanUrl.startsWith("http") ? cleanUrl : `https://${cleanUrl}`);
         urlObj.searchParams.set("phone", String(phone));
         urlObj.searchParams.set("mobile", String(phone));
         urlObj.searchParams.set("pincode", String(formData.pincode));
@@ -273,14 +295,17 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
           urlObj.searchParams.set(k, utmParams[k]);
         });
 
-        return urlObj.toString();
+        const withParams = urlObj.toString();
+        return hashFragment ? `${withParams}#${hashFragment}` : withParams;
       } catch (err) {
-        const separator = baseUrl.includes("?") ? "&" : "?";
+        const [cleanUrl, hashFragment] = baseUrl.split("#");
+        const separator = cleanUrl.includes("?") ? "&" : "?";
         const params = [`phone=${phone}`, `mobile=${phone}`, `pincode=${formData.pincode}`];
         Object.keys(utmParams).forEach(k => {
           params.push(`${k}=${utmParams[k]}`);
         });
-        return `${baseUrl}${separator}${params.join("&")}`;
+        const withParams = `${cleanUrl}${separator}${params.join("&")}`;
+        return hashFragment ? `${withParams}#${hashFragment}` : withParams;
       }
     };
 
@@ -292,7 +317,12 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
 
     try {
       // 1. Submit lead details to backend
-      const normalizedId = lenderConfig.name.toLowerCase().includes("vivifi") ? "vivifi" : lenderConfig.name.toLowerCase().includes("fatakpay") ? "fatakpay" : lenderConfig.id;
+      const normalizedId = lenderConfig.name.toLowerCase().includes("vivifi") ? "vivifi" 
+        : lenderConfig.name.toLowerCase().includes("fatak") ? "fatakpay" 
+        : lenderConfig.name.toLowerCase().includes("cred") ? "credify" 
+        : lenderConfig.name.toLowerCase().includes("zype") ? "zype" 
+        : lenderConfig.name.toLowerCase().includes("moneyview") ? "moneyview" 
+        : lenderConfig.id;
       
       const payload = {
         ...formData,
@@ -347,7 +377,8 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
     const targetUrl = altLender.UTM || altLender.applyLink;
     const finalUrl = (() => {
       try {
-        const urlObj = new URL(targetUrl.startsWith("http") ? targetUrl : `https://${targetUrl}`);
+        const [cleanUrl, hashFragment] = targetUrl.split("#");
+        const urlObj = new URL(cleanUrl.startsWith("http") ? cleanUrl : `https://${cleanUrl}`);
         urlObj.searchParams.set("phone", String(phone));
         urlObj.searchParams.set("mobile", String(phone));
         urlObj.searchParams.set("pincode", String(formData.pincode));
@@ -356,7 +387,8 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
         Object.keys(utmParams).forEach(k => {
           urlObj.searchParams.set(k, utmParams[k]);
         });
-        return urlObj.toString();
+        const withParams = urlObj.toString();
+        return hashFragment ? `${withParams}#${hashFragment}` : withParams;
       } catch (e) {
         return targetUrl;
       }
@@ -364,7 +396,12 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
 
     // Save logs to backend via altLender registration endpoint
     try {
-      const normalizedId = altLender.name.toLowerCase().includes("vivifi") ? "vivifi" : altLender.name.toLowerCase().includes("fatakpay") ? "fatakpay" : altLender._id;
+      const normalizedId = altLender.name.toLowerCase().includes("vivifi") ? "vivifi" 
+        : altLender.name.toLowerCase().includes("fatak") ? "fatakpay" 
+        : altLender.name.toLowerCase().includes("cred") ? "credify" 
+        : altLender.name.toLowerCase().includes("zype") ? "zype" 
+        : altLender.name.toLowerCase().includes("moneyview") ? "moneyview" 
+        : altLender._id;
       
       await api.post(`/api/partners/${normalizedId}/register`, {
         ...formData,
@@ -458,41 +495,154 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8"
+            className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6"
           >
-            <div className="bg-white border border-orange-100 p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-              <span className="text-xs text-gray-400 font-bold block mb-1">Max Loan Amount</span>
-              <span className="text-xl md:text-2xl font-black text-[#08101E]">{lenderConfig.loanAmount}</span>
+            <div className="bg-white border border-orange-100 p-3.5 md:p-4 rounded-2xl shadow-xs hover:shadow-md transition-shadow">
+              <span className="text-[11px] text-gray-500 font-bold block mb-1">Loan Range</span>
+              <span className="text-sm md:text-lg font-black text-[#08101E]">{lenderConfig.loanAmount}</span>
             </div>
-            <div className="bg-white border border-orange-100 p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-              <span className="text-xs text-gray-400 font-bold block mb-1">Interest Rate</span>
-              <span className="text-xl md:text-2xl font-black text-[#08101E]">{lenderConfig.interestRate.split(" ")[0]} <span className="text-xs font-normal text-gray-500">starts</span></span>
+            <div className="bg-white border border-orange-100 p-3.5 md:p-4 rounded-2xl shadow-xs hover:shadow-md transition-shadow">
+              <span className="text-[11px] text-gray-500 font-bold block mb-1">APR / Interest</span>
+              <span className="text-sm md:text-lg font-black text-[#08101E]">{lenderConfig.apr || lenderConfig.interestRate.split(" ")[0]}</span>
             </div>
-            <div className="col-span-2 md:col-span-1 bg-white border border-orange-100 p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-              <span className="text-xs text-gray-400 font-bold block mb-1">Approval Speed</span>
-              <span className="text-xl md:text-2xl font-black text-emerald-600">Instant Digital</span>
+            <div className="bg-white border border-orange-100 p-3.5 md:p-4 rounded-2xl shadow-xs hover:shadow-md transition-shadow">
+              <span className="text-[11px] text-gray-500 font-bold block mb-1">Repayment Tenure</span>
+              <span className="text-sm md:text-lg font-black text-[#08101E]">{lenderConfig.tenure || "91 - 365 Days"}</span>
+            </div>
+            <div className="bg-white border border-orange-100 p-3.5 md:p-4 rounded-2xl shadow-xs hover:shadow-md transition-shadow">
+              <span className="text-[11px] text-gray-500 font-bold block mb-1">Evaluation</span>
+              <span className="text-sm md:text-lg font-black text-emerald-600">Digital Paperless</span>
             </div>
           </motion.div>
+
+          {/* Key Product Features Badges */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22 }}
+            className="bg-white/80 backdrop-blur-sm border border-orange-100 p-4 md:p-5 rounded-2xl shadow-xs mb-6"
+          >
+            <h3 className="text-xs font-black tracking-wider uppercase text-gray-500 mb-3 flex items-center gap-2">
+              <FaCheckCircle className="text-emerald-500" />
+              <span>Key Policy & Product Highlights</span>
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+              {lenderConfig.features.map((feat, idx) => (
+                <div key={idx} className="flex items-start gap-2 text-xs font-semibold text-gray-700">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF7819] mt-1.5 shrink-0" />
+                  <span>{feat}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Representative Loan Example (Meta Financial Policy & Google Ads Compliance) */}
+          {lenderConfig.representativeExample && (
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.24 }}
+              className="bg-gradient-to-br from-amber-50/80 to-orange-50/60 border border-orange-200/80 p-5 md:p-6 rounded-3xl shadow-xs mb-6"
+            >
+              <div className="flex items-center justify-between mb-3 border-b border-orange-200/50 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-[#FF7819]/10 text-[#FF7819] flex items-center justify-center text-sm">
+                    <FaCalculator />
+                  </div>
+                  <div>
+                    <h3 className="text-sm md:text-base font-black text-[#08101E]">Representative Loan Example & APR Disclosure</h3>
+                    <p className="text-[11px] text-gray-500">Transparent illustrative cost of credit (compliant with Meta & RBI policies)</p>
+                  </div>
+                </div>
+                <span className="hidden sm:inline-block bg-orange-100 text-orange-800 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase">
+                  Min. 91+ Days
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 text-xs mb-3">
+                <div className="bg-white/90 p-3 rounded-xl border border-orange-100 shadow-xs">
+                  <span className="text-[10px] font-bold text-gray-400 block uppercase mb-0.5">Loan Amount</span>
+                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.loanAmount}</span>
+                </div>
+                <div className="bg-white/90 p-3 rounded-xl border border-orange-100 shadow-xs">
+                  <span className="text-[10px] font-bold text-gray-400 block uppercase mb-0.5">Repayment Tenure</span>
+                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.tenure}</span>
+                </div>
+                <div className="bg-white/90 p-3 rounded-xl border border-orange-100 shadow-xs">
+                  <span className="text-[10px] font-bold text-gray-400 block uppercase mb-0.5">APR / Interest</span>
+                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.apr}</span>
+                </div>
+                <div className="bg-white/90 p-3 rounded-xl border border-orange-100 shadow-xs">
+                  <span className="text-[10px] font-bold text-gray-400 block uppercase mb-0.5">Processing Fee</span>
+                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.processingFee}</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs pt-2 border-t border-orange-200/40">
+                <div className="bg-white/90 p-2.5 rounded-xl border border-orange-100">
+                  <span className="text-[10px] font-bold text-gray-400 block">Estimated Monthly EMI</span>
+                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.monthlyEmi}</span>
+                </div>
+                <div className="bg-white/90 p-2.5 rounded-xl border border-orange-100">
+                  <span className="text-[10px] font-bold text-gray-400 block">Total Repayment Amount</span>
+                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.totalRepayment}</span>
+                </div>
+                <div className="bg-white/90 p-2.5 rounded-xl border border-orange-100">
+                  <span className="text-[10px] font-bold text-gray-400 block">Total Cost of Credit</span>
+                  <span className="font-extrabold text-[#FF7819] text-xs leading-tight">{lenderConfig.representativeExample.totalCost}</span>
+                </div>
+              </div>
+
+              <p className="text-[10px] text-gray-500 mt-3 italic leading-relaxed">
+                * Note: The representative example demonstrates total cost of credit including applicable interest and fees for a standard {lenderConfig.representativeExample.tenure} tenure. Actual sanctioned limit, APR (18% - 36% p.a.), and repayment terms depend on individual applicant credit evaluation by our regulated lending partners.
+              </p>
+            </motion.div>
+          )}
 
           {/* Documents Required Checklist */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            className="bg-white border border-orange-100 p-6 rounded-3xl shadow-sm mb-8"
+            transition={{ delay: 0.26 }}
+            className="bg-white border border-orange-100 p-5 md:p-6 rounded-3xl shadow-xs mb-6"
           >
-            <h3 className="text-lg font-extrabold text-[#08101E] mb-4 flex items-center gap-2">
+            <h3 className="text-base font-extrabold text-[#08101E] mb-3 flex items-center gap-2">
               <FaFileAlt className="text-orange-500" />
-              <span>Documents Needed for Instant Approval</span>
+              <span>Documents Required for Digital Verification</span>
             </h3>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
               {lenderConfig.docsRequired.map((doc, idx) => (
-                <li key={idx} className="flex items-start gap-2.5 text-sm text-gray-600">
-                  <FaCheckCircle className="text-[#FF7819] mt-0.5 shrink-0" />
+                <li key={idx} className="flex items-start gap-2 text-xs text-gray-700">
+                  <FaCheckCircle className="text-[#FF7819] mt-0.5 shrink-0 text-xs" />
                   <span>{doc}</span>
                 </li>
               ))}
             </ul>
+          </motion.div>
+
+          {/* Regulatory NBFC Partner & Aggregator Transparency Box */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.28 }}
+            className="bg-white border border-orange-100 p-5 rounded-3xl shadow-xs mb-8"
+          >
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center text-sm shrink-0 mt-0.5">
+                <FaUniversity />
+              </div>
+              <div className="space-y-1.5">
+                <h4 className="text-xs font-black uppercase tracking-wider text-gray-500">
+                  Lending Partner & Regulatory Transparency
+                </h4>
+                <p className="text-xs font-bold text-[#08101E]">
+                  Registered NBFC / Banking Partner: <span className="text-blue-700">{lenderConfig.nbfcPartner || "RBI-Registered Lending Institution"}</span>
+                </p>
+                <p className="text-[11px] text-gray-600 leading-relaxed">
+                  CoverMantra (Spiraea Technologies Private Limited) operates as a digital Lending Service Provider (LSP) / loan aggregator platform. CoverMantra is not a Bank or NBFC and does not lend directly. All loan credit evaluation, underwriting, sanction, interest rates, and disbursements are executed strictly by RBI-registered NBFC/Banking partners. Minimum repayment period is 91 days; payday loans or tenures below 91 days are strictly prohibited.
+                </p>
+              </div>
+            </div>
           </motion.div>
         </section>
 
@@ -883,6 +1033,44 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
               <p className="text-xs md:text-sm text-gray-600 leading-relaxed">{faq.a}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* REGULATORY DISCLOSURE & CONSUMER PROTECTION BANNER */}
+      <section className="max-w-7xl mx-auto px-6 mt-12 mb-16">
+        <div className="bg-white/80 border border-orange-100 rounded-3xl p-6 md:p-8 text-xs text-gray-600 leading-relaxed shadow-xs">
+          <div className="flex items-center gap-2 text-[#08101E] font-black text-sm uppercase tracking-wider mb-4">
+            <FaShieldAlt className="text-[#FF7819] text-base" />
+            <span>Important Regulatory Disclosures & Financial Products Advertising Compliance</span>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h5 className="font-bold text-[#08101E] mb-1.5">Repayment Tenure & APR Disclosures</h5>
+              <div className="space-y-1.5 text-gray-600 text-[11px] leading-relaxed">
+                <p>
+                  • <strong>Minimum & Maximum Repayment Period:</strong> The minimum loan repayment period is <strong>91 days (3 months)</strong> and up to 365 days / 60 months depending on the selected partner loan product. We strictly do not promote or offer short-term payday loans (&lt;91 days).
+                </p>
+                <p>
+                  • <strong>Annual Percentage Rate (APR):</strong> The maximum Annual Percentage Rate (APR) offered across products ranges from 18% to 36% per annum based on borrower risk assessment, income profile, and partner guidelines.
+                </p>
+                <p>
+                  • <strong>Processing Fees & Charges:</strong> A one-time processing fee ranging between 2% and 6% + applicable 18% GST is deducted upon loan sanction. No hidden pre-closure penalties.
+                </p>
+              </div>
+            </div>
+            <div>
+              <h5 className="font-bold text-[#08101E] mb-1.5">Digital Lending Service Provider (LSP) Status</h5>
+              <div className="space-y-1.5 text-gray-600 text-[11px] leading-relaxed">
+                <p>
+                  CoverMantra (Spiraea Technologies Private Limited) is a technology platform functioning as a Digital Lending Service Provider (LSP) / loan aggregator. CoverMantra is not a financial institution, Bank, or Non-Banking Financial Company (NBFC).
+                </p>
+                <p>
+                  All loan approvals, sanction letters, interest rate assessments, and fund disbursements are strictly executed by licensed RBI-registered NBFCs or Banking institutions. Loan approval is subject to partner underwriting criteria; no guaranteed approvals or instant cash without verified KYC are provided.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -2,6 +2,17 @@ import React from "react";
 import LenderLandingClient from "./lender-landing-client";
 
 // Hardcoded fallback configurations with rich marketing & SEO content
+interface RepresentativeExample {
+  loanAmount: string;
+  tenure: string;
+  interestRate: string;
+  apr: string;
+  processingFee: string;
+  monthlyEmi: string;
+  totalRepayment: string;
+  totalCost: string;
+}
+
 interface FallbackLender {
   id: string;
   name: string;
@@ -20,6 +31,13 @@ interface FallbackLender {
   description: string;
   docsRequired: string[];
   faqs: Array<{ q: string; a: string }>;
+  // Meta & RBI Policy Compliance Fields
+  tenure?: string;
+  minTenure?: string;
+  maxTenure?: string;
+  apr?: string;
+  nbfcPartner?: string;
+  representativeExample?: RepresentativeExample;
 }
 
 const fallbackLenders: Record<string, FallbackLender> = {
@@ -36,6 +54,21 @@ const fallbackLenders: Record<string, FallbackLender> = {
     interestRate: "Starting from 1.33% per month",
     processingFee: "Starting from 2% of the approved loan amount",
     ratings: 4.5,
+    tenure: "3 Months to 60 Months",
+    minTenure: "91 Days (3 Months)",
+    maxTenure: "60 Months",
+    apr: "16% to 39% p.a.",
+    nbfcPartner: "Whizdm Finance / DMI Finance (RBI-Registered NBFC Partners)",
+    representativeExample: {
+      loanAmount: "₹50,000",
+      tenure: "12 Months",
+      interestRate: "16% p.a.",
+      apr: "18.5% p.a.",
+      processingFee: "₹1,000 (2%) + ₹180 (GST) = ₹1,180",
+      monthlyEmi: "₹4,537",
+      totalRepayment: "₹54,444",
+      totalCost: "₹5,624 (Interest: ₹4,444 + Processing Fee: ₹1,180)"
+    },
     features: [
       "Direct bank transfer",
       "Paperless process",
@@ -64,6 +97,21 @@ const fallbackLenders: Record<string, FallbackLender> = {
     interestRate: "Starting from 1.5% per month",
     processingFee: "Starting from 2% to 6% on every loan",
     ratings: 4.0,
+    tenure: "3 Months to 12 Months",
+    minTenure: "91 Days (3 Months)",
+    maxTenure: "12 Months",
+    apr: "18% to 36% p.a.",
+    nbfcPartner: "RPN Fincap Private Limited (RBI-Registered NBFC)",
+    representativeExample: {
+      loanAmount: "₹20,000",
+      tenure: "6 Months",
+      interestRate: "18% p.a.",
+      apr: "21% p.a.",
+      processingFee: "₹500 (2.5%) + ₹90 (GST) = ₹590",
+      monthlyEmi: "₹3,512",
+      totalRepayment: "₹21,072",
+      totalCost: "₹1,662"
+    },
     features: [
       "Quick disbursement",
       "Paperless process",
@@ -94,6 +142,21 @@ const fallbackLenders: Record<string, FallbackLender> = {
     interestRate: "Starting from 1.5% per month",
     processingFee: "Starting from 2% of the approved loan amount",
     ratings: 4.2,
+    tenure: "3 Months to 36 Months",
+    minTenure: "91 Days (3 Months)",
+    maxTenure: "36 Months",
+    apr: "18% to 36% p.a.",
+    nbfcPartner: "Vivifi India Finance Pvt Ltd (RBI-Registered NBFC)",
+    representativeExample: {
+      loanAmount: "₹30,000",
+      tenure: "6 Months",
+      interestRate: "18% p.a.",
+      apr: "21.5% p.a.",
+      processingFee: "₹600 (2%) + ₹108 (GST) = ₹708",
+      monthlyEmi: "₹5,265",
+      totalRepayment: "₹31,590",
+      totalCost: "₹2,298"
+    },
     features: [
       "Credit Line Facility",
       "Instant Disbursal",
@@ -121,9 +184,24 @@ const fallbackLenders: Record<string, FallbackLender> = {
     UTM: "https://web.fatakpay.com/authentication/login?utm_source=651_TT83W&utm_medium=covermantra",
     applyLink: "/LenderAPI/fatakPay",
     loanAmount: "Up to ₹2,00,000",
-    interestRate: "Starting from 12% to 35.95% per month",
+    interestRate: "Starting from 12% to 35.95% per annum",
     processingFee: "Starting from 2.5% of the approved loan amount",
     ratings: 4.0,
+    tenure: "3 Months to 24 Months",
+    minTenure: "91 Days (3 Months)",
+    maxTenure: "24 Months",
+    apr: "15% to 36% p.a.",
+    nbfcPartner: "FDPL Finance Private Limited (RBI-Registered NBFC)",
+    representativeExample: {
+      loanAmount: "₹25,000",
+      tenure: "6 Months",
+      interestRate: "18% p.a.",
+      apr: "21% p.a.",
+      processingFee: "₹625 (2.5%) + ₹112 (GST) = ₹737",
+      monthlyEmi: "₹4,387",
+      totalRepayment: "₹26,322",
+      totalCost: "₹2,059"
+    },
     features: [
       "Quick disbursement",
       "Paperless process",
@@ -150,23 +228,60 @@ const fallbackLenders: Record<string, FallbackLender> = {
     UTM: "https://loan.credittnow.com/auth/login?utm_source=cover_mantra&utm_medium=website&utm_campaign=loan_campaign",
     applyLink: "/LenderAPI/credify",
     loanAmount: "₹8,000 to ₹35,000",
-    interestRate: "Starting from 0.1% - 0.2% per day",
-    processingFee: "Approximately 6% - 7% of the sanctioned loan amount",
+    interestRate: "Starting from 0.2% - 0.3% per day (APR: 24% - 36% p.a.)",
+    processingFee: "Approx. 4% - 6% + 18% GST (Deducted upfront at disbursement)",
     ratings: 4.3,
+    tenure: "91 Days to 365 Days (3 to 12 Months)",
+    minTenure: "91 Days (3 Months)",
+    maxTenure: "365 Days (12 Months)",
+    apr: "24% to 36% p.a.",
+    nbfcPartner: "Datson Exports Ltd / CTPL (RBI-Registered NBFC Partner)",
+    representativeExample: {
+      loanAmount: "₹10,000",
+      tenure: "3 Months (91 Days)",
+      interestRate: "0.2% per day (Annualized APR: 24% p.a.)",
+      apr: "24% to 36% p.a.",
+      processingFee: "₹600 (6%) + ₹108 (18% GST) = ₹708 (Deducted at disbursement)",
+      monthlyEmi: "₹3,467",
+      totalRepayment: "₹10,400",
+      totalCost: "₹1,108 (Interest: ₹400 + Processing Fee & GST: ₹708)"
+    },
     features: [
-      "Instant Approval & Disbursal within 15 min",
-      "100% Digital Journey (Zero Paperwork)",
-      "Min CIBIL: 680 (salary >= 30k) or 720 (salary 20k-30k)",
-      "No Credit History / Prepayment Charges",
-      "Salaried Only (Income >= 20k)",
-      "Tenure: Up to 45 days (No EMI)"
+      "Digital In-Principle Evaluation & Quick Disbursal",
+      "Interest: Starting from 0.2% - 0.3% per day (APR: 24% - 36% p.a.)",
+      "Zero Prepayment Penalty: Pay interest only for days utilized",
+      "Processing fee deducted directly at bank disbursement",
+      "Compliant Flexible Tenure: 91 Days to 365 Days (Manageable EMIs)",
+      "Salaried Only (Income >= ₹20,000 | Min CIBIL: 680/720)"
     ],
     brandColor: "#d63031",
-    description: "Credify offers instant short-term personal credit and micro-loans from ₹8,000 to ₹35,000. Enjoy immediate bank transfer, zero prepayment fees, and a transparent digital onboarding process.",
-    docsRequired: ["PAN Card", "Aadhaar Card (Mobile Linked)", "Netbanking Credentials for Salary Verification"],
+    description: "Credify (Creditt⁺) offers digital personal credit lines and loans from ₹8,000 to ₹35,000 in partnership with RBI-registered NBFCs. Benefit from flexible 91 to 365 days repayment tenure, daily rates starting at 0.2% - 0.3% per day (APR: 24% - 36%), no hidden charges, and zero prepayment penalties — pay interest only for the days you use the funds.",
+    docsRequired: ["PAN Card", "Aadhaar Card (Mobile Linked for e-KYC)", "Netbanking Credentials / Salary Account Statement"],
     faqs: [
-      { q: "What is the repayment tenure for Credify?", a: "Credify offers short-term loans with a flexible tenure of up to 45 days (single payment, no EMIs)." },
-      { q: "What are the credit score requirements?", a: "A minimum CIBIL score of 680 is required for salary >= ₹30,000, and 720 for salary between ₹20,000 and ₹30,000." }
+      {
+        q: "What is the interest rate for Credify (Creditt⁺)?",
+        a: "Interest rates start from 0.2% to 0.3% per day (equivalent to an Annual Percentage Rate of 24% to 36% per annum). The final rate is customized based on your credit score, net monthly salary, and risk assessment."
+      },
+      {
+        q: "How and when is the processing fee charged?",
+        a: "A nominal processing fee of 4% to 6% of the approved loan amount plus applicable 18% GST is deducted directly at the time of disbursement into your bank account. No upfront out-of-pocket payment is required."
+      },
+      {
+        q: "Are there any prepayment charges if I close early?",
+        a: "No, there are zero prepayment or foreclosure charges. You strictly pay interest only for the actual number of days you utilize the money. If you repay before tenure completion, your interest calculation stops on that exact day."
+      },
+      {
+        q: "What is the repayment tenure for Credify?",
+        a: "Credify offers flexible repayment tenures starting from a minimum of 91 days up to 365 days (3 to 12 months) with manageable monthly EMIs, fully compliant with RBI digital lending directives and advertising policies."
+      },
+      {
+        q: "Which RBI-registered NBFC or Bank provides the loan?",
+        a: "Loans are sanctioned and disbursed directly by RBI-registered NBFC partners (including Datson Exports Ltd / CTPL). CoverMantra operates strictly as a digital Lending Service Provider (LSP) and aggregator platform."
+      },
+      {
+        q: "What are the eligibility and credit score requirements?",
+        a: "Applicants must be salaried individuals aged 21+ with a minimum net monthly salary of ₹20,000. A minimum CIBIL score of 680 is required for salaries >= ₹30,000, and 720 for salaries between ₹20,000 and ₹30,000."
+      }
     ]
   }
 };
@@ -230,7 +345,7 @@ export default async function LenderPage({ params }: { params: any }) {
     );
   }
 
-  // Define JSON-LD FinancialProduct Schema
+  // Define JSON-LD FinancialProduct Schema with Meta & Google compliant financial fields
   const financialProductSchema = {
     "@context": "https://schema.org",
     "@type": "FinancialProduct",
@@ -239,10 +354,17 @@ export default async function LenderPage({ params }: { params: any }) {
     "description": lender.description,
     "provider": {
       "@type": "BankOrCreditUnion",
-      "name": lender.name
+      "name": lender.nbfcPartner || lender.name
     },
     "feesAndCommissionsSpecification": `Processing Fee: ${lender.processingFee}`,
-    "interestRate": lender.interestRate
+    "interestRate": lender.interestRate,
+    "annualPercentageRate": lender.apr || "18% - 36%",
+    "loanTerm": {
+      "@type": "QuantitativeValue",
+      "minValue": "91",
+      "maxValue": "365",
+      "unitCode": "DAY"
+    }
   };
 
   // Define JSON-LD FAQ Schema

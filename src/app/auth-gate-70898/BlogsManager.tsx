@@ -118,21 +118,62 @@ export default function BlogsManager({ adminSecret }: BlogsManagerProps) {
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
-  // Fetch blogs from API
+  // Helper to get reliable admin auth headers
+  const getAuthHeaders = () => {
+    const effectiveSecret =
+      adminSecret ||
+      (typeof window !== "undefined" ? sessionStorage.getItem("co_admin_secret") || "" : "");
+    return effectiveSecret ? { "x-admin-secret": effectiveSecret } : {};
+  };
+
+  // Fetch blogs from API with multi-endpoint fallback
   const fetchBlogs = async () => {
     setLoading(true);
+    const headers = getAuthHeaders();
+
+    // 1. Primary: /api/blogs/admin/all
     try {
-      const res = await api.get("/api/blogs/admin/all", {
-        headers: { "x-admin-secret": adminSecret }
-      });
+      const res = await api.get("/api/blogs/admin/all", { headers });
       if (res.data && res.data.blogs) {
         setBlogs(res.data.blogs);
+        setLoading(false);
+        return;
       } else if (Array.isArray(res.data)) {
         setBlogs(res.data);
+        setLoading(false);
+        return;
       }
-    } catch (error: any) {
-      console.error("Error fetching admin blogs:", error);
-      toast.error(error.response?.data?.message || "Failed to load blogs from server.");
+    } catch (primaryErr: any) {
+      console.warn("Primary /api/blogs/admin/all failed, trying auth-gate endpoint:", primaryErr);
+    }
+
+    // 2. Secondary: /api/auth-gate-70898/blogs/admin/all
+    try {
+      const res2 = await api.get("/api/auth-gate-70898/blogs/admin/all", { headers });
+      if (res2.data && res2.data.blogs) {
+        setBlogs(res2.data.blogs);
+        setLoading(false);
+        return;
+      } else if (Array.isArray(res2.data)) {
+        setBlogs(res2.data);
+        setLoading(false);
+        return;
+      }
+    } catch (secErr: any) {
+      console.warn("Secondary admin blogs endpoint failed, trying public fallback:", secErr);
+    }
+
+    // 3. Fallback: Public active blogs /api/blogs
+    try {
+      const res3 = await api.get("/api/blogs");
+      if (Array.isArray(res3.data)) {
+        setBlogs(res3.data);
+        setLoading(false);
+        return;
+      }
+    } catch (fallbackErr) {
+      console.error("Failed to load blogs from all endpoints:", fallbackErr);
+      toast.error("Failed to load blogs from server. Please check connection.");
     } finally {
       setLoading(false);
     }
@@ -265,13 +306,13 @@ export default function BlogsManager({ adminSecret }: BlogsManagerProps) {
       if (editingBlog) {
         // Update
         const res = await api.put(`/api/blogs/${editingBlog._id || editingBlog.slug}`, payload, {
-          headers: { "x-admin-secret": adminSecret }
+          headers: getAuthHeaders()
         });
         toast.success(res.data?.message || "Blog updated successfully!");
       } else {
         // Create
         const res = await api.post("/api/blogs", payload, {
-          headers: { "x-admin-secret": adminSecret }
+          headers: getAuthHeaders()
         });
         toast.success(res.data?.message || "Blog published successfully!");
       }
@@ -292,7 +333,7 @@ export default function BlogsManager({ adminSecret }: BlogsManagerProps) {
       const res = await api.patch(
         `/api/blogs/${blog._id || blog.slug}/toggle`,
         {},
-        { headers: { "x-admin-secret": adminSecret } }
+        { headers: getAuthHeaders() }
       );
       toast.info(res.data?.message || "Status updated.");
       fetchBlogs();
@@ -305,7 +346,7 @@ export default function BlogsManager({ adminSecret }: BlogsManagerProps) {
   const handleDelete = async (id: string) => {
     try {
       const res = await api.delete(`/api/blogs/${id}`, {
-        headers: { "x-admin-secret": adminSecret }
+        headers: getAuthHeaders()
       });
       toast.success(res.data?.message || "Blog deleted successfully!");
       setDeleteConfirmId(null);

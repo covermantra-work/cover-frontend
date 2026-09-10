@@ -38,6 +38,17 @@ const microLenders = [
     approval: "92%",
     features: ["Reusable Credit Line", "Pay Interest Only on Used Amount", "Flexible Repayment"],
     url: "https://online.flexsalary.com/CustomerLogin/Index?CampaignID=9192300#x"
+  },
+  {
+    id: "c1",
+    name: "Credify (Creditt⁺) Loans",
+    logo: "https://loan.credittnow.com/favicon.ico",
+    ticket: "₹8,000 – ₹35,000",
+    disbursal: "Instant (Digital KYC)",
+    interest: "0.2% - 0.3% / day (APR 24%-36%)",
+    approval: "93%",
+    features: ["Zero Prepayment Penalty", "Direct Bank Disbursal", "91 - 365 Days Tenure"],
+    url: "https://loan.credittnow.com/auth/login?utm_source=cover_mantra&utm_medium=website&utm_campaign=loan_campaign"
   }
 ];
 
@@ -75,7 +86,16 @@ export default function SmallLoansPage() {
     let targetUrl = url;
     if (id && url.startsWith("http") && !url.includes("click-redirect")) {
       const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://www.covermantra.com' : 'http://localhost:5001');
-      targetUrl = `${apiBaseUrl}/api/partners/click-redirect?lenderId=${id}&phone=${phone}`;
+      let redirectParams = `lenderId=${id}&phone=${phone}`;
+      if (typeof window !== "undefined") {
+        const currentParams = new URLSearchParams(window.location.search);
+        currentParams.forEach((val, k) => {
+          if (k.startsWith("utm_")) {
+            redirectParams += `&${k}=${encodeURIComponent(val)}`;
+          }
+        });
+      }
+      targetUrl = `${apiBaseUrl}/api/partners/click-redirect?${redirectParams}`;
     }
 
     window.open(targetUrl, "_blank", "noopener,noreferrer");

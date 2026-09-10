@@ -164,9 +164,10 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
       const salary = formData.income || formData.salary || "";
 
       try {
-        const absoluteUrl = baseUrl.startsWith("/") 
-          ? `${window.location.origin}${baseUrl}` 
-          : (baseUrl.startsWith("http") ? baseUrl : `https://${baseUrl}`);
+        const [cleanBase, hashFragment] = baseUrl.split("#");
+        const absoluteUrl = cleanBase.startsWith("/") 
+          ? `${window.location.origin}${cleanBase}` 
+          : (cleanBase.startsWith("http") ? cleanBase : `https://${cleanBase}`);
 
         const urlObj = new URL(absoluteUrl);
         if (phone) {
@@ -175,9 +176,11 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
         }
         if (pincode) urlObj.searchParams.set("pincode", String(pincode));
         if (salary) urlObj.searchParams.set("salary", String(salary));
-        return urlObj.toString();
+        const withParams = urlObj.toString();
+        return hashFragment ? `${withParams}#${hashFragment}` : withParams;
       } catch (e) {
-        const separator = baseUrl.includes("?") ? "&" : "?";
+        const [cleanBase, hashFragment] = baseUrl.split("#");
+        const separator = cleanBase.includes("?") ? "&" : "?";
         let params = [];
         if (phone) {
           params.push(`phone=${phone}`);
@@ -185,7 +188,8 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
         }
         if (pincode) params.push(`pincode=${pincode}`);
         if (salary) params.push(`salary=${salary}`);
-        return params.length > 0 ? `${baseUrl}${separator}${params.join("&")}` : baseUrl;
+        const withParams = params.length > 0 ? `${cleanBase}${separator}${params.join("&")}` : cleanBase;
+        return hashFragment ? `${withParams}#${hashFragment}` : withParams;
       }
     };
 
