@@ -668,7 +668,7 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                   Registered NBFC / Banking Partner: <span className="text-blue-700 font-extrabold">{lenderConfig.nbfcPartner || "RBI-Registered Lending Institution"}</span>
                 </p>
                 <p className="text-[11px] text-slate-600 leading-relaxed">
-                  CoverMantra (Spiraea Technologies Private Limited) operates as a digital Lending Service Provider (LSP) / loan aggregator platform. CoverMantra is not a Bank or NBFC and does not lend directly. All loan credit evaluation, underwriting, sanction, interest rates, and disbursements are executed strictly by RBI-registered NBFC/Banking partners. Minimum repayment period is 91 days; payday loans or tenures below 91 days are strictly prohibited.
+                  CoverMantra (CoverMantra Services Private Limited) operates as a digital Lending Service Provider (LSP) / loan aggregator platform. CoverMantra is not a Bank or NBFC and does not lend directly. All loan credit evaluation, underwriting, sanction, interest rates, and disbursements are executed strictly by RBI-registered NBFC/Banking partners. Minimum repayment period is 91 days; payday loans or tenures below 91 days are strictly prohibited.
                 </p>
               </div>
             </div>
@@ -1094,7 +1094,7 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
               <h5 className="font-bold text-[#08101E] mb-1.5">Digital Lending Service Provider (LSP) Status</h5>
               <div className="space-y-1.5 text-slate-600 text-[11px] leading-relaxed">
                 <p>
-                  CoverMantra (Spiraea Technologies Private Limited) is a technology platform functioning as a Digital Lending Service Provider (LSP) / loan aggregator. CoverMantra is not a financial institution, Bank, or Non-Banking Financial Company (NBFC).
+                  CoverMantra (CoverMantra Services Private Limited) is a technology platform functioning as a Digital Lending Service Provider (LSP) / loan aggregator. CoverMantra is not a financial institution, Bank, or Non-Banking Financial Company (NBFC).
                 </p>
                 <p>
                   All loan approvals, sanction letters, interest rate assessments, and fund disbursements are strictly executed by licensed RBI-registered NBFCs or Banking institutions. Loan approval is subject to partner underwriting criteria; no guaranteed approvals or instant cash without verified KYC are provided.
