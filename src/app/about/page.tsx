@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Fintech India",
     "Loan Aggregator Mission",
     "CoverMantra Story",
-    "Mandeep Phulia",
+    "Mande",
     "CoverMantra Team",
   ],
   alternates: {

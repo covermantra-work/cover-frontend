@@ -149,7 +149,7 @@ export default function PrivacyPolicyPage() {
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-bold text-sm">
                       <div className="space-y-2">
                         <p className="text-white/40">Grievance Officer</p>
-                        <p className="text-lg">Mandeep Phulia</p>
+                        <p className="text-lg">Nisha</p>
                         <p className="text-[#FF7819]">info@covermantra.in</p>
                       </div>
                       <div className="space-y-2">

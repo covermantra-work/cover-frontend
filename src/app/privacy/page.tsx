@@ -118,7 +118,7 @@ export default function PrivacyPolicyPage() {
           <section className="bg-[#08101E] text-white p-8 rounded-3xl">
             <h2 className="text-xl font-bold mb-6 uppercase tracking-tight text-[#FF7819]">7. Grievance Redressal</h2>
             <div className="space-y-4 text-sm">
-              <p><span className="text-gray-400 uppercase text-[10px] block">Officer Name</span> <strong>Mandeep Phulia</strong></p>
+              <p><span className="text-gray-400 uppercase text-[10px] block">Officer Name</span> <strong>Nisha</strong></p>
               <p><span className="text-gray-400 uppercase text-[10px] block">Email</span> <strong>info@covermantra.in</strong></p>
               <p><span className="text-gray-400 uppercase text-[10px] block">Address</span> <span className="italic text-gray-300">First Floor Building No. 233, Thakar Basti, Bagichi Mohalla,Dharamshala Road,Fatehabad -125050</span></p>
             </div>
