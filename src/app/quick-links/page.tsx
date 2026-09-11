@@ -15,6 +15,7 @@ import {
   FaCheckCircle 
 } from "react-icons/fa";
 import api from "@/lib/axios";
+import { trackMetaLead } from "@/lib/metaPixel";
 
 const fallbackLenders = [
   {
@@ -266,6 +267,13 @@ export default function Page() {
       };
       await registerUser(payload);
       
+      // Track Meta Pixel Lead event
+      trackMetaLead({
+        content_name: "Eligibility Check Lead",
+        content_category: "Quick Links Eligibility",
+        value: Number(form.income) || undefined,
+      });
+
       // Save details to localStorage for URL auto-fill
       localStorage.setItem("co_phone", savedPhone);
       localStorage.setItem("co_pincode", form.pincode);
@@ -275,6 +283,14 @@ export default function Page() {
       router.push("/personal-loans");
     } catch (err) {
       console.error("Failed to register user from eligibility check:", err);
+
+      // Track lead even if network retry occurs
+      trackMetaLead({
+        content_name: "Eligibility Check Lead (Fallback)",
+        content_category: "Quick Links Eligibility",
+        value: Number(form.income) || undefined,
+      });
+
       // Fallback save even on registration API failure
       localStorage.setItem("co_phone", form.phone);
       localStorage.setItem("co_pincode", form.pincode);

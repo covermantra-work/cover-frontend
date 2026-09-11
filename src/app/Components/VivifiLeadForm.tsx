@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import api from "@/lib/axios";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
+import { trackMetaLead } from "@/lib/metaPixel";
 
 const VivifiLeadForm = () => {
   const [loading, setLoading] = useState(false);
@@ -78,12 +79,26 @@ const VivifiLeadForm = () => {
       const { data } = await api.post("/api/vivifi/register", formData);
       const targetUrl = data?.redirectUrl || flexSalaryUrl;
       
+      // Track Meta Pixel Lead event
+      trackMetaLead({
+        content_name: "Vivifi (FlexSalary)",
+        content_category: "Lender Application",
+        value: Number(formData.income) || undefined,
+      });
+
       setShowSuccessModal(true);
       toast.success("Application Submitted Successfully!");
       setTimeout(() => {
         window.location.href = targetUrl;
       }, 2500);
     } catch (error: any) {
+      // Track Meta Pixel Lead event even on fallback
+      trackMetaLead({
+        content_name: "Vivifi (FlexSalary)",
+        content_category: "Lender Application (Fallback)",
+        value: Number(formData.income) || undefined,
+      });
+
       setShowSuccessModal(true);
       toast.success("Application Submitted Successfully!");
       setTimeout(() => {

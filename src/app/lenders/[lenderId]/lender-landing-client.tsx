@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../../../lib/axios";
 import Cookies from "js-cookie";
+import { trackMetaLead } from "../../../lib/metaPixel";
 import { 
   FaCheckCircle, 
   FaExclamationTriangle, 
@@ -309,6 +310,13 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
       }
     };
 
+    const normalizedId = lenderConfig?.name?.toLowerCase().includes("vivifi") ? "vivifi" 
+      : lenderConfig?.name?.toLowerCase().includes("fatak") ? "fatakpay" 
+      : lenderConfig?.name?.toLowerCase().includes("cred") ? "credify" 
+      : lenderConfig?.name?.toLowerCase().includes("zype") ? "zype" 
+      : lenderConfig?.name?.toLowerCase().includes("moneyview") ? "moneyview" 
+      : lenderConfig?.id || "lender";
+
     // Open a blank tab synchronously to prevent popup blocker blocking the partner redirects
     const newTab = typeof window !== "undefined" ? window.open("", "_blank") : null;
     if (newTab) {
@@ -317,13 +325,6 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
 
     try {
       // 1. Submit lead details to backend
-      const normalizedId = lenderConfig.name.toLowerCase().includes("vivifi") ? "vivifi" 
-        : lenderConfig.name.toLowerCase().includes("fatak") ? "fatakpay" 
-        : lenderConfig.name.toLowerCase().includes("cred") ? "credify" 
-        : lenderConfig.name.toLowerCase().includes("zype") ? "zype" 
-        : lenderConfig.name.toLowerCase().includes("moneyview") ? "moneyview" 
-        : lenderConfig.id;
-      
       const payload = {
         ...formData,
         phone,
@@ -333,6 +334,13 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
 
       const { data } = await api.post(`/api/partners/${normalizedId}/register`, payload);
       
+      // Track Lead Conversion event for Meta Pixel (Facebook Ads)
+      trackMetaLead({
+        content_name: lenderConfig?.name || normalizedId,
+        content_category: "Lender Application",
+        value: Number(formData.income) || undefined,
+      });
+
       const redirectUrl = data.redirectUrl || lenderConfig.UTM || lenderConfig.applyLink;
       const finalUrl = decorateTargetUrl(redirectUrl);
 
@@ -355,6 +363,14 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
 
     } catch (err: any) {
       console.error("Lead submission error:", err);
+
+      // Track Lead even if partner registration errored but fallback redirecting
+      trackMetaLead({
+        content_name: lenderConfig?.name || normalizedId,
+        content_category: "Lender Application (Fallback)",
+        value: Number(formData.income) || undefined,
+      });
+
       // Even if API registration fails, fallback redirect to target UTM so user is not blocked
       const fallbackUrl = decorateTargetUrl(lenderConfig.UTM || lenderConfig.applyLink);
       
@@ -374,25 +390,34 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
 
   // Submit fallback alt lenders directly to increase conversion
   const handleAlternativeApply = async (altLender: any) => {
-    const targetUrl = altLender.UTM || altLender.applyLink;
+    // Open blank tab immediately to satisfy browser popup security restrictions
     const finalUrl = (() => {
+      const targetUrl = altLender.UTM || altLender.applyLink || "/personal-loans";
+      const userPhone = phone || (typeof window !== "undefined" ? localStorage.getItem("co_phone") : "") || "";
+      const userPincode = formData.pincode || (typeof window !== "undefined" ? localStorage.getItem("co_pincode") : "") || "";
+      const userSalary = formData.income || (typeof window !== "undefined" ? localStorage.getItem("co_income") : "") || "";
+
       try {
-        const [cleanUrl, hashFragment] = targetUrl.split("#");
-        const urlObj = new URL(cleanUrl.startsWith("http") ? cleanUrl : `https://${cleanUrl}`);
-        urlObj.searchParams.set("phone", String(phone));
-        urlObj.searchParams.set("mobile", String(phone));
-        urlObj.searchParams.set("pincode", String(formData.pincode));
-        urlObj.searchParams.set("salary", String(formData.income));
-        
-        Object.keys(utmParams).forEach(k => {
-          urlObj.searchParams.set(k, utmParams[k]);
-        });
+        const [cleanBase, hashFragment] = targetUrl.split("#");
+        const urlObj = new URL(cleanBase.startsWith("http") ? cleanBase : `https://${cleanBase}`);
+        if (userPhone) {
+          urlObj.searchParams.set("phone", String(userPhone));
+          urlObj.searchParams.set("mobile", String(userPhone));
+        }
+        if (userPincode) urlObj.searchParams.set("pincode", String(userPincode));
+        if (userSalary) urlObj.searchParams.set("salary", String(userSalary));
         const withParams = urlObj.toString();
         return hashFragment ? `${withParams}#${hashFragment}` : withParams;
       } catch (e) {
         return targetUrl;
       }
     })();
+
+    // Track Meta Pixel Lead event for alternate lender apply
+    trackMetaLead({
+      content_name: altLender.name,
+      content_category: "Alternative Lender Fast Apply",
+    });
 
     // Save logs to backend via altLender registration endpoint
     try {
@@ -417,30 +442,33 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
   };
 
   return (
-    <main className="min-h-screen bg-[#FFF4E5] text-gray-800 font-sans pb-16">
+    <main className="min-h-screen bg-slate-50 text-slate-800 font-sans pb-28 relative selection:bg-[#FF690B] selection:text-white">
       
+      {/* AMBIENT TOP LIGHTING */}
+      <div className="absolute top-0 inset-x-0 h-96 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(255,105,11,0.12),rgba(255,255,255,0))] pointer-events-none" />
+
       {/* CO-BRANDING HEADER */}
-      <header className="sticky top-0 z-50 w-full bg-[#08101E]/95 backdrop-blur-md border-b border-white/10 px-6 py-4 shadow-xl">
+      <header className="sticky top-0 z-50 w-full bg-[#08101E]/95 backdrop-blur-xl border-b border-white/10 px-4 sm:px-6 py-3.5 shadow-xl">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             {/* CoverMantra Brand */}
             <div className="flex items-center gap-2">
-              <img src="/image/logo.png" alt="CoverMantra Logo" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
+              <img src="/image/logo.png" alt="CoverMantra Logo" className="w-8 h-8 md:w-9 md:h-9 object-contain" />
               <span className="font-black text-lg md:text-xl leading-none tracking-tight hidden sm:inline">
                 <span className="text-white" style={{ WebkitTextStroke: "0.5px #FF690B" }}>Cover</span>
                 <span className="text-[#FF690B]">Mantra</span>
               </span>
             </div>
             
-            {/* Dynamic Arrow/Divider */}
-            <span className="text-white/30 text-lg px-1">×</span>
+            {/* Divider */}
+            <span className="text-white/20 text-sm px-0.5">×</span>
             
-            {/* Dynamic Lender Logo */}
-            <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-xl border border-white/10">
+            {/* Dynamic Lender Logo Badge */}
+            <div className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-xl border border-white/15 backdrop-blur-md">
               <img 
                 src={lenderConfig.logo} 
                 alt={`${lenderConfig.name} Logo`} 
-                className="h-6 md:h-7 object-contain bg-white rounded p-0.5" 
+                className="h-5 md:h-6 object-contain bg-white rounded p-0.5" 
               />
               <span className="text-white text-xs md:text-sm font-black tracking-tight">
                 {lenderConfig.name}
@@ -449,9 +477,10 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="hidden md:inline text-xs text-white/60 font-medium">Secured Lead Verification</span>
-            <div className="flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
-              <FaShieldAlt className="text-emerald-400" />
+            <span className="hidden md:inline text-xs text-slate-400 font-medium">Secured Lead Verification</span>
+            <div className="flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded-full text-xs font-bold shadow-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <FaShieldAlt className="text-emerald-400 text-xs" />
               <span>100% Secure</span>
             </div>
           </div>
@@ -459,16 +488,16 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
       </header>
 
       {/* HERO & SPLIT WORKSPACE */}
-      <div className="max-w-7xl mx-auto px-6 mt-10 md:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 md:mt-14 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 relative z-10">
         
         {/* LEFT COLUMN: MARKETING & DETAILS */}
         <section className="lg:col-span-7 flex flex-col justify-start">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-[#FF7819]/10 border border-[#FF7819]/20 text-[#FF7819] px-3.5 py-1.5 rounded-full text-xs font-extrabold tracking-wider uppercase mb-6 w-fit"
+            className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 text-[#FF690B] px-3.5 py-1.5 rounded-full text-xs font-black tracking-wider uppercase mb-5 w-fit"
           >
-            <FaStar className="text-xs" />
+            <FaStar className="text-xs text-[#FFB900]" />
             <span>Special Loan Offer Partner</span>
           </motion.div>
 
@@ -476,16 +505,16 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-black text-[#08101E] tracking-tight leading-[1.1] mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl font-black text-[#08101E] tracking-tight leading-[1.15] mb-4"
           >
-            Apply for <span style={{ color: lenderConfig.brandColor }}>{lenderConfig.name}</span> Personal Loan
+            Apply for <span style={{ color: lenderConfig.brandColor || "#FF690B" }}>{lenderConfig.name}</span> Personal Loan
           </motion.h1>
 
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="text-gray-600 text-base md:text-lg mb-8 leading-relaxed max-w-2xl"
+            className="text-slate-600 text-sm sm:text-base md:text-lg mb-8 leading-relaxed max-w-2xl"
           >
             {lenderConfig.description}
           </motion.p>
@@ -495,23 +524,23 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 mb-6"
           >
-            <div className="bg-white border border-orange-100 p-3.5 md:p-4 rounded-2xl shadow-xs hover:shadow-md transition-shadow">
-              <span className="text-[11px] text-gray-500 font-bold block mb-1">Loan Range</span>
-              <span className="text-sm md:text-lg font-black text-[#08101E]">{lenderConfig.loanAmount}</span>
+            <div className="bg-white border border-slate-200/80 p-4 rounded-2xl shadow-xs hover:shadow-md hover:border-orange-300 transition-all group">
+              <span className="text-[11px] text-slate-500 font-bold block mb-1">Loan Range</span>
+              <span className="text-sm md:text-base lg:text-lg font-black text-[#08101E] group-hover:text-[#FF690B] transition-colors">{lenderConfig.loanAmount}</span>
             </div>
-            <div className="bg-white border border-orange-100 p-3.5 md:p-4 rounded-2xl shadow-xs hover:shadow-md transition-shadow">
-              <span className="text-[11px] text-gray-500 font-bold block mb-1">APR / Interest</span>
-              <span className="text-sm md:text-lg font-black text-[#08101E]">{lenderConfig.apr || lenderConfig.interestRate.split(" ")[0]}</span>
+            <div className="bg-white border border-slate-200/80 p-4 rounded-2xl shadow-xs hover:shadow-md hover:border-orange-300 transition-all group">
+              <span className="text-[11px] text-slate-500 font-bold block mb-1">APR / Interest</span>
+              <span className="text-sm md:text-base lg:text-lg font-black text-[#08101E] group-hover:text-[#FF690B] transition-colors">{lenderConfig.apr || lenderConfig.interestRate.split(" ")[0]}</span>
             </div>
-            <div className="bg-white border border-orange-100 p-3.5 md:p-4 rounded-2xl shadow-xs hover:shadow-md transition-shadow">
-              <span className="text-[11px] text-gray-500 font-bold block mb-1">Repayment Tenure</span>
-              <span className="text-sm md:text-lg font-black text-[#08101E]">{lenderConfig.tenure || "91 - 365 Days"}</span>
+            <div className="bg-white border border-slate-200/80 p-4 rounded-2xl shadow-xs hover:shadow-md hover:border-orange-300 transition-all group">
+              <span className="text-[11px] text-slate-500 font-bold block mb-1">Repayment Tenure</span>
+              <span className="text-sm md:text-base lg:text-lg font-black text-[#08101E] group-hover:text-[#FF690B] transition-colors">{lenderConfig.tenure || "91 - 365 Days"}</span>
             </div>
-            <div className="bg-white border border-orange-100 p-3.5 md:p-4 rounded-2xl shadow-xs hover:shadow-md transition-shadow">
-              <span className="text-[11px] text-gray-500 font-bold block mb-1">Evaluation</span>
-              <span className="text-sm md:text-lg font-black text-emerald-600">Digital Paperless</span>
+            <div className="bg-white border border-slate-200/80 p-4 rounded-2xl shadow-xs hover:shadow-md hover:border-emerald-300 transition-all group">
+              <span className="text-[11px] text-slate-500 font-bold block mb-1">Evaluation</span>
+              <span className="text-sm md:text-base lg:text-lg font-black text-emerald-600">Digital Paperless</span>
             </div>
           </motion.div>
 
@@ -520,16 +549,16 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.22 }}
-            className="bg-white/80 backdrop-blur-sm border border-orange-100 p-4 md:p-5 rounded-2xl shadow-xs mb-6"
+            className="bg-white border border-slate-200/80 p-5 rounded-2xl shadow-xs mb-6"
           >
-            <h3 className="text-xs font-black tracking-wider uppercase text-gray-500 mb-3 flex items-center gap-2">
+            <h3 className="text-xs font-black tracking-wider uppercase text-slate-500 mb-3 flex items-center gap-2">
               <FaCheckCircle className="text-emerald-500" />
               <span>Key Policy & Product Highlights</span>
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
               {lenderConfig.features.map((feat, idx) => (
-                <div key={idx} className="flex items-start gap-2 text-xs font-semibold text-gray-700">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF7819] mt-1.5 shrink-0" />
+                <div key={idx} className="flex items-start gap-2 text-xs font-semibold text-slate-700">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF690B] mt-1.5 shrink-0" />
                   <span>{feat}</span>
                 </div>
               ))}
@@ -542,58 +571,58 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.24 }}
-              className="bg-gradient-to-br from-amber-50/80 to-orange-50/60 border border-orange-200/80 p-5 md:p-6 rounded-3xl shadow-xs mb-6"
+              className="bg-gradient-to-br from-amber-50/70 via-orange-50/40 to-white border border-orange-200/80 p-5 md:p-6 rounded-3xl shadow-xs mb-6"
             >
-              <div className="flex items-center justify-between mb-3 border-b border-orange-200/50 pb-3">
+              <div className="flex items-center justify-between mb-4 border-b border-orange-200/60 pb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-[#FF7819]/10 text-[#FF7819] flex items-center justify-center text-sm">
+                  <div className="w-9 h-9 rounded-xl bg-[#FF690B]/10 text-[#FF690B] flex items-center justify-center text-sm shadow-xs">
                     <FaCalculator />
                   </div>
                   <div>
                     <h3 className="text-sm md:text-base font-black text-[#08101E]">Representative Loan Example & APR Disclosure</h3>
-                    <p className="text-[11px] text-gray-500">Transparent illustrative cost of credit (compliant with Meta & RBI policies)</p>
+                    <p className="text-[11px] text-slate-500">Transparent illustrative cost of credit (compliant with Meta & RBI policies)</p>
                   </div>
                 </div>
-                <span className="hidden sm:inline-block bg-orange-100 text-orange-800 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase">
+                <span className="hidden sm:inline-block bg-orange-100/80 text-orange-900 border border-orange-200 text-[10px] font-black px-2.5 py-1 rounded-full uppercase">
                   Min. 91+ Days
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 text-xs mb-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs mb-3">
                 <div className="bg-white/90 p-3 rounded-xl border border-orange-100 shadow-xs">
-                  <span className="text-[10px] font-bold text-gray-400 block uppercase mb-0.5">Loan Amount</span>
-                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.loanAmount}</span>
+                  <span className="text-[10px] font-bold text-slate-400 block uppercase mb-0.5">Loan Amount</span>
+                  <span className="font-black text-[#08101E] text-sm">{lenderConfig.representativeExample.loanAmount}</span>
                 </div>
                 <div className="bg-white/90 p-3 rounded-xl border border-orange-100 shadow-xs">
-                  <span className="text-[10px] font-bold text-gray-400 block uppercase mb-0.5">Repayment Tenure</span>
-                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.tenure}</span>
+                  <span className="text-[10px] font-bold text-slate-400 block uppercase mb-0.5">Repayment Tenure</span>
+                  <span className="font-black text-[#08101E] text-sm">{lenderConfig.representativeExample.tenure}</span>
                 </div>
                 <div className="bg-white/90 p-3 rounded-xl border border-orange-100 shadow-xs">
-                  <span className="text-[10px] font-bold text-gray-400 block uppercase mb-0.5">APR / Interest</span>
-                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.apr}</span>
+                  <span className="text-[10px] font-bold text-slate-400 block uppercase mb-0.5">APR / Interest</span>
+                  <span className="font-black text-[#08101E] text-sm">{lenderConfig.representativeExample.apr}</span>
                 </div>
                 <div className="bg-white/90 p-3 rounded-xl border border-orange-100 shadow-xs">
-                  <span className="text-[10px] font-bold text-gray-400 block uppercase mb-0.5">Processing Fee</span>
-                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.processingFee}</span>
+                  <span className="text-[10px] font-bold text-slate-400 block uppercase mb-0.5">Processing Fee</span>
+                  <span className="font-black text-[#08101E] text-sm">{lenderConfig.representativeExample.processingFee}</span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs pt-2 border-t border-orange-200/40">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs pt-2.5 border-t border-orange-200/50">
                 <div className="bg-white/90 p-2.5 rounded-xl border border-orange-100">
-                  <span className="text-[10px] font-bold text-gray-400 block">Estimated Monthly EMI</span>
-                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.monthlyEmi}</span>
+                  <span className="text-[10px] font-bold text-slate-400 block">Estimated Monthly EMI</span>
+                  <span className="font-black text-[#08101E] text-sm">{lenderConfig.representativeExample.monthlyEmi}</span>
                 </div>
                 <div className="bg-white/90 p-2.5 rounded-xl border border-orange-100">
-                  <span className="text-[10px] font-bold text-gray-400 block">Total Repayment Amount</span>
-                  <span className="font-extrabold text-[#08101E] text-sm">{lenderConfig.representativeExample.totalRepayment}</span>
+                  <span className="text-[10px] font-bold text-slate-400 block">Total Repayment Amount</span>
+                  <span className="font-black text-[#08101E] text-sm">{lenderConfig.representativeExample.totalRepayment}</span>
                 </div>
                 <div className="bg-white/90 p-2.5 rounded-xl border border-orange-100">
-                  <span className="text-[10px] font-bold text-gray-400 block">Total Cost of Credit</span>
-                  <span className="font-extrabold text-[#FF7819] text-xs leading-tight">{lenderConfig.representativeExample.totalCost}</span>
+                  <span className="text-[10px] font-bold text-slate-400 block">Total Cost of Credit</span>
+                  <span className="font-black text-[#FF690B] text-xs leading-tight">{lenderConfig.representativeExample.totalCost}</span>
                 </div>
               </div>
 
-              <p className="text-[10px] text-gray-500 mt-3 italic leading-relaxed">
+              <p className="text-[10px] text-slate-500 mt-3 italic leading-relaxed">
                 * Note: The representative example demonstrates total cost of credit including applicable interest and fees for a standard {lenderConfig.representativeExample.tenure} tenure. Actual sanctioned limit, APR (18% - 36% p.a.), and repayment terms depend on individual applicant credit evaluation by our regulated lending partners.
               </p>
             </motion.div>
@@ -604,16 +633,16 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.26 }}
-            className="bg-white border border-orange-100 p-5 md:p-6 rounded-3xl shadow-xs mb-6"
+            className="bg-white border border-slate-200/80 p-5 md:p-6 rounded-3xl shadow-xs mb-6"
           >
             <h3 className="text-base font-extrabold text-[#08101E] mb-3 flex items-center gap-2">
-              <FaFileAlt className="text-orange-500" />
+              <FaFileAlt className="text-[#FF690B]" />
               <span>Documents Required for Digital Verification</span>
             </h3>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
               {lenderConfig.docsRequired.map((doc, idx) => (
-                <li key={idx} className="flex items-start gap-2 text-xs text-gray-700">
-                  <FaCheckCircle className="text-[#FF7819] mt-0.5 shrink-0 text-xs" />
+                <li key={idx} className="flex items-start gap-2 text-xs text-slate-700">
+                  <FaCheckCircle className="text-[#FF690B] mt-0.5 shrink-0 text-xs" />
                   <span>{doc}</span>
                 </li>
               ))}
@@ -625,20 +654,20 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.28 }}
-            className="bg-white border border-orange-100 p-5 rounded-3xl shadow-xs mb-8"
+            className="bg-white border border-slate-200/80 p-5 rounded-3xl shadow-xs mb-8"
           >
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center text-sm shrink-0 mt-0.5">
+              <div className="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center text-sm shrink-0 mt-0.5">
                 <FaUniversity />
               </div>
               <div className="space-y-1.5">
-                <h4 className="text-xs font-black uppercase tracking-wider text-gray-500">
+                <h4 className="text-xs font-black uppercase tracking-wider text-slate-500">
                   Lending Partner & Regulatory Transparency
                 </h4>
                 <p className="text-xs font-bold text-[#08101E]">
-                  Registered NBFC / Banking Partner: <span className="text-blue-700">{lenderConfig.nbfcPartner || "RBI-Registered Lending Institution"}</span>
+                  Registered NBFC / Banking Partner: <span className="text-blue-700 font-extrabold">{lenderConfig.nbfcPartner || "RBI-Registered Lending Institution"}</span>
                 </p>
-                <p className="text-[11px] text-gray-600 leading-relaxed">
+                <p className="text-[11px] text-slate-600 leading-relaxed">
                   CoverMantra (Spiraea Technologies Private Limited) operates as a digital Lending Service Provider (LSP) / loan aggregator platform. CoverMantra is not a Bank or NBFC and does not lend directly. All loan credit evaluation, underwriting, sanction, interest rates, and disbursements are executed strictly by RBI-registered NBFC/Banking partners. Minimum repayment period is 91 days; payday loans or tenures below 91 days are strictly prohibited.
                 </p>
               </div>
@@ -647,14 +676,14 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
         </section>
 
         {/* RIGHT COLUMN: MULTI-STEP INTEGRATION CARD */}
-        <section className="lg:col-span-5 flex flex-col justify-start">
+        <section id="lead-form-card" className="lg:col-span-5 flex flex-col justify-start scroll-mt-24">
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-[#08101E] text-white rounded-3xl p-6 md:p-8 shadow-2xl border border-white/5 relative overflow-hidden"
+            className="bg-[#08101E] text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/10 relative overflow-hidden ring-1 ring-white/5"
           >
-            {/* Header Glowing Accent */}
-            <div className="absolute top-0 left-0 w-full h-[3px]" style={{ backgroundColor: lenderConfig.brandColor }} />
+            {/* Header Glowing Brand Accent Strip */}
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#FF690B] via-[#FFB900] to-[#FF690B]" />
             
             <AnimatePresence mode="wait">
               {/* STEP 1: OTP GENERATION FLOW */}
@@ -666,8 +695,8 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                   exit={{ opacity: 0, x: -20 }}
                 >
                   <div className="mb-6">
-                    <h2 className="text-xl md:text-2xl font-black text-white mb-2">Check Loan Pre-Approval</h2>
-                    <p className="text-gray-400 text-xs md:text-sm">Verify your mobile number to check custom credit line limits and pre-approved offers.</p>
+                    <h2 className="text-xl md:text-2xl font-black text-white mb-1.5">Check Pre-Approved Limit</h2>
+                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed">Verify your mobile number to view instant credit lines tailored for {lenderConfig.name}.</p>
                   </div>
 
                   {otpError && (
@@ -680,15 +709,15 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                   {!otpSent ? (
                     <form onSubmit={handleSendOtp} className="space-y-4">
                       <div>
-                        <label className="text-xs font-bold text-gray-300 block mb-2">Mobile Number</label>
+                        <label className="text-xs font-bold text-slate-300 block mb-2">Mobile Number</label>
                         <div className="relative">
-                          <FaPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm" />
+                          <FaPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm" />
                           <input 
                             type="tel" 
                             value={phone}
                             onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
                             placeholder="Enter 10-digit mobile number" 
-                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 pl-11 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 font-mono tracking-wider transition-colors text-sm"
+                            className="w-full bg-white/5 border border-white/15 rounded-xl py-3.5 pl-11 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-[#FF690B] focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 font-mono tracking-wider transition-all text-sm"
                             required
                           />
                         </div>
@@ -697,9 +726,9 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                       <button 
                         type="submit" 
                         disabled={isSendingOtp}
-                        className="w-full bg-[#FF7819] hover:bg-orange-600 text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2.5 shadow-lg shadow-orange-600/20 transition-all text-sm"
+                        className="w-full bg-gradient-to-r from-[#FF690B] to-[#FFB900] text-[#08101E] font-black py-3.5 px-6 rounded-xl flex items-center justify-center gap-2.5 shadow-lg shadow-orange-500/20 hover:opacity-95 active:scale-95 transition-all text-sm cursor-pointer disabled:opacity-60"
                       >
-                        {isSendingOtp ? "Generating OTP..." : "Get OTP"}
+                        {isSendingOtp ? "Generating OTP..." : "Get Verification OTP"}
                         <FaRegPaperPlane className="text-xs" />
                       </button>
                     </form>
@@ -707,23 +736,23 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                     <form onSubmit={handleVerifyOtp} className="space-y-4">
                       <div>
                         <div className="flex justify-between items-center mb-2">
-                          <label className="text-xs font-bold text-gray-300">Enter verification code sent to {phone}</label>
+                          <label className="text-xs font-bold text-slate-300">Enter code sent to {phone}</label>
                           <button 
                             type="button" 
                             onClick={() => { setOtpSent(false); setOtp(""); }} 
                             className="text-xs text-orange-400 font-bold hover:underline"
                           >
-                            Change Number
+                            Change
                           </button>
                         </div>
                         <div className="relative">
-                          <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm" />
+                          <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm" />
                           <input 
                             type="text" 
                             value={otp}
                             onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                             placeholder="Enter 6-digit OTP code" 
-                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 pl-11 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 font-mono tracking-[0.3em] font-bold text-center transition-colors text-sm"
+                            className="w-full bg-white/5 border border-white/15 rounded-xl py-3.5 pl-11 pr-4 text-white placeholder-slate-500 focus:outline-none focus:border-[#FF690B] focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 font-mono tracking-[0.3em] font-bold text-center transition-all text-sm"
                             required
                           />
                         </div>
@@ -732,7 +761,7 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                       <button 
                         type="submit" 
                         disabled={isVerifyingOtp}
-                        className="w-full bg-linear-to-r from-[#FF690B] to-[#FFB900] text-[#08101E] font-extrabold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 transition-all text-sm"
+                        className="w-full bg-gradient-to-r from-[#FF690B] to-[#FFB900] text-[#08101E] font-black py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 hover:opacity-95 active:scale-95 transition-all text-sm cursor-pointer disabled:opacity-60"
                       >
                         {isVerifyingOtp ? "Verifying..." : "Verify & Continue"}
                         <FaArrowRight className="text-xs" />
@@ -740,12 +769,12 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
 
                       <div className="text-center pt-2">
                         {resendTimer > 0 ? (
-                          <span className="text-xs text-gray-500">Resend code in {resendTimer}s</span>
+                          <span className="text-xs text-slate-500 font-medium">Resend code in {resendTimer}s</span>
                         ) : (
                           <button 
                             type="button" 
                             onClick={handleSendOtp} 
-                            className="text-xs text-orange-400 font-bold hover:underline"
+                            className="text-xs text-orange-400 font-bold hover:underline cursor-pointer"
                           >
                             Resend Verification Code
                           </button>
@@ -753,7 +782,7 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                       </div>
                     </form>
                   )}
-                 </motion.div>
+                </motion.div>
               )}
 
               {/* STEP 2: PROFILE QUALIFICATION FORM */}
@@ -764,46 +793,46 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                 >
-                  <div className="mb-6 flex items-center justify-between gap-4">
+                  <div className="mb-5 flex items-center justify-between gap-4">
                     <div>
-                      <h2 className="text-xl md:text-2xl font-black text-white mb-1">Verify Qualification</h2>
-                      <p className="text-gray-400 text-xs">Verify key fields for {lenderConfig.name} criteria matches.</p>
+                      <h2 className="text-xl md:text-2xl font-black text-white mb-1">Verify Details</h2>
+                      <p className="text-slate-400 text-xs">Verify your information for instant evaluation.</p>
                     </div>
                     {prefilled && (
-                      <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded text-[10px] uppercase font-bold shrink-0">
+                      <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full text-[10px] uppercase font-black shrink-0">
                         Auto Filled
                       </span>
                     )}
                   </div>
 
                   {formError && (
-                    <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3.5 rounded-xl text-xs flex items-center gap-2 mb-5">
+                    <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3.5 rounded-xl text-xs flex items-center gap-2 mb-4">
                       <FaExclamationTriangle className="shrink-0" />
                       <span>{formError}</span>
                     </div>
                   )}
 
-                  <form onSubmit={handleFormSubmit} className="space-y-4">
+                  <form onSubmit={handleFormSubmit} className="space-y-3.5">
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">Full Name</label>
+                        <label className="text-[10px] font-bold text-slate-300 uppercase block mb-1">Full Name</label>
                         <input 
                           type="text" 
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           placeholder="As on PAN" 
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 text-xs transition-colors"
+                          className="w-full bg-white/5 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#FF690B] focus:bg-white/10 focus:ring-1 focus:ring-orange-500/20 text-xs transition-all font-medium"
                           required
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">PAN Card</label>
+                        <label className="text-[10px] font-bold text-slate-300 uppercase block mb-1">PAN Card</label>
                         <input 
                           type="text" 
                           value={formData.pan}
                           onChange={(e) => setFormData({ ...formData, pan: e.target.value.toUpperCase().slice(0, 10) })}
                           placeholder="ABCDE1234F" 
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 text-xs font-mono transition-colors"
+                          className="w-full bg-white/5 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#FF690B] focus:bg-white/10 focus:ring-1 focus:ring-orange-500/20 text-xs font-mono uppercase tracking-wider transition-all"
                           required
                         />
                       </div>
@@ -811,23 +840,23 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">DOB</label>
+                        <label className="text-[10px] font-bold text-slate-300 uppercase block mb-1">DOB</label>
                         <input 
                           type="date" 
                           value={formData.dob}
                           onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 text-xs transition-colors"
+                          className="w-full bg-white/5 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#FF690B] focus:bg-white/10 focus:ring-1 focus:ring-orange-500/20 text-xs transition-all"
                           required
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">Email</label>
+                        <label className="text-[10px] font-bold text-slate-300 uppercase block mb-1">Email</label>
                         <input 
                           type="email" 
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           placeholder="name@email.com" 
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 text-xs transition-colors"
+                          className="w-full bg-white/5 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#FF690B] focus:bg-white/10 focus:ring-1 focus:ring-orange-500/20 text-xs transition-all font-medium"
                           required
                         />
                       </div>
@@ -835,76 +864,75 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">Gender</label>
+                        <label className="text-[10px] font-bold text-slate-300 uppercase block mb-1">Gender</label>
                         <select
                           value={formData.gender}
                           onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-orange-500 text-xs transition-colors"
+                          className="w-full bg-[#08101E] border border-white/15 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-[#FF690B] text-xs transition-all"
                         >
-                          <option value="Male" className="bg-[#08101E]">Male</option>
-                          <option value="Female" className="bg-[#08101E]">Female</option>
-                          <option value="Other" className="bg-[#08101E]">Other</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Other">Other</option>
                         </select>
                       </div>
                       <div>
-                        <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">Employment</label>
+                        <label className="text-[10px] font-bold text-slate-300 uppercase block mb-1">Employment</label>
                         <select
                           value={formData.employment}
                           onChange={(e) => setFormData({ ...formData, employment: e.target.value })}
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-orange-500 text-xs transition-colors"
+                          className="w-full bg-[#08101E] border border-white/15 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-[#FF690B] text-xs transition-all"
                         >
-                          <option value="Salaried" className="bg-[#08101E]">Salaried</option>
-                          <option value="Self-Employed" className="bg-[#08101E]">Self-Employed</option>
+                          <option value="Salaried">Salaried</option>
+                          <option value="Self-Employed">Self-Employed</option>
                         </select>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">Monthly Income (₹)</label>
+                        <label className="text-[10px] font-bold text-slate-300 uppercase block mb-1">Monthly Income (₹)</label>
                         <input 
                           type="number" 
                           value={formData.income}
                           onChange={(e) => setFormData({ ...formData, income: e.target.value })}
                           placeholder="e.g. 25000" 
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 text-xs transition-colors"
+                          className="w-full bg-white/5 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#FF690B] focus:bg-white/10 focus:ring-1 focus:ring-orange-500/20 text-xs transition-all font-medium"
                           required
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">Pincode</label>
+                        <label className="text-[10px] font-bold text-slate-300 uppercase block mb-1">Pincode</label>
                         <input 
                           type="text" 
                           value={formData.pincode}
                           onChange={(e) => setFormData({ ...formData, pincode: e.target.value.replace(/\D/g, "").slice(0, 6) })}
                           placeholder="110001" 
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 text-xs font-mono transition-colors"
+                          className="w-full bg-white/5 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#FF690B] focus:bg-white/10 focus:ring-1 focus:ring-orange-500/20 text-xs font-mono transition-all"
                           required
                         />
                       </div>
                     </div>
 
-                    {/* Hidden fields / prefilled attributes */}
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">City</label>
+                        <label className="text-[10px] font-bold text-slate-300 uppercase block mb-1">City</label>
                         <input 
                           type="text" 
                           value={formData.city}
                           onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                           placeholder="City" 
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 text-xs transition-colors"
+                          className="w-full bg-white/5 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#FF690B] focus:bg-white/10 focus:ring-1 focus:ring-orange-500/20 text-xs transition-all font-medium"
                           required
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">State</label>
+                        <label className="text-[10px] font-bold text-slate-300 uppercase block mb-1">State</label>
                         <input 
                           type="text" 
                           value={formData.state}
                           onChange={(e) => setFormData({ ...formData, state: e.target.value })}
                           placeholder="State" 
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 text-xs transition-colors"
+                          className="w-full bg-white/5 border border-white/15 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#FF690B] focus:bg-white/10 focus:ring-1 focus:ring-orange-500/20 text-xs transition-all font-medium"
                           required
                         />
                       </div>
@@ -913,7 +941,7 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                     <button 
                       type="submit" 
                       disabled={isSubmittingForm}
-                      className="w-full bg-[#FF7819] hover:bg-orange-600 text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-600/20 transition-all text-sm mt-3"
+                      className="w-full bg-gradient-to-r from-[#FF690B] to-[#FFB900] text-[#08101E] font-black py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 hover:opacity-95 active:scale-95 shadow-lg shadow-orange-500/20 transition-all text-sm mt-3 cursor-pointer disabled:opacity-60"
                     >
                       {isSubmittingForm ? "Submitting Application..." : "Check Loan Eligibility"}
                       <FaArrowRight className="text-xs" />
@@ -934,16 +962,16 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                     <div className="w-12 h-12 bg-amber-500/10 text-amber-500 border border-amber-500/20 flex items-center justify-center rounded-full mx-auto mb-3 text-lg">
                       <FaExclamationTriangle />
                     </div>
-                    <h2 className="text-lg md:text-xl font-black text-white mb-2">Location Not Serviceable</h2>
-                    <p className="text-xs text-gray-400 px-4">
-                      We apologize, but <span className="font-extrabold text-white">{lenderConfig.name}</span> does not service pincode <span className="font-mono text-[#FF7819] font-bold">{formData.pincode}</span> yet.
+                    <h2 className="text-lg md:text-xl font-black text-white mb-1.5">Location Not Serviceable</h2>
+                    <p className="text-xs text-slate-400 px-2 leading-relaxed">
+                      We apologize, but <span className="font-black text-white">{lenderConfig.name}</span> does not service pincode <span className="font-mono text-[#FF690B] font-bold">{formData.pincode}</span> yet.
                     </p>
                   </div>
 
                   <div className="border-t border-white/10 pt-4 mb-4">
-                    <p className="text-xs font-bold text-gray-300 mb-3">However, you are pre-approved for these active alternatives:</p>
+                    <p className="text-xs font-bold text-slate-300 mb-3">Pre-approved alternative offers available for you:</p>
                     
-                    <div className="space-y-3 max-h-[220px] overflow-y-auto scrollbar-thin pr-1">
+                    <div className="space-y-2.5 max-h-[220px] overflow-y-auto scrollbar-thin pr-1">
                       {serviceableAlternatives.length > 0 ? (
                         serviceableAlternatives.map((altLender, idx) => (
                           <div 
@@ -954,24 +982,24 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                               <img 
                                 src={altLender.logo} 
                                 alt={altLender.name} 
-                                className="w-10 h-10 object-contain bg-white rounded p-0.5" 
+                                className="w-9 h-9 object-contain bg-white rounded p-0.5" 
                               />
                               <div>
-                                <h4 className="text-xs font-extrabold text-white">{altLender.name}</h4>
+                                <h4 className="text-xs font-black text-white">{altLender.name}</h4>
                                 <span className="text-[10px] text-emerald-400 font-bold block">{altLender.loanAmount}</span>
                               </div>
                             </div>
 
                             <button
                               onClick={() => handleAlternativeApply(altLender)}
-                              className="bg-orange-500 hover:bg-orange-600 text-white font-bold text-[10px] px-3.5 py-2 rounded-xl transition-all"
+                              className="bg-gradient-to-r from-[#FF690B] to-[#FFB900] text-[#08101E] font-black text-[10px] px-3.5 py-2 rounded-xl hover:opacity-95 transition-all cursor-pointer"
                             >
                               Apply Now
                             </button>
                           </div>
                         ))
                       ) : (
-                        <div className="bg-white/5 border border-white/5 p-4 text-center text-xs text-gray-500 rounded-2xl">
+                        <div className="bg-white/5 border border-white/5 p-4 text-center text-xs text-slate-400 rounded-2xl">
                           No alternative lenders found servicing this specific pincode.
                         </div>
                       )}
@@ -981,14 +1009,14 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                   <div className="flex items-center justify-center gap-3 pt-3">
                     <button 
                       onClick={() => setStep("form")}
-                      className="text-xs text-gray-400 font-bold hover:text-white transition-colors"
+                      className="text-xs text-slate-400 font-bold hover:text-white transition-colors cursor-pointer"
                     >
                       Edit Pincode
                     </button>
                     <span className="text-white/20">|</span>
                     <button 
                       onClick={() => router.push("/personal-loans")}
-                      className="text-xs text-orange-400 font-bold hover:underline"
+                      className="text-xs text-orange-400 font-bold hover:underline cursor-pointer"
                     >
                       Compare All Lenders
                     </button>
@@ -1004,17 +1032,17 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                   animate={{ opacity: 1 }}
                   className="text-center py-10"
                 >
-                  <div className="w-14 h-14 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 flex items-center justify-center rounded-full mx-auto mb-4 text-2xl">
+                  <div className="w-14 h-14 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center rounded-full mx-auto mb-4 text-2xl">
                     <FaCheckCircle />
                   </div>
                   <h2 className="text-xl md:text-2xl font-black text-white mb-2">Offer Pre-Approved!</h2>
-                  <p className="text-xs text-gray-400 px-6">
+                  <p className="text-xs text-slate-400 px-4 leading-relaxed">
                     Application successfully registered. Redirecting you to partner gateway to complete bank verification...
                   </p>
                   
-                  {/* Small Spinner */}
+                  {/* Spinner */}
                   <div className="mt-8 flex justify-center">
-                    <div className="w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-6 h-6 border-2 border-[#FF690B] border-t-transparent rounded-full animate-spin" />
                   </div>
                 </motion.div>
               )}
@@ -1024,30 +1052,33 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
       </div>
 
       {/* ACCORDION FAQ SECTION */}
-      <section className="max-w-7xl mx-auto px-6 mt-16 md:mt-24">
-        <h2 className="text-2xl md:text-3xl font-black text-[#08101E] mb-8">Frequently Asked Questions</h2>
-        <div className="space-y-4 max-w-4xl">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-16 md:mt-24">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-1.5 h-6 bg-[#FF690B] rounded-full" />
+          <h2 className="text-2xl md:text-3xl font-black text-[#08101E]">Frequently Asked Questions</h2>
+        </div>
+        <div className="space-y-3.5 max-w-4xl">
           {lenderConfig.faqs.map((faq, idx) => (
-            <div key={idx} className="bg-white border border-orange-100 rounded-2xl p-5 shadow-xs">
+            <div key={idx} className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs hover:border-orange-200 transition-colors">
               <h4 className="font-extrabold text-sm md:text-base text-[#08101E] mb-2">{faq.q}</h4>
-              <p className="text-xs md:text-sm text-gray-600 leading-relaxed">{faq.a}</p>
+              <p className="text-xs md:text-sm text-slate-600 leading-relaxed">{faq.a}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* REGULATORY DISCLOSURE & CONSUMER PROTECTION BANNER */}
-      <section className="max-w-7xl mx-auto px-6 mt-12 mb-16">
-        <div className="bg-white/80 border border-orange-100 rounded-3xl p-6 md:p-8 text-xs text-gray-600 leading-relaxed shadow-xs">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-12 mb-8">
+        <div className="bg-white border border-slate-200/80 rounded-3xl p-6 md:p-8 text-xs text-slate-600 leading-relaxed shadow-xs">
           <div className="flex items-center gap-2 text-[#08101E] font-black text-sm uppercase tracking-wider mb-4">
-            <FaShieldAlt className="text-[#FF7819] text-base" />
+            <FaShieldAlt className="text-[#FF690B] text-base" />
             <span>Important Regulatory Disclosures & Financial Products Advertising Compliance</span>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h5 className="font-bold text-[#08101E] mb-1.5">Repayment Tenure & APR Disclosures</h5>
-              <div className="space-y-1.5 text-gray-600 text-[11px] leading-relaxed">
+              <div className="space-y-1.5 text-slate-600 text-[11px] leading-relaxed">
                 <p>
                   • <strong>Minimum & Maximum Repayment Period:</strong> The minimum loan repayment period is <strong>91 days (3 months)</strong> and up to 365 days / 60 months depending on the selected partner loan product. We strictly do not promote or offer short-term payday loans (&lt;91 days).
                 </p>
@@ -1061,7 +1092,7 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
             </div>
             <div>
               <h5 className="font-bold text-[#08101E] mb-1.5">Digital Lending Service Provider (LSP) Status</h5>
-              <div className="space-y-1.5 text-gray-600 text-[11px] leading-relaxed">
+              <div className="space-y-1.5 text-slate-600 text-[11px] leading-relaxed">
                 <p>
                   CoverMantra (Spiraea Technologies Private Limited) is a technology platform functioning as a Digital Lending Service Provider (LSP) / loan aggregator. CoverMantra is not a financial institution, Bank, or Non-Banking Financial Company (NBFC).
                 </p>
@@ -1073,6 +1104,33 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
           </div>
         </div>
       </section>
+
+      {/* MOBILE STICKY BOTTOM ACTION BAR */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200 px-4 py-3 shadow-[0_-8px_25px_rgba(0,0,0,0.08)] flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <img 
+            src={lenderConfig.logo} 
+            alt={lenderConfig.name} 
+            className="w-8 h-8 object-contain bg-slate-50 border border-slate-200 rounded-lg p-0.5 shrink-0" 
+          />
+          <div className="truncate">
+            <h4 className="text-xs font-black text-[#08101E] truncate">{lenderConfig.name}</h4>
+            <span className="text-[10px] text-[#FF690B] font-bold block">{lenderConfig.loanAmount}</span>
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            const el = document.getElementById("lead-form-card");
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          className="bg-gradient-to-r from-[#FF690B] to-[#FFB900] text-[#08101E] font-black text-xs px-5 py-2.5 rounded-xl shadow-md shadow-orange-500/20 active:scale-95 transition-all shrink-0 cursor-pointer"
+        >
+          Apply Now
+        </button>
+      </div>
 
     </main>
   );

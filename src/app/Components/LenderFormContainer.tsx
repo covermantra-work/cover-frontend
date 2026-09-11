@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../../lib/axios";
+import { trackMetaLead } from "../../lib/metaPixel";
 
 interface FormField {
   name: string;
@@ -209,6 +210,13 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
       const rawRedirectUrl = data?.redirectUrl || targetFallbackUrl;
       const decoratedUrl = decorateUrl(rawRedirectUrl);
 
+      // Track Meta Pixel Lead Conversion
+      trackMetaLead({
+        content_name: normalizedLenderId,
+        content_category: "Lender Application",
+        value: Number(formData.income || formData.salary || formData.loanAmount) || undefined,
+      });
+
       showModal(
         `✅ Application Submitted Successfully!\nRedirecting to partner website...`,
         "success"
@@ -269,10 +277,10 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
 
   if (isLoadingConfig) {
     return (
-      <div className="min-h-screen bg-[#FFF4E5] flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-[#FF7819]/20 border-t-[#FF7819] rounded-full animate-spin"></div>
-          <p className="text-[#08101E] font-bold text-sm tracking-widest uppercase">Loading Application Form...</p>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4 bg-white p-8 rounded-3xl border border-slate-200/80 shadow-xs">
+          <div className="w-10 h-10 border-3 border-orange-500/20 border-t-[#FF690B] rounded-full animate-spin"></div>
+          <p className="text-[#08101E] font-bold text-xs tracking-widest uppercase">Loading Application Form...</p>
         </div>
       </div>
     );
@@ -280,15 +288,18 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
 
   if (!config) {
     return (
-      <div className="min-h-screen bg-[#FFF4E5] flex items-center justify-center p-4">
-        <div className="bg-white p-8 rounded-[2rem] shadow-xl text-center max-w-md w-full">
-          <h2 className="text-2xl font-black text-red-600 mb-2">Error</h2>
-          <p className="text-gray-500 font-bold mb-6">Could not load form configuration for this lender.</p>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+        <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-200/80 text-center max-w-md w-full">
+          <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-4 text-xl font-black">
+            ✕
+          </div>
+          <h2 className="text-xl font-black text-[#08101E] mb-2">Form Not Available</h2>
+          <p className="text-slate-500 font-medium text-sm mb-6 leading-relaxed">Could not load form configuration for this lender right now.</p>
           <a
             href="/personal-loans"
-            className="inline-block bg-[#FF7819] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#08101E] transition-all"
+            className="inline-block bg-gradient-to-r from-[#FF690B] to-[#FFB900] text-[#08101E] px-6 py-3 rounded-xl font-black text-sm hover:opacity-95 transition-all shadow-md shadow-orange-500/20"
           >
-            Back to Lenders
+            Back to All Lenders
           </a>
         </div>
       </div>
@@ -296,7 +307,7 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
   }
 
   return (
-    <div className="min-h-screen bg-[#FFF4E5] font-sans">
+    <div className="min-h-screen bg-slate-50 font-sans pb-20 selection:bg-[#FF690B] selection:text-white">
       {/* Dynamic Alert Popup */}
       <AnimatePresence>
         {responseMessage && (
@@ -304,34 +315,32 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 flex items-center justify-center bg-[#08101E]/70 backdrop-blur-md z-[100] p-4"
+            className="fixed inset-0 flex items-center justify-center bg-[#08101E]/60 backdrop-blur-md z-[100] p-4"
           >
             <motion.div
-              initial={{ scale: 0.9, y: 20 }}
+              initial={{ scale: 0.95, y: 15 }}
               animate={{ scale: 1, y: 0 }}
-              className={`flex flex-col items-center max-w-sm w-full p-8 rounded-[3rem] shadow-2xl bg-white border-b-[10px] ${
-                responseMessage.type === "success" ? "border-green-500" : "border-red-600"
-              }`}
+              className="flex flex-col items-center max-w-sm w-full p-6 sm:p-8 rounded-3xl shadow-2xl bg-white border border-slate-100"
             >
               <div
-                className={`w-20 h-20 rounded-full flex items-center justify-center mb-4 ${
-                  responseMessage.type === "success" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"
+                className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 ${
+                  responseMessage.type === "success" ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"
                 }`}
               >
                 {responseMessage.type === "success" ? (
-                  <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
                 ) : (
-                  <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 )}
               </div>
-              <h3 className="text-2xl font-black text-[#08101E] tracking-tight">
-                {responseMessage.type.toUpperCase()}
+              <h3 className="text-xl font-black text-[#08101E] tracking-tight">
+                {responseMessage.type === "success" ? "Application Submitted" : "Submission Failed"}
               </h3>
-              <p className="text-center text-gray-500 font-bold mt-2 leading-tight">
+              <p className="text-center text-slate-500 font-medium text-xs sm:text-sm mt-2 leading-relaxed">
                 {responseMessage.message}
               </p>
             </motion.div>
@@ -340,53 +349,57 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
       </AnimatePresence>
 
       {/* Header Banner */}
-      <div className="min-h-[18rem] pt-20 md:pt-24 bg-[#08101E] relative flex flex-col items-center justify-center text-center px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30"></div>
-        <div className="absolute -top-24 -left-24 w-64 h-64 bg-[#FF7819] rounded-full blur-[120px] opacity-20"></div>
+      <div className="min-h-[17rem] pt-16 md:pt-20 bg-[#08101E] relative flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        {/* Ambient Top Glow */}
+        <div className="absolute top-0 inset-x-0 h-full bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(255,105,11,0.2),rgba(255,255,255,0))] pointer-events-none" />
 
         {config.logo && (
-          <div className="relative h-12 w-48 mb-3 flex items-center justify-center">
-            <img src={config.logo} alt={config.title} className="max-h-full max-w-full object-contain brightness-0 invert" />
+          <div className="relative h-10 w-40 mb-3 flex items-center justify-center bg-white/10 px-4 py-1.5 rounded-xl border border-white/10 backdrop-blur-md">
+            <img src={config.logo} alt={config.title} className="max-h-full max-w-full object-contain" />
           </div>
         )}
         <motion.h1
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative text-3xl md:text-4xl font-black text-white italic tracking-tighter"
+          className="relative text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight"
         >
-          {config.title.toUpperCase()}
+          {config.title}
         </motion.h1>
-        <p className="relative text-gray-400 text-[10px] md:text-xs tracking-[0.3em] uppercase mt-2 font-bold">
+        <p className="relative text-slate-400 text-[11px] md:text-xs tracking-wider uppercase mt-2 font-bold">
           Config-Driven Secure Application Flow
         </p>
       </div>
 
-      {/* Dynamic Form Content */}
-      <div className="relative z-10 flex justify-center px-4 -mt-20 pb-20">
+      {/* Dynamic Form Content Card */}
+      <div className="relative z-10 flex justify-center px-4 -mt-14 sm:-mt-16">
         <motion.form
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           onSubmit={handleSubmit}
-          className="max-w-2xl w-full bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 backdrop-blur-2xl p-8 md:p-12 rounded-[3.5rem] shadow-[0_30px_70px_-15px_rgba(255,120,25,0.22),0_15px_35px_rgba(0,0,0,0.06),inset_0_3px_6px_rgba(255,255,255,1)] border-4 border-white"
+          className="max-w-2xl w-full bg-white rounded-3xl p-6 sm:p-10 shadow-xl shadow-slate-900/5 border border-slate-200/80 relative overflow-hidden"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+          {/* Top Brand Gradient Accent Bar */}
+          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#FF690B] via-[#FFB900] to-[#FF690B]" />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
             {config.fields.map((field) => {
               const val = formData[field.name] || "";
 
               if (field.type === "select") {
                 return (
-                  <div key={field.name} className="flex flex-col gap-2">
-                    <label className="text-[11px] uppercase font-black text-[#FF7819] ml-4 tracking-widest">
-                      {field.label}
+                  <div key={field.name} className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
+                      <span>{field.label}</span>
+                      {field.required && <span className="text-[#FF690B] text-xs">*</span>}
                     </label>
                     <select
                       name={field.name}
                       value={val}
                       onChange={handleChange}
-                      className="w-full p-4.5 bg-slate-50/90 border-2 border-slate-200/80 rounded-[1.6rem] focus:border-[#FF7819] focus:bg-white outline-none transition-all font-bold text-sm text-[#08101E] shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)]"
+                      className="w-full px-4 py-3 bg-slate-50/80 border border-slate-200 rounded-xl focus:border-[#FF690B] focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all font-medium text-sm text-[#08101E]"
                       required={field.required}
                     >
-                      <option value="">Select Option</option>
+                      <option value="">Select {field.label}</option>
                       {field.options?.map((opt) => (
                         <option key={opt.value} value={opt.value}>
                           {opt.label}
@@ -398,21 +411,22 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
               }
 
               return (
-                <div key={field.name} className="flex flex-col gap-2">
-                  <label className="text-[11px] uppercase font-black text-[#FF7819] ml-4 tracking-widest">
-                    {field.label}
+                <div key={field.name} className="flex flex-col gap-1.5">
+                  <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
+                    <span>{field.label}</span>
+                    {field.required && <span className="text-[#FF690B] text-xs">*</span>}
                   </label>
                   <input
                     name={field.name}
                     type={field.type}
                     value={val}
                     onChange={handleChange}
-                    placeholder={field.placeholder || ""}
+                    placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}`}
                     pattern={field.pattern || undefined}
                     required={field.required}
                     maxLength={field.name === "pan" ? 10 : undefined}
-                    className={`w-full p-4.5 bg-slate-50/90 border-2 border-slate-200/80 rounded-[1.6rem] focus:border-[#FF7819] focus:bg-white outline-none transition-all font-bold text-sm text-[#08101E] placeholder:text-gray-300 shadow-[inset_0_2px_5px_rgba(0,0,0,0.05)] ${
-                      field.uppercase ? "uppercase tracking-[0.2em] font-mono" : ""
+                    className={`w-full px-4 py-3 bg-slate-50/80 border border-slate-200 rounded-xl focus:border-[#FF690B] focus:bg-white focus:ring-2 focus:ring-orange-500/20 outline-none transition-all font-medium text-sm text-[#08101E] placeholder:text-slate-400 ${
+                      field.uppercase ? "uppercase tracking-wider font-mono" : ""
                     }`}
                   />
                 </div>
@@ -422,41 +436,41 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
 
           {/* Consent Checkbox */}
           <motion.label
-            whileTap={{ scale: 0.98 }}
-            className="mt-8 flex items-center gap-4 p-5 bg-[#FF7819]/5 rounded-3xl border-2 border-[#FF7819]/20 hover:border-[#FF7819]/40 transition-all cursor-pointer shadow-[inset_0_1px_3px_rgba(255,255,255,0.8)]"
+            whileTap={{ scale: 0.99 }}
+            className="mt-6 flex items-start gap-3 p-4 bg-orange-50/50 rounded-2xl border border-orange-200/80 hover:border-orange-300 transition-all cursor-pointer shadow-xs"
           >
             <input
               type="checkbox"
               name="consent"
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
-              className="w-5 h-5 accent-[#FF7819] shrink-0"
+              className="w-4 h-4 mt-0.5 accent-[#FF690B] rounded shrink-0 cursor-pointer"
               required
             />
-            <span className="text-[11px] md:text-xs text-gray-700 font-bold leading-snug">
+            <span className="text-[11px] sm:text-xs text-slate-600 font-medium leading-relaxed">
               {config.consentText}
             </span>
           </motion.label>
 
-          {/* 3D Tactile Extruded Candy Submit Button */}
+          {/* Submit Button */}
           <motion.button
-            whileHover={{ scale: 1.01, y: -2 }}
-            whileTap={{ scale: 0.98, y: 3 }}
+            whileHover={{ scale: 1.005 }}
+            whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={!consent || loading}
-            className={`w-full mt-8 py-5 rounded-[2rem] font-black text-white text-base md:text-lg tracking-wider uppercase transition-all flex items-center justify-center gap-3 cursor-pointer ${
+            className={`w-full mt-6 py-4 rounded-xl font-black text-sm sm:text-base tracking-wide transition-all flex items-center justify-center gap-2.5 cursor-pointer ${
               !consent || loading
-                ? "bg-gray-300 cursor-not-allowed shadow-none text-gray-500"
-                : "bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] shadow-[0_8px_0_#C2410C,0_18px_30px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.5)] active:shadow-[0_2px_0_#C2410C]"
+                ? "bg-slate-200 cursor-not-allowed text-slate-400"
+                : "bg-gradient-to-r from-[#FF690B] to-[#FFB900] text-[#08101E] shadow-lg shadow-orange-500/20 hover:opacity-95 active:scale-95"
             }`}
           >
             {loading ? (
-              <span className="flex items-center justify-center gap-3">
-                <div className="w-6 h-6 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+              <span className="flex items-center justify-center gap-2.5">
+                <div className="w-5 h-5 border-2 border-[#08101E]/20 border-t-[#08101E] rounded-full animate-spin"></div>
                 SUBMITTING APPLICATION...
               </span>
             ) : (
-              "SUBMIT APPLICATION FOR VERIFICATION →"
+              <span>SUBMIT APPLICATION FOR VERIFICATION →</span>
             )}
           </motion.button>
         </motion.form>
@@ -464,3 +478,4 @@ export default function LenderFormContainer({ lenderId }: LenderFormContainerPro
     </div>
   );
 }
+

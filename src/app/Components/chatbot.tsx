@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { motion, AnimatePresence } from "framer-motion";
 import { useModal } from "../context/modelcontext";
 import api from "../../lib/axios";
+import { trackMetaLead } from "../../lib/metaPixel";
 import dynamic from "next/dynamic";
 import animationData from "../../animations/chatbot.json";
 import { useRouter } from "next/navigation";
@@ -338,6 +339,13 @@ export default function Bot() {
         source: "chatbot",
         consent: true,
         consentMessage: "I agree to the Terms & Conditions & Privacy Policy and authorize CoverMantra to contact me regarding my loan application."
+      });
+
+      // Track Meta Pixel Lead event
+      trackMetaLead({
+        content_name: "Chatbot Loan Lead",
+        content_category: "Chatbot Application",
+        value: incomeVal || undefined,
       });
 
       // 2. Fetch active lenders list from API

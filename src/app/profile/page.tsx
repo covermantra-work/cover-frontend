@@ -33,6 +33,7 @@ export default function ProfilePage() {
   const [editData, setEditData] = useState<any>({});
   const [isSaving, setIsSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     // If not authenticated, check cookies before redirecting
@@ -119,14 +120,18 @@ export default function ProfilePage() {
   const handleSave = async () => {
     setIsSaving(true);
     setSuccessMessage("");
+    setErrorMessage("");
     try {
       await updateUserProfile(editData);
       setUserData(editData);
       setIsEditing(false);
       setSuccessMessage("Profile saved successfully!");
-      setTimeout(() => setSuccessMessage(""), 3000);
-    } catch (err) {
+      setTimeout(() => setSuccessMessage(""), 3500);
+    } catch (err: any) {
       console.error("Failed to save profile", err);
+      const msg = err?.response?.data?.message || err?.message || "Failed to save profile. Please check all fields.";
+      setErrorMessage(msg);
+      setTimeout(() => setErrorMessage(""), 5000);
     } finally {
       setIsSaving(false);
     }
@@ -171,6 +176,16 @@ export default function ProfilePage() {
               className="absolute top-24 z-50 flex items-center gap-2 bg-green-500 text-white px-6 py-3 rounded-full font-bold shadow-2xl shadow-green-500/50"
             >
               <CheckCircle size={20} /> {successMessage}
+            </motion.div>
+          )}
+          {errorMessage && (
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-24 z-50 flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-full font-bold shadow-2xl shadow-red-600/50"
+            >
+              <X size={20} /> {errorMessage}
             </motion.div>
           )}
         </AnimatePresence>
