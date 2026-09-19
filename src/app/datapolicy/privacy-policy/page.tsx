@@ -151,6 +151,7 @@ export default function PrivacyPolicyPage() {
                         <p className="text-white/40">Grievance Officer</p>
                         <p className="text-lg">Nisha</p>
                         <p className="text-[#FF7819]">info@covermantra.in</p>
+                        <p className="text-[#FF7819] tracking-widest">Mob: <a href="tel:7082554054" className="hover:underline">7082554054</a></p>
                       </div>
                       <div className="space-y-2">
                         <p className="text-white/40">Corporate Address</p>
