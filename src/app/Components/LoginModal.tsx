@@ -151,74 +151,71 @@ export default function LoginModal({ isOpen, onClose, onSuccess, suppressGlobalM
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4">
-        {/* Premium Glass Backdrop */}
+      <div className="fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        {/* Institutional Backdrop */}
         <motion.div 
           initial={{ opacity: 0 }} 
           animate={{ opacity: 1 }} 
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
           onClick={onClose}
-          className="absolute inset-0 bg-[#08101E]/60 backdrop-blur-xl"
+          className="fixed inset-0 bg-[#00172e]/65 backdrop-blur-md"
         />
 
-        {/* Premium Modal Card */}
+        {/* Bank-Grade Modal Card */}
         <motion.div 
-          initial={{ scale: 0.95, opacity: 0, y: 20 }}
+          initial={{ scale: 0.96, opacity: 0, y: 12 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.95, opacity: 0, y: 20 }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          className="relative w-full max-w-[380px] bg-white/95 backdrop-blur-3xl rounded-[2.5rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] overflow-hidden border border-white/20"
+          exit={{ scale: 0.96, opacity: 0, y: 12 }}
+          transition={{ type: "spring", stiffness: 350, damping: 28 }}
+          className="relative w-full max-w-[390px] my-auto bg-white rounded-2xl shadow-2xl border border-[#E5E2DA] max-h-[calc(100dvh-1.5rem)] sm:max-h-[calc(100dvh-2rem)] overflow-y-auto"
         >
-          {/* Subtle top gradient bar */}
-          <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#FF7819] via-[#FFB800] to-[#FF7819] opacity-90" />
+          {/* Institutional Top Orange Brand Accent */}
+          <div className="sticky top-0 left-0 w-full h-1 bg-[#FF7819] z-20" />
 
-          <div className="p-7 sm:p-8 relative">
+          <div className="p-5 sm:p-6 relative">
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-[#FF7819] rounded-full transition-colors"
+              aria-label="Close dialog"
+              className="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-7 h-7 flex items-center justify-center bg-[#FAF8F5] hover:bg-[#E5E2DA] text-[#002140] hover:text-[#FF7819] rounded-full transition-colors border border-[#E5E2DA]/60 z-10"
             >
-              <FaTimes size={12} />
+              <FaTimes size={11} />
             </button>
 
             {/* Header */}
-            <div className="flex flex-col items-center mb-8 mt-2">
+            <div className="flex flex-col items-center mb-5 mt-1 text-center">
               <motion.div 
-                initial={{ scale: 0.5, opacity: 0 }}
+                initial={{ scale: 0.7, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20, delay: 0.1 }}
-                className="w-16 h-16 bg-gradient-to-br from-[#FFF4E5] to-white rounded-2xl flex items-center justify-center text-[#FF7819] shadow-[0_10px_20px_-5px_rgba(255,120,25,0.2)] mb-4 border border-[#FF7819]/10"
+                transition={{ type: "spring", stiffness: 400, damping: 22 }}
+                className="w-11 h-11 bg-[#FFF3EB] border border-[#FF7819]/25 rounded-xl flex items-center justify-center text-[#FF7819] mb-2.5 shadow-2xs"
               >
-                {step === "phone" ? <FaPhoneAlt size={22} /> : <FaLock size={22} />}
+                {step === "phone" ? <FaPhoneAlt size={16} /> : <FaLock size={16} />}
               </motion.div>
-              <h2 className="text-[22px] font-black text-[#08101E] tracking-tight">
-                {step === "phone" ? "Secure Access" : "Verify OTP"}
+              <h2 className="text-lg sm:text-xl font-extrabold text-[#002140] tracking-tight">
+                {step === "phone" ? "Secure Account Login" : "Verify One-Time Password"}
               </h2>
-              <p className="text-[11px] font-bold text-gray-400 mt-2 uppercase tracking-widest text-center">
-                {step === "phone" ? "Login or create an account" : `OTP sent to +91 ${phone}`}
+              <p className="text-[11px] font-medium text-slate-500 mt-1">
+                {step === "phone" ? "Enter your mobile number to access verified loan offers" : `Enter the 6-digit OTP sent to +91 ${phone}`}
               </p>
             </div>
 
             {/* Form Area */}
-            <div className="space-y-5">
+            <div className="space-y-4">
               <AnimatePresence>
                 {errorMsg && (
                   <motion.div 
-                    initial={{ opacity: 0, height: 0, y: -10 }} 
+                    initial={{ opacity: 0, height: 0, y: -6 }} 
                     animate={{ opacity: 1, height: "auto", y: 0 }} 
-                    exit={{ opacity: 0, height: 0, y: -10 }}
-                    className={`text-[11px] font-bold p-3.5 rounded-xl border flex items-start gap-2.5 shadow-sm leading-relaxed ${
+                    exit={{ opacity: 0, height: 0, y: -6 }}
+                    className={`text-[11px] font-medium p-2.5 rounded-lg border flex items-start gap-2 shadow-2xs leading-relaxed ${
                       errorMsg.toLowerCase().includes("15 minutes") || errorMsg.toLowerCase().includes("too many requests")
-                        ? "bg-amber-50 text-amber-800 border-amber-200/60"
-                        : "bg-red-50 text-red-600 border-red-100/50"
+                        ? "bg-amber-50 text-amber-900 border-amber-200"
+                        : "bg-red-50 text-red-700 border-red-200"
                     }`}
                   >
-                    {errorMsg.toLowerCase().includes("15 minutes") || errorMsg.toLowerCase().includes("too many requests") ? (
-                      <span className="text-amber-500 mt-0.5 text-sm">⏳</span>
-                    ) : (
-                      <span className="text-red-500 mt-0.5 text-sm">⚠️</span>
-                    )}
+                    <span className="text-xs shrink-0 mt-0.5">⚠️</span>
                     <span className="flex-1">{errorMsg}</span>
                   </motion.div>
                 )}
@@ -226,33 +223,37 @@ export default function LoginModal({ isOpen, onClose, onSuccess, suppressGlobalM
 
               {step === "phone" ? (
                 <motion.div
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  className="space-y-4"
+                  exit={{ opacity: 0, x: 10 }}
+                  className="space-y-3.5"
                 >
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">+91</span>
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-bold text-xs select-none">
+                      +91
+                    </span>
                     <input
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-                      placeholder="Enter mobile number"
+                      placeholder="Enter 10-digit mobile number"
                       maxLength={10}
-                      className="w-full bg-[#F8FAFC] border border-gray-200 focus:border-[#FF7819] focus:ring-4 focus:ring-[#FF7819]/10 rounded-2xl py-4 pl-12 pr-5 text-[#08101E] font-bold outline-none transition-all text-sm placeholder:text-gray-400 placeholder:font-medium shadow-inner"
+                      autoFocus
+                      className="w-full bg-[#FAF8F5] border border-[#E5E2DA] focus:border-[#FF7819] focus:bg-white focus:ring-2 focus:ring-[#FF7819]/15 rounded-lg py-2.5 pl-12 pr-4 text-[#002140] font-semibold text-xs outline-none transition-all placeholder:text-slate-400 placeholder:font-normal"
                     />
                   </div>
 
-                  <div className="p-4 bg-[#F8FAFC] rounded-2xl border border-gray-100 flex items-start gap-3">
-                    <div className="relative flex items-center mt-0.5">
+                  {/* Statutory Consent Box (Exact text preserved) */}
+                  <div className="p-3 bg-[#FAF8F5] rounded-lg border border-[#E5E2DA] flex items-start gap-2.5">
+                    <div className="relative flex items-center mt-0.5 shrink-0">
                       <input
                         type="checkbox"
                         checked={consent}
                         onChange={() => setConsent(!consent)}
-                        className="peer w-4 h-4 cursor-pointer opacity-0 absolute"
+                        className="peer w-4 h-4 cursor-pointer opacity-0 absolute z-10"
                         id="consent-check"
                       />
-                      <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${consent ? 'bg-[#FF7819] border-[#FF7819]' : 'bg-white border-gray-300'}`}>
+                      <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${consent ? 'bg-[#FF7819] border-[#FF7819]' : 'bg-white border-slate-300'}`}>
                          {consent && <FaCheckCircle className="text-white w-2.5 h-2.5" />}
                       </div>
                     </div>
@@ -262,56 +263,89 @@ export default function LoginModal({ isOpen, onClose, onSuccess, suppressGlobalM
                   </div>
 
                   <motion.button
-                    whileTap={{ scale: 0.98 }}
+                    whileTap={{ scale: 0.99 }}
                     onClick={handleSendOtp}
                     disabled={isLoading || !isPhoneValid || !consent}
-                    className={`w-full py-4 rounded-2xl font-black text-sm tracking-wide shadow-lg transition-all flex justify-center items-center gap-2 ${
+                    className={`w-full py-2.5 rounded-lg font-bold text-xs uppercase tracking-wider transition-all flex justify-center items-center gap-2 shadow-2xs ${
                       isPhoneValid && consent && !isLoading
-                        ? "bg-gradient-to-r from-[#FF7819] to-[#e66a15] text-white shadow-[0_10px_20px_-10px_rgba(255,120,25,0.6)] hover:shadow-[0_15px_30px_-10px_rgba(255,120,25,0.7)]"
-                        : "bg-gray-100 text-gray-400 cursor-not-allowed shadow-none"
+                        ? "bg-[#FF7819] hover:bg-[#e66a15] text-white cursor-pointer"
+                        : "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none"
                     }`}
                   >
-                    {isLoading ? <span className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : "PROCEED SECURELY"}
+                    {isLoading ? (
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      "Send Verification OTP"
+                    )}
                   </motion.button>
                 </motion.div>
               ) : (
                 <motion.div
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-5"
+                  exit={{ opacity: 0, x: -10 }}
+                  className="space-y-3.5"
                 >
-                  <input
-                    type="text"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                    placeholder="••••••"
-                    maxLength={6}
-                    className="w-full bg-[#F8FAFC] border border-gray-200 focus:border-[#FF7819] focus:ring-4 focus:ring-[#FF7819]/10 rounded-2xl py-5 text-center text-3xl font-black tracking-[1rem] text-[#08101E] outline-none transition-all shadow-inner"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                      placeholder="••••••"
+                      maxLength={6}
+                      autoFocus
+                      className="w-full bg-[#FAF8F5] border border-[#E5E2DA] focus:border-[#002140] focus:bg-white focus:ring-2 focus:ring-[#002140]/15 rounded-lg py-3 text-center text-2xl font-bold tracking-[0.5rem] text-[#002140] outline-none transition-all placeholder:text-slate-300"
+                    />
+                  </div>
+
                   <motion.button
-                    whileTap={{ scale: 0.98 }}
+                    whileTap={{ scale: 0.99 }}
                     onClick={handleVerifyOtp}
                     disabled={isLoading || !isOtpValid}
-                    className={`w-full py-4 rounded-2xl font-black text-sm tracking-wide shadow-lg transition-all flex justify-center items-center gap-2 ${
+                    className={`w-full py-2.5 rounded-lg font-bold text-xs uppercase tracking-wider transition-all flex justify-center items-center gap-2 shadow-2xs ${
                       isOtpValid && !isLoading
-                        ? "bg-[#08101E] text-white hover:bg-[#16253d] shadow-[0_10px_20px_-10px_rgba(8,16,30,0.6)]"
-                        : "bg-gray-100 text-gray-400 cursor-not-allowed shadow-none"
+                        ? "bg-[#002140] hover:bg-[#0A2E5C] text-white cursor-pointer"
+                        : "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed shadow-none"
                     }`}
                   >
-                    {isLoading ? <span className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : "VERIFY & CONTINUE"}
+                    {isLoading ? (
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      "Verify OTP & Continue"
+                    )}
                   </motion.button>
-                  <button onClick={() => setStep("phone")} className="w-full flex items-center justify-center gap-1.5 text-[10px] font-black text-[#FF7819] uppercase tracking-widest hover:opacity-70 transition-opacity">
-                    Edit Number
-                  </button>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <button
+                      type="button"
+                      onClick={() => setStep("phone")}
+                      className="text-[11px] font-bold text-[#FF7819] hover:underline"
+                    >
+                      ← Change Mobile Number
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSendOtp}
+                      disabled={isLoading}
+                      className="text-[11px] font-semibold text-slate-500 hover:text-[#002140] hover:underline"
+                    >
+                      Resend OTP
+                    </button>
+                  </div>
                 </motion.div>
               )}
             </div>
 
-            {/* Footer Trust Badge */}
-            <div className="mt-8 pt-5 border-t border-gray-100 flex items-center justify-center gap-2 opacity-80">
-               <FaShieldAlt className="text-green-500" size={12}/>
-               <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Verified & 256-bit Encrypted</span>
+            {/* Statutory Trust Bar */}
+            <div className="mt-5 pt-3.5 border-t border-[#E5E2DA] flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-[10px] text-slate-500 font-semibold">
+              <span className="inline-flex items-center gap-1">
+                <FaShieldAlt className="text-emerald-600" size={11} />
+                256-Bit SSL
+              </span>
+              <span className="text-slate-300">•</span>
+              <span>RBI Regulated Standards</span>
+              <span className="text-slate-300">•</span>
+              <span>Zero Spam</span>
             </div>
           </div>
         </motion.div> 

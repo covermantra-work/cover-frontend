@@ -68,8 +68,19 @@ export default function HeroSection() {
       description: "Transparent short-term micro credit solutions tailored for urgent financial needs with clear interest schedules and zero hidden charges."
     },
   ];
+
+  const tickerItems = [
+    { icon: "🟢", label: "Personal Loans", value: "Starting @ 10.49% p.a.", highlight: true },
+    { icon: "⚡", label: "Disbursal TAT", value: "10-Min In-Principle Sanction", highlight: false },
+    { icon: "🏦", label: "Regulated Partners", value: "15+ RBI NBFCs & Scheduled Banks", highlight: false },
+    { icon: "🛡️", label: "Credit Safety", value: "Zero Impact on CIBIL Score", highlight: true },
+    { icon: "📄", label: "Statutory Disclosures", value: "100% Key Fact Statement (KFS)", highlight: false },
+    { icon: "🔒", label: "Data Security", value: "256-Bit SSL Encrypted Vaults", highlight: false },
+    { icon: "🏛️", label: "Regulatory Role", value: "Registered Digital Lending LSP", highlight: true },
+  ];
+
   return (
-    <section className="relative bg-[#FAF8F5] flex flex-col justify-start text-[#002140] overflow-hidden pt-20 sm:pt-24 md:pt-26 pb-4 sm:pb-6">
+    <section className="relative bg-[#FAF8F5] flex flex-col justify-start text-[#002140] overflow-hidden pt-20 sm:pt-24 md:pt-26 pb-0">
       
       {/* 🏛️ Subtle Institutional Ambient Lighting */}
       <div className="absolute w-[500px] h-[350px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none -top-12 left-1/2 -translate-x-1/2" />
@@ -124,7 +135,7 @@ export default function HeroSection() {
       {/* ========================================================================= */}
       {/* 4 : 4 : 4 BALANCED INSTITUTIONAL 3-COLUMN GRID */}
       {/* ========================================================================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full grid grid-cols-1 lg:grid-cols-12 items-center gap-6 lg:gap-8 z-20 pb-4 mt-4 sm:mt-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full grid grid-cols-1 lg:grid-cols-12 items-center gap-6 lg:gap-8 z-20 pb-1 mt-3 sm:mt-4">
         
         {/* ======================================================================= */}
         {/* COLUMN 1 (4 COLS): MAIN VALUE PROPOSITION & DYNAMIC HEADLINE */}
@@ -297,8 +308,68 @@ export default function HeroSection() {
 
       </div>
 
+      {/* ========================================================================= */}
+      {/* 🏛️ OPTION 1: LIVE LENDING RATES & STATUTORY TICKER (ALL-DEVICE RESPONSIVE) */}
+      {/* ========================================================================= */}
+      <div className="w-full bg-[#00172e] border-y border-[#002b54] relative z-20 mt-1.5 sm:mt-2.5 overflow-hidden select-none">
+        <div className="max-w-7xl mx-auto flex items-center">
+          
+          {/* Left Fixed Trust Badge (Compact on mobile, full on desktop) */}
+          <div className="shrink-0 z-20 bg-[#FF7819] text-white px-2.5 sm:px-4 py-2 sm:py-2.5 flex items-center gap-1.5 shadow-md">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse shrink-0" />
+            <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider whitespace-nowrap">
+              <span className="hidden sm:inline">LIVE LENDING </span>RATES
+            </span>
+          </div>
+
+          {/* Scrolling Ribbon Area */}
+          <div className="relative overflow-hidden w-full py-2 sm:py-2.5 flex items-center">
+            
+            {/* Left & Right Smooth Edge Fade Masks */}
+            <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-6 sm:w-12 bg-gradient-to-r from-[#00172e] to-transparent z-10" />
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-l from-[#00172e] to-transparent z-10" />
+
+            {/* Seamless Infinite Marquee Track */}
+            <div className="animate-marquee-smooth flex items-center gap-6 sm:gap-8 whitespace-nowrap">
+              {[...tickerItems, ...tickerItems].map((item, idx) => (
+                <div key={idx} className="flex items-center gap-2 text-[11px] sm:text-xs font-semibold text-slate-200">
+                  <span className="text-sm shrink-0">{item.icon}</span>
+                  <span className="text-slate-400 font-medium">{item.label}:</span>
+                  <span className={`font-bold ${item.highlight ? 'text-[#FF7819]' : 'text-white'}`}>
+                    {item.value}
+                  </span>
+                  <span className="text-slate-600 ml-4">•</span>
+                </div>
+              ))}
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
       <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
       <GlobalModal />
+
+      {/* Smooth Marquee CSS Styles */}
+      <style jsx>{`
+        @keyframes marqueeSmooth {
+          0% {
+            transform: translateX(0%);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-marquee-smooth {
+          display: flex;
+          width: max-content;
+          animation: marqueeSmooth 42s linear infinite;
+        }
+        .animate-marquee-smooth:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </section>
   );
 }

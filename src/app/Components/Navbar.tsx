@@ -92,24 +92,31 @@ export default function Navbar() {
     <>
       <header className="fixed top-0 left-0 w-full z-[100]">
       {/* 🏛️ Institutional Bank / Statutory Compliance Top Bar */}
-      <div className="hidden md:block bg-[#002140] text-slate-200 text-[11px] font-medium select-none">
+      <div className="hidden md:block bg-[#002140] text-slate-200 text-[11px] font-medium select-none border-b border-[#002b54]">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 py-1.5 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3.5">
             <span className="flex items-center gap-1.5 text-slate-300">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              Digital Lending Aggregator Platform
+              Digital Lending Service Provider (LSP)
             </span>
-            <span className="text-slate-500">|</span>
-            <span className="text-slate-300">Partnered with RBI-Regulated Banks & NBFCs</span>
-            <span className="text-slate-500">|</span>
-            <span className="text-slate-300 font-mono">CIN: U46109DL2024PTC438732</span>
+            <span className="text-slate-600">•</span>
+            <span className="text-slate-300 font-mono tracking-tight">CIN: U46109DL2024PTC438732</span>
           </div>
-          <div className="flex items-center gap-4 text-slate-300">
-            <span className="flex items-center gap-1 text-slate-300">
-              🔒 256-Bit SSL Secured
-            </span>
-            <span className="text-slate-500">|</span>
-            <span className="text-slate-300">Zero CIBIL Impact Inquiry</span>
+          <div className="flex items-center gap-3.5 text-slate-300">
+            <a 
+              href="mailto:info@covermantra.com" 
+              className="flex items-center gap-1 text-slate-300 hover:text-[#FF7819] transition-colors"
+            >
+              <span>✉️</span>
+              <span>info@covermantra.com</span>
+            </a>
+            <span className="text-slate-600">•</span>
+            <Link 
+              href="/LenderGrievances" 
+              className="text-slate-300 hover:text-white transition-colors"
+            >
+              Nodal Grievance Redressal
+            </Link>
           </div>
         </div>
       </div>

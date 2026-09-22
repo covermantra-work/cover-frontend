@@ -221,7 +221,7 @@ export default function TermsPage() {
         {/* 🛡️ Footer Certification */}
         <div className="mt-12 text-center">
            <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white border border-gray-200 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 shadow-sm">
-             <FaShieldAlt className="text-blue-500" /> Legally Binding Agreement • CIN: U70200HR2025PTC129612
+             <FaShieldAlt className="text-blue-500" /> Legally Binding Agreement • CIN: U46109DL2024PTC438732
            </div>
            <p className="mt-4 text-[9px] font-bold text-gray-300 uppercase">© 2026 CoverMantra Services Private Limited. All Rights Reserved.</p>
         </div>
