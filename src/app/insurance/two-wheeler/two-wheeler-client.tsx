@@ -31,7 +31,7 @@ export default function TwoWheelerInsurancePage() {
           <div className="w-full md:w-1/2 text-center md:text-left" data-aos="fade-right">
             <div className="flex flex-wrap items-center gap-3 mb-6">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-blue-400 text-sm font-bold">
-                <Zap size={16} fill="currentColor" /> Instant Protection for Every Rider
+                <Zap size={16} fill="currentColor" /> Complete Protection for Every Rider
               </div>
               <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#FF7819]/10 border border-[#FF7819]/25 rounded-full backdrop-blur-md shadow-lg select-none animate-pulse">
                 <span className="w-2 h-2 rounded-full bg-[#FF7819]" />

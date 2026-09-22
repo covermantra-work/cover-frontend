@@ -478,7 +478,7 @@ export default function LoanCalculator() {
             Precision <span className="text-[#FF690B]">EMI Calculator</span>
           </h1>
           <p className="mt-3 text-[#08101E]/60 text-sm sm:text-base max-w-lg mx-auto font-medium">
-            Plan your mortgages and personal loans instantly with interactive amortization tables and budget checks.
+            Plan your mortgages and personal loans easily with interactive amortization tables and budget checks.
           </p>
         </div>
 

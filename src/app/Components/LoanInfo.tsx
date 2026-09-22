@@ -21,7 +21,7 @@ export default function LoanProductsGrid() {
     {
       title: 'Personal Loan',
       badge: 'Up to ₹25 Lakhs',
-      highlight: '⚡ Instant Paperless Disbursal',
+      highlight: '⚡ Fast Paperless Disbursal*',
       icon: <User2 className="h-8 w-8" />,
       description: 'Collateral-free personal loans with quick digital verification and lowest EMIs for medical, travel, wedding or urgent needs.',
       link: '/personal-loans',
@@ -61,86 +61,85 @@ export default function LoanProductsGrid() {
   ];
 
   return (
-    <section className="bg-slate-50/60 py-20 md:py-28 relative overflow-hidden">
+    <section className="bg-[#FAF8F5] py-10 sm:py-12 md:py-14 relative overflow-hidden">
       {/* 🌟 Volumetric Studio Ambient Light */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-amber-500/10 via-[#FF7819]/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-[#FF7819]/10 via-amber-500/5 to-transparent rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center mb-16 md:mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white rounded-full mb-4 shadow-[0_2px_8px_rgba(0,0,0,0.06),inset_0_1px_2px_rgba(255,255,255,1)] border border-slate-200/80">
-            <Sparkles size={14} className="text-[#FF7819] animate-pulse" />
-            <span className="uppercase tracking-widest text-[11px] font-black text-[#FF7819]">
-              Tailored Financial Suite
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-[#FFF3EB] rounded-md mb-2 border border-[#FF7819]/30 shadow-2xs">
+            <Sparkles size={12} className="text-[#FF7819]" />
+            <span className="uppercase tracking-wider text-[10px] font-bold text-[#FF7819]">
+              Institutional Lending Suite
             </span>
           </div>
           
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-[#08101E] tracking-tight leading-tight">
-            Smart Financial Products <br className="hidden sm:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00]">
-              Built for Speed & Trust
+          <h2 className="text-2xl sm:text-3xl md:text-[32px] font-extrabold text-[#002140] tracking-tight leading-tight">
+            Curated Financial Products <br className="hidden sm:block" />
+            <span className="text-[#FF7819]">
+              Verified for Transparency & Trust
             </span>
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-[#08101E]/60 max-w-2xl mx-auto font-semibold leading-relaxed">
-            Compare rates, check eligibility in under 60 seconds, and receive digital credit directly with verified RBI-regulated partners.
+          <p className="mt-2 text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
+            Compare APRs, check eligibility with zero impact on credit scores, and access digital credit from regulated institutional lenders.
           </p>
         </div>
 
-        {/* Products Grid - Pixar Claymorphic 3D Wealth Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 md:gap-8">
+        {/* Products Grid - Institutional Bank Product Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {products.map((product, index) => (
-            <motion.div
+            <div
               key={index}
-              whileHover={{ y: -8, scale: 1.02 }}
               onClick={() => router.push(product.link)}
-              className="group relative bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 p-7 sm:p-8 rounded-[2.8rem] border-4 border-white shadow-[0_25px_60px_-15px_rgba(255,120,25,0.16),0_10px_25px_rgba(0,0,0,0.04),inset_0_3px_6px_rgba(255,255,255,1)] hover:border-[#FF7819]/40 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col justify-between"
+              className="group relative bg-white p-5 rounded-xl border border-[#E5E2DA]/80 shadow-2xs hover:border-[#002140]/30 hover:shadow-xs transition-all duration-200 cursor-pointer flex flex-col justify-between"
             >
               <div>
-                {/* Top Badge & Highlight */}
-                <div className="flex items-center justify-between gap-2 mb-6">
-                  <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border ${product.tagColor} shadow-xs`}>
+                {/* Top Badge & Direct Arrow */}
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold tracking-wide border ${product.tagColor} shadow-2xs`}>
                     {product.badge}
                   </span>
-                  <div className="w-8 h-8 rounded-full bg-slate-100/80 group-hover:bg-[#FF7819] flex items-center justify-center text-slate-400 group-hover:text-white transition-colors duration-300 shadow-inner">
-                    <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                  <div className="w-6.5 h-6.5 rounded-md bg-slate-100 group-hover:bg-[#002140] flex items-center justify-center text-slate-500 group-hover:text-white transition-colors duration-200">
+                    <ArrowRight size={12} />
                   </div>
                 </div>
 
-                {/* 3D Embossed Icon Container */}
-                <div className="mb-6">
-                  <div className={`w-18 h-18 rounded-3xl bg-gradient-to-br ${product.gradient} text-white flex items-center justify-center shadow-[0_12px_24px_rgba(234,88,12,0.3),inset_0_2px_4px_rgba(255,255,255,0.6)] group-hover:scale-105 transition-transform duration-300 border-2 border-white/60`}>
+                {/* Clean Geometric Icon Container */}
+                <div className="mb-3">
+                  <div className="w-11 h-11 rounded-lg bg-[#FFF3EB] border border-[#FF7819]/25 text-[#FF7819] flex items-center justify-center shadow-2xs">
                     {product.icon}
                   </div>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl sm:text-2xl font-black text-[#08101E] mb-2 tracking-tight">
+                <h3 className="text-base sm:text-[17px] font-extrabold text-[#002140] mb-1 tracking-tight group-hover:text-[#FF7819] transition-colors">
                   {product.title}
                 </h3>
 
                 {/* Micro-trust line */}
-                <div className="flex items-center gap-1.5 text-xs font-bold text-[#FF7819] mb-3">
-                  <Zap size={13} className="shrink-0" />
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-[#FF7819] mb-2.5">
+                  <Zap size={12} className="shrink-0" />
                   <span>{product.highlight}</span>
                 </div>
 
                 {/* Description */}
-                <p className="text-slate-600 font-semibold leading-relaxed text-xs sm:text-[13px] mb-6">
+                <p className="text-slate-600 font-normal leading-relaxed text-xs mb-5">
                   {product.description}
                 </p>
               </div>
 
-              {/* 3D Tactile Candy Action Button */}
-              <div className="pt-2">
+              {/* Bank-Grade Action Button */}
+              <div className="pt-2 border-t border-slate-100">
                 <button 
-                  className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white font-black text-xs uppercase tracking-wider shadow-[0_6px_0_#C2410C,0_12px_20px_rgba(234,88,12,0.35),inset_0_2px_4px_rgba(255,255,255,0.5)] active:shadow-[0_1px_0_#C2410C] active:translate-y-1 transition-all flex items-center justify-center gap-2 cursor-pointer group-hover:brightness-105"
+                  className="w-full py-2.5 px-3 rounded-lg bg-[#002140] hover:bg-[#FF7819] text-white font-semibold text-xs tracking-wide transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <span>Explore Offers</span>
-                  <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-[10px]">→</span>
+                  <span className="text-xs font-bold">→</span>
                 </button>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 

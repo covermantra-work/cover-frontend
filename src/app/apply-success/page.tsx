@@ -91,8 +91,8 @@ function ApplySuccessContent() {
   const benefits = [
     {
       icon: <Zap className="text-white w-6 h-6" />,
-      title: "Instant Approval Match",
-      desc: "Pre-qualified matches powered by instant digital underwriting."
+      title: "Quick Approval Match",
+      desc: "Pre-qualified matches powered by automated digital underwriting."
     },
     {
       icon: <Smartphone className="text-white w-6 h-6" />,
@@ -231,7 +231,7 @@ function ApplySuccessContent() {
               Live Application Stream
             </span>
             <h3 className="text-lg sm:text-xl font-black text-[#08101E] tracking-tight">
-              Next Steps for Instant Disbursal
+              Next Steps for Fast Disbursal*
             </h3>
           </div>
 

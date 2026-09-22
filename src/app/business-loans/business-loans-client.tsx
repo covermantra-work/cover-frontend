@@ -72,7 +72,7 @@ export default function BusinessLoansPage() {
           {/* Target Cards 3D Row */}
           <div className="grid gap-6 md:grid-cols-3 text-left">
             {[
-              { icon: <FaRocket />, title: "For Startups", desc: "Instant working capital and seed-stage funds to build, hire, and scale your product." },
+              { icon: <FaRocket />, title: "For Startups", desc: "Fast working capital and seed-stage funds to build, hire, and scale your product." },
               { icon: <FaBuilding />, title: "For SMEs", desc: "Grow your business with inventory, machinery, marketing, and team expansion loans." },
               { icon: <FaCity />, title: "For Enterprises", desc: "Large-scale credit lines with customized tenure, competitive APR, and dedicated support." },
             ].map((card, i) => (

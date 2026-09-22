@@ -26,7 +26,7 @@ const fallbackLenders = [
     amount: "Upto 3L",
     rate: "1.5% / mo",
     tenure: "Flexible",
-    features: ["Credit Line", "Instant Transfer", "No Fixed EMI"],
+    features: ["Credit Line", "Fast Transfer*", "No Fixed EMI"],
     url: "https://online.flexsalary.com/CustomerLogin/Index?CampaignID=9192300#x",
     minIncome: 15000,
     age: 21
@@ -39,7 +39,7 @@ const fallbackLenders = [
     amount: "Upto 5L",
     rate: "12% - 35.95% p.a",
     tenure: "3-24 months",
-    features: ["Instant Cash", "Digital KYC", "Flexible EMI"],
+    features: ["Quick Cash*", "Digital KYC", "Flexible EMI"],
     url: "https://web.fatakpay.com/authentication/login?utm_source=651_TT83W&utm_medium=covermantra",
     minIncome: 16000,
     age: 20
@@ -413,7 +413,7 @@ export default function Page() {
                         whileTap={{ scale: 0.96, y: 3 }}
                         className="w-full bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-white font-black py-4.5 rounded-[2rem] shadow-[0_6px_0_#C2410C,0_15px_25px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.5)] active:shadow-[0_1px_0_#C2410C] transition-all flex items-center justify-center gap-2.5 uppercase tracking-wider text-xs cursor-pointer"
                       >
-                        <span>Apply Instantly</span> <FaBolt className="text-white" />
+                        <span>Apply Online</span> <FaBolt className="text-white" />
                       </motion.button>
 
                       {appliedLenders.length > 0 && !appliedLenders.includes(lender.name) && (

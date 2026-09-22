@@ -36,7 +36,7 @@ export function generateSEO({
     "home insurance",
     "compare loans",
     "compare insurance",
-    "instant loan approval",
+    "quick loan approval",
   ];
 
   return {

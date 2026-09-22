@@ -176,7 +176,7 @@ const VivifiLeadForm = () => {
             disabled={loading || !formData.consent}
             className={`w-full p-4 text-white font-bold rounded-xl shadow-lg transition-all ${loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"}`}
           >
-            {loading ? "Checking Eligibility..." : "Instant Approval"}
+            {loading ? "Checking Eligibility..." : "Check Eligibility"}
           </button>
         </div>
       </form>

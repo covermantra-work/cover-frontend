@@ -4,7 +4,7 @@ import Body from "./Components/Body";
 export const metadata: Metadata = {
   title: "CoverMantra - Best Loan & Insurance Comparison Platform",
   description:
-    "Compare and apply for the best personal loans, business loans, and insurance plans (health, life, car, and travel insurance policies) with CoverMantra. Get instant approval and paperless processing today!",
+    "Compare and apply for the best personal loans, business loans, and insurance plans (health, life, car, and travel insurance policies) with CoverMantra. Get fast approval and paperless processing today!",
   alternates: {
     canonical: "https://www.covermantra.com",
   },

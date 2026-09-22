@@ -22,7 +22,7 @@ const testimonials = [
   {
     name: 'Divya Kapoor',
     description: 'Graduate Student, Bangalore',
-    text: 'The app is amazing for checking your credit score and history instantly. Though I haven’t applied for a loan yet, the transparency and UI give me the confidence to go ahead soon.',
+    text: 'The app is amazing for checking your credit score and history online. Though I haven’t applied for a loan yet, the transparency and UI give me the confidence to go ahead soon.',
     rating: 4,
   },
   {
@@ -101,35 +101,35 @@ const testimonials = [
 
 export default function TestimonialSlider() {
   return (
-    <section className="bg-white py-24 px-4 md:px-10 relative overflow-hidden">
+    <section className="bg-[#FAF8F5] py-10 sm:py-12 md:py-14 px-4 sm:px-6 md:px-10 relative overflow-hidden">
       {/* Decorative Blur Orbs */}
-      <div className="absolute top-1/4 left-[-10%] w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-[-10%] w-96 h-96 bg-[#FF690B]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/4 left-[-10%] w-96 h-96 bg-[#FF7819]/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-[-10%] w-96 h-96 bg-[#FF690B]/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Heading */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#FFF4E5] rounded-full mb-4 border border-[#FF690B]/10">
-            <div className="w-2 h-2 bg-[#FF690B] rounded-full animate-pulse" />
-            <span className="uppercase tracking-widest text-xs font-bold text-[#FF690B]">
-              Testimonials
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-[#FFF3EB] rounded-md mb-2 border border-[#FF7819]/30 shadow-2xs">
+            <div className="w-1.5 h-1.5 bg-[#FF7819] rounded-full" />
+            <span className="uppercase tracking-wider text-[10px] font-bold text-[#FF7819]">
+              Verified Borrower Testimonials
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-[#08101E] tracking-tight mb-4">
-            Our Happy Customers
+          <h2 className="text-2xl sm:text-3xl md:text-[32px] font-extrabold text-[#002140] tracking-tight mb-2 leading-tight">
+            Customer Trust & <span className="text-[#FF7819]">Borrower Feedback</span>
           </h2>
-          <p className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-            Real stories from real people who trusted CoverMantra
+          <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto leading-relaxed font-normal">
+            Real feedback from verified individuals and businesses across India who secured funding through CoverMantra.
           </p>
         </div>
 
         <Swiper
-          spaceBetween={28}
+          spaceBetween={20}
           slidesPerView={1}
           pagination={{ 
             clickable: true,
-            bulletClass: "swiper-pagination-bullet !bg-slate-200",
-            bulletActiveClass: "!bg-[#FF690B] !w-6 !h-2 !rounded-full transition-all duration-300"
+            bulletClass: "swiper-pagination-bullet !bg-slate-300",
+            bulletActiveClass: "!bg-[#FF7819] !w-6 !h-1.5 !rounded-full transition-all duration-300"
           }}
           autoplay={{ 
             delay: 4500, 
@@ -141,46 +141,45 @@ export default function TestimonialSlider() {
             1024: { slidesPerView: 3 },
           }}
           modules={[Pagination, Autoplay]}
-          className="pb-16"
+          className="pb-12"
         >
           {testimonials.map((testimonial, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-slate-50 rounded-[2.5rem] p-8 md:p-10 border border-slate-100 
-                            hover:border-[#FF690B]/20 hover:bg-white hover:shadow-[0_20px_50px_rgba(255,105,11,0.06)] 
-                            hover:-translate-y-2 transition-all duration-500 min-h-80 flex flex-col relative h-full">
+              <div className="bg-white rounded-xl p-5 sm:p-6 border border-[#E5E2DA] shadow-xs 
+                            hover:border-[#002140]/40 transition-all duration-200 min-h-64 flex flex-col relative h-full">
                 
                 {/* Quote Icon */}
-                <div className="text-6xl font-serif text-[#FF690B]/10 absolute top-4 right-6 select-none">“</div>
+                <div className="text-4xl font-serif text-slate-200 absolute top-3 right-5 select-none font-bold">“</div>
 
                 {/* Testimonial Text */}
-                <p className="text-slate-500 text-[14.5px] sm:text-[15px] leading-relaxed grow mb-8 font-medium">
+                <p className="text-slate-600 text-xs sm:text-[13px] leading-relaxed grow mb-5 font-normal">
                   {testimonial.text}
                 </p>
 
                 {/* User Info */}
-                <div className="mt-auto flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#FF690B] to-[#FF8C00] 
-                                rounded-2xl flex items-center justify-center shrink-0 shadow-md shadow-[#FF690B]/25">
-                    <span className="text-white text-lg font-black">
+                <div className="mt-auto flex items-center gap-3">
+                  <div className="w-9 h-9 bg-[#FFF3EB] border border-[#FF7819]/25 text-[#FF7819] 
+                                rounded-lg flex items-center justify-center shrink-0 font-bold text-sm">
+                    <span>
                       {testimonial.name[0]}
                     </span>
                   </div>
                   
                   <div>
-                    <p className="font-black text-[#08101E] text-base leading-tight">
+                    <p className="font-bold text-[#002140] text-xs sm:text-sm leading-tight">
                       {testimonial.name}
                     </p>
-                    <p className="text-xs text-slate-400 font-semibold mt-0.5">
+                    <p className="text-[11px] text-slate-500 font-normal mt-0.5">
                       {testimonial.description}
                     </p>
                     
-                    {/* Rating Stars */}
-                    <div className="flex mt-1.5 gap-0.5">
+                    {/* Rating Stars in Brand Orange */}
+                    <div className="flex mt-1 gap-0.5">
                       {Array.from({ length: 5 }, (_, i) => (
                         <span
                           key={i}
-                          className={`text-base ${i < Math.floor(testimonial.rating) 
-                            ? "text-[#FF690B]" 
+                          className={`text-xs ${i < Math.floor(testimonial.rating) 
+                            ? "text-[#FF7819]" 
                             : "text-slate-200"}`}
                         >
                           ★

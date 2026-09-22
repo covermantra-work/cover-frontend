@@ -122,7 +122,7 @@ export default function TravelInsurancePage() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black tracking-tight">Premium Estimator</h2>
-            <p className="text-gray-500 font-medium">Calculate your protection costs instantly.</p>
+            <p className="text-gray-500 font-medium">Calculate your protection costs online.</p>
           </div>
           <div className="bg-white rounded-[3rem] p-4 shadow-2xl border border-gray-100">
             <TravelCalculator />
@@ -196,7 +196,7 @@ export default function TravelInsurancePage() {
             The World Is <span className="text-[#FF7819]">Waiting.</span> <br /> Fly Worry-Free.
           </h2>
           <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-xl mx-auto" data-aos="fade-up">
-            Join 2 million+ travelers who explored the globe under our protection. Instant policy in 2 minutes.
+            Join 2 million+ travelers who explored the globe under our protection. 100% digital policy issuance in minutes.
           </p>
           <a
             href="/apply-insurance"

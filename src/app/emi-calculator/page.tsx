@@ -4,7 +4,7 @@ import EmiCalculatorClient from "@/app/emi-calculator/emi-calculator-client";
 export const metadata: Metadata = {
   title: "Smart Loan EMI Calculator - CoverMantra",
   description:
-    "Calculate your monthly EMI, principal amount, and total interest instantly with CoverMantra's online loan EMI calculator.",
+    "Calculate your monthly EMI, principal amount, and total interest online with CoverMantra's smart loan EMI calculator.",
   alternates: {
     canonical: "https://www.covermantra.com/emi-calculator",
   },

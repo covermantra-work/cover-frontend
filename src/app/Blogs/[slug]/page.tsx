@@ -471,13 +471,13 @@ export default function DynamicBlogPage({ params }: PageProps) {
               <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div className="space-y-2 max-w-lg">
                   <span className="px-3 py-1 rounded-full bg-white/20 text-white text-[11px] font-black uppercase tracking-wider">
-                    Instant Comparison
+                    Fast Online Comparison
                   </span>
                   <h4 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight">
                     Looking for the Best Loan or Insurance Rates?
                   </h4>
                   <p className="text-white/95 text-sm leading-relaxed font-medium">
-                    Compare 30+ RBI-registered banks and top insurers on CoverMantra with instant paperless approvals.
+                    Compare 30+ RBI-registered banks and top insurers on CoverMantra with quick paperless approvals.
                   </p>
                 </div>
                 <Link

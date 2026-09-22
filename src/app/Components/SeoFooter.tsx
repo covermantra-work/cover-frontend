@@ -25,7 +25,7 @@ export default function SeoFooter() {
       title: "Popular Loan Services",
       icon: Percent,
       links: [
-        { name: "Apply for Personal Loan", href: "/personal-loans", desc: "Unsecured instant personal loans", comingSoon: false },
+        { name: "Apply for Personal Loan", href: "/personal-loans", desc: "Unsecured digital personal loans", comingSoon: false },
         { name: "Business Growth Loan", href: "/business-loans", desc: "Collateral-free business finance", comingSoon: false },
         { name: "Home Loan Solutions", href: "/home-loans", desc: "Affordable home financing", comingSoon: true },
         { name: "Education & Career Loan", href: "/education-loans", desc: "Finance your higher education", comingSoon: true },
@@ -115,32 +115,32 @@ export default function SeoFooter() {
       </div>
 
       {/* Info / Disclaimer Box */}
-      <div className="mt-8 bg-amber-500/[0.02] border border-amber-500/10 rounded-2xl p-5 relative overflow-hidden">
-        <div className="flex gap-3">
-          <div className="p-2 bg-amber-500/10 rounded-xl text-amber-500 shrink-0 h-fit">
-            <AlertTriangle size={18} />
+      <div className="mt-6 bg-white/[0.02] border border-white/10 rounded-xl p-4 relative overflow-hidden">
+        <div className="flex items-start gap-3">
+          <div className="p-1.5 bg-amber-500/10 rounded-lg text-amber-400 shrink-0 mt-0.5">
+            <AlertTriangle size={15} />
           </div>
-          <div>
-            <h5 className="text-xs font-extrabold text-amber-500 tracking-wider uppercase">Important Information Note</h5>
-            <p className="text-[11px] text-white/50 leading-relaxed mt-1.5">
-              <strong>NOTE:</strong> All loan segments (except Personal Loans & Business Loans) and insurance policies listed on this page are for informational purposes only. CoverMantra does not currently facilitate, pursue, or provide any of these loan segments or insurance policies from any type of banks or lenders. These services are coming soon in the near future.
+          <div className="text-left">
+            <h5 className="text-[11px] font-bold text-amber-400 tracking-wider uppercase">Important Information Note</h5>
+            <p className="text-[10px] text-white/50 leading-relaxed mt-1">
+              <strong>NOTE:</strong> All loan segments (except Personal Loans &amp; Business Loans) and insurance policies listed on this platform are for market informational purposes only. CoverMantra does not currently facilitate, pursue, or provide these loan segments or insurance policies. These offerings are slated for phased regulatory roll-out.
             </p>
           </div>
         </div>
       </div>
 
       {/* SEO Cities / Presence Section */}
-      <div className="mt-8 bg-white/[0.01] border border-white/5 rounded-2xl p-6">
-        <div className="flex flex-col md:flex-row md:items-center gap-4">
+      <div className="mt-6 bg-white/[0.02] border border-white/10 rounded-xl p-4 sm:p-5">
+        <div className="flex flex-col md:flex-row md:items-center gap-3">
           <div className="flex items-center gap-2 text-white shrink-0">
-            <Sparkles size={16} className="text-[#FF690B] animate-pulse" />
-            <span className="text-sm font-bold uppercase tracking-wider text-white/90">Our Presence:</span>
+            <Sparkles size={14} className="text-[#FF7819]" />
+            <span className="text-xs font-bold uppercase tracking-wider text-white/90">Regional Presence:</span>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5">
             {popularCities.map((city, idx) => (
               <span 
                 key={idx} 
-                className="px-3 py-1 bg-white/5 hover:bg-[#FF690B]/10 hover:text-[#FF690B] text-white/60 text-xs rounded-full border border-white/5 transition-all duration-300 cursor-default"
+                className="px-2.5 py-0.5 bg-white/[0.04] hover:bg-[#FF7819]/15 hover:text-[#FF7819] text-white/60 text-[11px] rounded-md border border-white/5 transition-colors cursor-default"
               >
                 {city}
               </span>

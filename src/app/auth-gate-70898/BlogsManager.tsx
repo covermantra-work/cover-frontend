@@ -698,7 +698,7 @@ export default function BlogsManager({ adminSecret }: BlogsManagerProps) {
                   type="text"
                   value={formData.subtitle}
                   onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
-                  placeholder="e.g. How high credit scores lower your monthly EMI and unlock instant pre-approvals"
+                  placeholder="e.g. How high credit scores lower your monthly EMI and unlock fast pre-approvals"
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white font-medium focus:border-[#FF690B] focus:outline-none"
                 />
               </div>

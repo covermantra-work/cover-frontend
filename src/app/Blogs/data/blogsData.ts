@@ -264,7 +264,7 @@ export const blogsData: BlogPost[] = [
       {
         title: "The Impact on Fintech & Lending",
         type: "highlight",
-        highlight: "In modern loan aggregation platforms like CoverMantra, AI models verify customer eligibility in milliseconds, detect fraudulent document tampering, and match borrowers with the lowest interest NBFCs instantly.",
+        highlight: "In modern loan aggregation platforms like CoverMantra, AI models verify customer eligibility in milliseconds, detect fraudulent document tampering, and match borrowers with the lowest interest NBFCs in real time.",
         paragraphs: [
           "Paperless documentation, algorithmic risk scoring, and conversational loan assistants mean that approval times that once took 7 to 10 days now occur in less than 2 minutes."
         ]
@@ -413,7 +413,7 @@ export const blogsData: BlogPost[] = [
       }
     ],
     keyTakeaways: [
-      "Cloud architecture empowers modern aggregators like CoverMantra to deliver instant, secure financial services.",
+      "Cloud architecture empowers modern aggregators like CoverMantra to deliver fast, secure financial services.",
       "Pay-as-you-go elastic pricing eliminates millions in upfront hardware capital expenditure."
     ]
   },

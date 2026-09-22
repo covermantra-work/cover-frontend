@@ -22,7 +22,7 @@ const microLenders = [
     name: "FatakPay Micro Loans",
     logo: "https://www.fdplfinance.com/assets/images/logo/FatakLoans.svg",
     ticket: "₹1,000 – ₹50,000",
-    disbursal: "Instant (5 Mins)",
+    disbursal: "Fast (Digital KYC)*",
     interest: "12% - 35.95% p.a (APR)",
     approval: "94%",
     features: ["Zero Salary Slip Required", "UPI Direct Transfer", "100% Digital KYC"],
@@ -44,7 +44,7 @@ const microLenders = [
     name: "Credify (Creditt⁺) Loans",
     logo: "https://loan.credittnow.com/favicon.ico",
     ticket: "₹8,000 – ₹35,000",
-    disbursal: "Instant (Digital KYC)",
+    disbursal: "Quick (Digital KYC)*",
     interest: "0.2% - 0.3% / day (APR 24%-36%)",
     approval: "93%",
     features: ["Zero Prepayment Penalty", "Direct Bank Disbursal", "91 - 365 Days Tenure"],
@@ -145,11 +145,11 @@ export default function SmallLoansPage() {
         </div>
 
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-[#08101E] tracking-tight leading-tight mb-6">
-          Instant <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00]">Small Amount Loans</span>
+          Quick <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] via-[#FF8A33] to-[#E65C00]">Small Amount Loans</span>
         </h1>
 
         <p className="text-base sm:text-xl text-[#08101E]/70 max-w-2xl mx-auto font-semibold leading-relaxed mb-10">
-          Need quick cash from ₹1,000 to ₹50,000 for medical bills, rent, or month-end expenses? Get digital verification and direct UPI/bank transfer instantly.
+          Need quick cash from ₹1,000 to ₹50,000 for medical bills, rent, or month-end expenses? Get digital verification and direct UPI/bank transfer upon approval.
         </p>
 
         {/* Quick Highlights Pill Row */}

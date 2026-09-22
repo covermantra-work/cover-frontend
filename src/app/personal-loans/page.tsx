@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "Compare and apply for personal loans online with CoverMantra. Get quick approvals, lowest interest rates, paperless documentation, and flexible repayment terms from top banks and NBFCs.",
   keywords: [
     "Personal Loan",
-    "Instant Loan Approval",
+    "Quick Loan Approval",
     "Low Interest Loans",
     "Paperless Personal Loan",
     "FlexSalary Vivifi",

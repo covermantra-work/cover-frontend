@@ -150,7 +150,7 @@ export default function MantraCentral() {
     interestRate: "Starting from 1.5% per month",
     processingFee: "Starting from 2%",
     ratings: 4.5,
-    features: "Instant Approval, Paperless Process, Quick Disbursal",
+    features: "Fast Approval*, Paperless Process, Quick Disbursal",
     pincodes: "*",
     loanTypes: "instant, personal",
     isActive: true,
@@ -455,7 +455,7 @@ export default function MantraCentral() {
       interestRate: "Starting from 1.5% per month",
       processingFee: "Starting from 2%",
       ratings: 4.5,
-      features: "Instant Approval, Paperless Process, Quick Disbursal",
+      features: "Fast Approval*, Paperless Process, Quick Disbursal",
       pincodes: "*",
       loanTypes: "instant, personal",
       isActive: true,
@@ -2084,7 +2084,7 @@ export default function MantraCentral() {
                     </label>
                     <input
                       type="text"
-                      placeholder="Instant Approval, Paperless Process, Direct Bank Transfer"
+                      placeholder="Fast Approval*, Paperless Process, Direct Bank Transfer"
                       value={lenderFormData.features}
                       onChange={(e) => setLenderFormData({ ...lenderFormData, features: e.target.value })}
                       className="w-full px-4 py-3 bg-gray-50/50 hover:bg-gray-50 border border-gray-200 focus:border-[#FF7819] rounded-xl font-bold text-sm text-[#08101E] focus:outline-none focus:ring-2 focus:ring-[#FF7819]/10 transition-all"

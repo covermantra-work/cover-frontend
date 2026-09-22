@@ -157,7 +157,7 @@ export default function LifeInsurancePage() {
       <section className="py-24 px-6 bg-[#08101E]/5 rounded-[3rem] md:rounded-[5rem] mx-4 text-center">
         <h2 className="text-3xl md:text-5xl font-black mb-16" data-aos="fade-up">3-Minute <span className="text-[#FF7819]">Process</span></h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {["Select Plan", "Enter Info", "E-Payment", "Instant Policy"].map((step, idx) => (
+          {["Select Plan", "Enter Info", "E-Payment", "Digital Policy"].map((step, idx) => (
             <div key={idx} className="bg-white p-8 rounded-[2.5rem] shadow-lg border border-gray-100 flex flex-col items-center group hover:bg-[#08101E] transition-all duration-500" data-aos="zoom-in" data-aos-delay={idx * 150}>
               <div className="text-[#FF7819] text-5xl font-black mb-4 opacity-20 group-hover:opacity-100 transition-opacity italic">0{idx + 1}</div>
               <p className="font-black text-[#08101E] group-hover:text-white text-sm uppercase tracking-widest">{step}</p>

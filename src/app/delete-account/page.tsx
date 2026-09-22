@@ -188,7 +188,7 @@ export default function DeleteAccountPage() {
                 className="group cursor-pointer flex flex-col p-6 bg-[#08101E] rounded-3xl border border-transparent hover:shadow-2xl transition-all duration-300"
               >
                 <FaTrashAlt className="text-2xl text-red-500 mb-4 group-hover:rotate-12 transition-transform" />
-                <h4 className="text-white font-black text-xs uppercase tracking-widest mb-1">Instant Request</h4>
+                <h4 className="text-white font-black text-xs uppercase tracking-widest mb-1">Direct Request</h4>
                 <p className="text-[11px] text-gray-400">Submit your request directly through our secure deletion portal.</p>
               </div>
             </div>

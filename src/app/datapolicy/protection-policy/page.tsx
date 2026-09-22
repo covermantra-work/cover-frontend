@@ -174,7 +174,7 @@ const DataProtectionPolicy = () => {
             <div className="pl-2 md:pl-16 grid grid-cols-1 md:grid-cols-2 gap-12">
                <div>
                   <h3 className="text-[#08101E] font-black text-sm uppercase mb-3 tracking-tight">10. Breach Management</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed font-medium">Any data breach will be investigated and addressed as per our protocol. Regulators will be notified instantly.</p>
+                  <p className="text-gray-500 text-sm leading-relaxed font-medium">Any data breach will be investigated and addressed as per our protocol. Regulators will be notified promptly as required by applicable laws.</p>
                </div>
                <div>
                   <h3 className="text-[#08101E] font-black text-sm uppercase mb-3 tracking-tight">11. Review & Updates</h3>

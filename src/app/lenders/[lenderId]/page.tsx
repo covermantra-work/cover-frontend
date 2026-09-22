@@ -76,7 +76,7 @@ const fallbackLenders: Record<string, FallbackLender> = {
       "Flexible repayment tenures"
     ],
     brandColor: "#008248",
-    description: "Get instant personal loans up to ₹5 Lakhs from MoneyView. Experience a completely digital, paperless process with minimal documentation, competitive interest rates, and flexible tenure options.",
+    description: "Get digital personal loans up to ₹5 Lakhs from MoneyView. Experience a completely digital, paperless process with minimal documentation, competitive interest rates, and flexible tenure options.",
     docsRequired: ["PAN Card", "Aadhaar Card (linked to Mobile)", "Salary Account Bank Statement (Last 3 Months)"],
     faqs: [
       { q: "What is the minimum monthly income required for MoneyView?", a: "The minimum monthly income required to qualify for a MoneyView personal loan is ₹20,000." },
@@ -116,15 +116,15 @@ const fallbackLenders: Record<string, FallbackLender> = {
       "Quick disbursement",
       "Paperless process",
       "Low processing fee",
-      "Instant approval",
+      "Fast in-principle approval*",
       "No hidden charges",
       "24/7 customer support"
     ],
     brandColor: "#6c5ce7",
-    description: "Access instant personal credit lines and loans up to ₹3 Lakhs from Zype. Make transfers or withdrawals instantly, enjoy an easy application process, and repay in simple monthly EMIs.",
+    description: "Access flexible personal credit lines and loans up to ₹3 Lakhs from Zype. Make transfers or withdrawals smoothly, enjoy an easy application process, and repay in simple monthly EMIs.",
     docsRequired: ["PAN Card", "Aadhaar Card", "Salary Account Statement (Last 3 Months)"],
     faqs: [
-      { q: "What is the maximum loan limit in Zype?", a: "Zype offers instant credit lines and personal loans up to ₹3,00,000." },
+      { q: "What is the maximum loan limit in Zype?", a: "Zype offers flexible credit lines and personal loans up to ₹3,00,000." },
       { q: "Can self-employed individuals apply?", a: "Currently, Zype prioritizes salaried individuals with a minimum income of ₹18,000." },
       { q: "Is the process 100% online?", a: "Yes, the Zype journey is 100% digital, requiring no physical documents." }
     ]
@@ -159,7 +159,7 @@ const fallbackLenders: Record<string, FallbackLender> = {
     },
     features: [
       "Credit Line Facility",
-      "Instant Disbursal",
+      "Fast Disbursal*",
       "Flexible Repayment",
       "No Fixed EMI",
       "Minimal Documentation",
@@ -206,12 +206,12 @@ const fallbackLenders: Record<string, FallbackLender> = {
       "Quick disbursement",
       "Paperless process",
       "Low processing fee",
-      "Instant approval",
+      "Fast in-principle approval*",
       "No hidden charges",
       "24/7 customer support"
     ],
     brandColor: "#00b894",
-    description: "FATAKPAY offers swift, hassle-free instant personal loans up to ₹2 Lakhs. Specially tailored for salaried employees, it features transparent rates, quick disbursal, and flexible tenure options.",
+    description: "FATAKPAY offers swift, hassle-free digital personal loans up to ₹2 Lakhs. Specially tailored for salaried employees, it features transparent rates, quick disbursal, and flexible tenure options.",
     docsRequired: ["PAN Card", "Aadhaar Card", "Salary Slip or Bank Statement showing salary credit"],
     faqs: [
       { q: "Who is eligible for FatakPay?", a: "Salaried individuals with a minimum age of 20 and monthly income starting from ₹16,000 are eligible." },
@@ -302,7 +302,7 @@ export async function generateMetadata({ params }: { params: any }) {
   if (!lender) {
     return {
       title: "Lender Services - CoverMantra",
-      description: "Compare and apply for top instant personal loans and credit lines on CoverMantra."
+      description: "Compare and apply for top digital personal loans and credit lines on CoverMantra."
     };
   }
 
@@ -317,7 +317,7 @@ export async function generateMetadata({ params }: { params: any }) {
       `${lender.name} personal loan`,
       `${lender.name} apply online`,
       `${lender.name} interest rate`,
-      `instant loan covermantra`,
+      `quick loan covermantra`,
       `${lender.name} eligibility`
     ],
     openGraph: {

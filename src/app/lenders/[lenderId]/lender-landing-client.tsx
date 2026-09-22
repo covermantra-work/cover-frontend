@@ -696,7 +696,7 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                 >
                   <div className="mb-6">
                     <h2 className="text-xl md:text-2xl font-black text-white mb-1.5">Check Pre-Approved Limit</h2>
-                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed">Verify your mobile number to view instant credit lines tailored for {lenderConfig.name}.</p>
+                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed">Verify your mobile number to view eligible credit lines tailored for {lenderConfig.name}.</p>
                   </div>
 
                   {otpError && (
@@ -796,7 +796,7 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                   <div className="mb-5 flex items-center justify-between gap-4">
                     <div>
                       <h2 className="text-xl md:text-2xl font-black text-white mb-1">Verify Details</h2>
-                      <p className="text-slate-400 text-xs">Verify your information for instant evaluation.</p>
+                      <p className="text-slate-400 text-xs">Verify your information for quick eligibility evaluation.</p>
                     </div>
                     {prefilled && (
                       <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full text-[10px] uppercase font-black shrink-0">
@@ -1097,7 +1097,7 @@ export default function LenderLandingClient({ lenderConfig }: LenderLandingClien
                   CoverMantra (CoverMantra Services Private Limited) is a technology platform functioning as a Digital Lending Service Provider (LSP) / loan aggregator. CoverMantra is not a financial institution, Bank, or Non-Banking Financial Company (NBFC).
                 </p>
                 <p>
-                  All loan approvals, sanction letters, interest rate assessments, and fund disbursements are strictly executed by licensed RBI-registered NBFCs or Banking institutions. Loan approval is subject to partner underwriting criteria; no guaranteed approvals or instant cash without verified KYC are provided.
+                  All loan approvals, sanction letters, interest rate assessments, and fund disbursements are strictly executed by licensed RBI-registered NBFCs or Banking institutions. Loan approval is subject to partner underwriting criteria; no guaranteed approvals or immediate cash loans without verified KYC are provided.
                 </p>
               </div>
             </div>

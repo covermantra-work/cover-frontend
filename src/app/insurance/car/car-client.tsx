@@ -217,7 +217,7 @@ export default function CarInsurancePage() {
             Compare & Choose the <span className="text-[#FF7819]">Best Plans</span>
           </h2>
           <p className="text-gray-500 font-semibold text-lg max-w-2xl mx-auto leading-relaxed">
-            We are building a robust integration network to let you instantly compare policy benefits, pricing, and claims networks side-by-side.
+            We are building a robust integration network to let you seamlessly compare policy benefits, pricing, and claims networks side-by-side.
           </p>
         </div>
 
@@ -237,7 +237,7 @@ export default function CarInsurancePage() {
             },
             {
               title: "Cashless Network Mapper",
-              desc: "Instantly check which policies support cashless repairs at garages near your location.",
+              desc: "Quickly check which policies support cashless repairs at garages near your location.",
               icon: <FileText className="text-[#FF7819]" size={36} />,
               tag: "Coming Soon"
             }
@@ -281,7 +281,7 @@ export default function CarInsurancePage() {
         <div className="mt-16 text-center z-10 relative">
           <div className="inline-block bg-white/60 backdrop-blur-md rounded-[2rem] border border-gray-100 px-8 py-5 shadow-xl max-w-2xl mx-auto">
             <p className="text-sm font-bold text-gray-500">
-              ⚡ Stay tuned! Our instant quote matching engine goes live soon.
+              ⚡ Stay tuned! Our smart quote matching engine goes live soon.
             </p>
           </div>
         </div>

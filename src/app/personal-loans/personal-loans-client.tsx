@@ -31,7 +31,7 @@ const fallbackCards: LenderCard[] = [
     logo: "https://www.vivifin.com/images/vivifi-logo.png",
     applyLink: "/LenderAPI/vivifi",
     features: [
-      "Credit Line Facility", "Instant Disbursal", "Flexible Repayment", "No Fixed EMI", "Minimal Documentation", "24/7 support"
+      "Credit Line Facility", "Fast Disbursal*", "Flexible Repayment", "No Fixed EMI", "Minimal Documentation", "24/7 support"
     ]
   },
   {
@@ -45,7 +45,7 @@ const fallbackCards: LenderCard[] = [
     logo: "https://www.fdplfinance.com/assets/images/logo/FatakLoans.svg",
     applyLink: "/LenderAPI/fatakPay",
     features: [
-      "Quick disbursement", "Paperless process", "Low processing fee", "Instant approval", "No hidden charges", "24/7 customer support"
+      "Quick disbursement", "Paperless process", "Low processing fee", "Fast approval*", "No hidden charges", "24/7 customer support"
     ]
   },
   {
@@ -59,7 +59,7 @@ const fallbackCards: LenderCard[] = [
     logo: "https://www.getzype.com/wp-content/uploads/2024/09/Zype_svg_black.svg",
     applyLink: "/LenderAPI/zype",
     features: [
-      "Quick disbursement", "Paperless process", "Low processing fee", "Instant approval", "No hidden charges", "24/7 customer support"
+      "Quick disbursement", "Paperless process", "Low processing fee", "Fast approval*", "No hidden charges", "24/7 customer support"
     ]
   },
   {

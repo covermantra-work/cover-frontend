@@ -55,7 +55,7 @@ const insuranceCards = [
   },
   {
     title: "Two Wheeler Insurance",
-    badge: "Instant Policy",
+    badge: "Digital Policy",
     badgeColor: "bg-emerald-100 text-emerald-600",
     lottie: bike,
     link: "/insurance/two-wheeler",

@@ -216,7 +216,7 @@ class LenderService {
             <div className="flex flex-wrap gap-2 bg-gray-950 border border-gray-800 p-1.5 rounded-2xl">
               {[
                 { id: "all", label: "All Lenders" },
-                { id: "instant", label: "Instant Loan" },
+                { id: "instant", label: "Quick Loan" },
                 { id: "personal", label: "Personal Loan" },
                 { id: "short_term", label: "Short Term" }
               ].map((tab) => (
