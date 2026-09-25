@@ -353,7 +353,7 @@ function Footer() {
                 <span className="text-[9px] px-1.5 py-0.5 bg-[#FF7819]/20 text-[#FF7819] rounded font-mono font-normal">RBI/2022-23/111</span>
               </div>
               <p className="text-[10px] text-white/60 leading-relaxed">
-                <strong>CoverMantra Services Private Limited</strong> (CIN: U46109DL2024PTC438732) is a digital loan aggregator and Lending Service Provider (LSP) operating in strict conformity with the Reserve Bank of India (RBI) Guidelines on Digital Lending dated September 02, 2022. CoverMantra is not a Bank or a Non-Banking Financial Company (NBFC) and does not directly grant loans, credit facilities, or collect upfront cash processing fees. All loan sanctions, interest rates, tenure, and disbursals are solely at the discretion of our partnering RBI-regulated Scheduled Commercial Banks and NBFCs, subject to statutory credit evaluation and applicant verification.
+                <strong>CoverMantra Services Private Limited</strong> (CIN: U46109DL2024PTC438732 | GSTIN: 06AAMCC2334C1Z3) is a digital loan aggregator and Lending Service Provider (LSP) operating in strict conformity with the Reserve Bank of India (RBI) Guidelines on Digital Lending dated September 02, 2022. CoverMantra is not a Bank or a Non-Banking Financial Company (NBFC) and does not directly grant loans, credit facilities, or collect upfront cash processing fees. All loan sanctions, interest rates, tenure, and disbursals are solely at the discretion of our partnering RBI-regulated Scheduled Commercial Banks and NBFCs, subject to statutory credit evaluation and applicant verification.
               </p>
             </div>
           </div>
@@ -384,7 +384,7 @@ function Footer() {
                 <span className="text-white/40 ml-1">All Rights Reserved.</span>
               </p>
               <p className="text-[9px] text-white/40 font-mono">
-                CIN: U46109DL2024PTC438732 | Digital Lending Partner (LSP)
+                CIN: U46109DL2024PTC438732 | GSTIN: 06AAMCC2334C1Z3 | Digital Lending Partner (LSP)
               </p>
             </div>
 

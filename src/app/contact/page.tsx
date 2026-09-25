@@ -247,6 +247,16 @@ function Contact() {
                       </div>
                     </div>
                  </div>
+
+                 {/* Statutory Identity Capsule */}
+                 <div className="pt-4 border-t border-white/10 flex flex-wrap gap-2 text-[10px]">
+                   <span className="px-2.5 py-1 bg-white/5 rounded-md border border-white/10 font-mono text-slate-300">
+                     CIN: U46109DL2024PTC438732
+                   </span>
+                   <span className="px-2.5 py-1 bg-white/5 rounded-md border border-white/10 font-mono text-slate-300">
+                     GSTIN: 06AAMCC2334C1Z3
+                   </span>
+                 </div>
                </div>
 
                <motion.a 

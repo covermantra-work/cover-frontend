@@ -42,7 +42,7 @@ export default function TermsPage() {
             <div>
               <h2 className="text-lg font-black uppercase mb-2">1. Introduction</h2>
               <p className="text-sm text-gray-600 leading-relaxed">
-                CoverMantra Services Private Limited is incorporated under Indian law (Registered Office: Fatehabad, Haryana). By using our Platform, you agree to these Terms & Conditions and our Privacy Policy.
+                CoverMantra Services Private Limited is incorporated under Indian law (CIN: U46109DL2024PTC438732 | GSTIN: 06AAMCC2334C1Z3, Registered Office: Fatehabad, Haryana). By using our Platform, you agree to these Terms & Conditions and our Privacy Policy.
               </p>
             </div>
           </section>

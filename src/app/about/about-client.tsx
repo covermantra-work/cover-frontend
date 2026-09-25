@@ -497,8 +497,12 @@ export default function AboutPage() {
                       <div className="font-bold text-[#002140] font-mono break-all">U46109DL2024PTC438732</div>
                     </div>
                     <div>
+                      <div className="text-[9px] text-slate-500 font-semibold uppercase">Goods & Services Tax (GSTIN)</div>
+                      <div className="font-bold text-[#002140] font-mono break-all">06AAMCC2334C1Z3</div>
+                    </div>
+                    <div>
                       <div className="text-[9px] text-slate-500 font-semibold uppercase">Registered Jurisdiction</div>
-                      <div className="font-semibold text-[#002140]">Registrar of Companies, Delhi, India</div>
+                      <div className="font-semibold text-[#002140]">Registrar of Companies, Delhi / Haryana, India</div>
                     </div>
                     <div>
                       <div className="text-[9px] text-slate-500 font-semibold uppercase">Grievance Redressal</div>

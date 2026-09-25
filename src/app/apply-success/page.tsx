@@ -414,6 +414,8 @@ function ApplySuccessContent() {
           <span className="text-slate-300">•</span>
           <span>CIN: U46109DL2024PTC438732</span>
           <span className="text-slate-300">•</span>
+          <span>GSTIN: 06AAMCC2334C1Z3</span>
+          <span className="text-slate-300">•</span>
           <span className="text-emerald-700 font-semibold flex items-center gap-1">
             <ShieldCheck size={10} /> Bank-Grade 256-Bit SSL
           </span>

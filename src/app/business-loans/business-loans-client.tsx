@@ -1,121 +1,179 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { HiLightningBolt, HiChartBar, HiClipboardCheck } from "react-icons/hi";
 import { FaRocket, FaBuilding, FaCity, FaTools, FaFileInvoiceDollar, FaChartLine } from "react-icons/fa";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { Sparkles, ArrowRight, ShieldCheck, BadgeCheck, Clock3, Lock, CheckCircle2 } from "lucide-react";
 
 export default function BusinessLoansPage() {
   useEffect(() => {
     AOS.init({
-      duration: 1000,
+      duration: 800,
       once: true,
-      easing: "ease-in-out",
+      easing: "ease-out-cubic",
     });
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#FFF4E5] text-[#08101E] font-sans selection:bg-[#FF7819]/30 overflow-x-hidden">
+    <main className="min-h-screen bg-[#FAF8F5] text-[#002140] font-sans selection:bg-[#FF7819]/25 overflow-x-hidden">
 
-      {/* 🚀 HERO SECTION WITH 3D VOLUMETRIC STUDIO LIGHTING & FLOATING COINS */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#08101E] text-white py-24 px-4 pt-32">
-        {/* 3D Volumetric Studio Lights */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gradient-to-tr from-amber-500/20 via-[#FF7819]/25 to-transparent rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute -bottom-10 right-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* ========================================================================= */}
+      {/* 1. HERO SECTION: 70% LIGHT BASE & MATCHING INSTITUTIONAL TYPOGRAPHY       */}
+      {/* ========================================================================= */}
+      <section className="relative pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-16 px-3.5 sm:px-6 lg:px-8 border-b border-[#E5E2DA] overflow-hidden">
+        {/* Subtle Ambient Studio Lighting */}
+        <div className="absolute top-0 right-0 w-80 sm:w-[500px] h-80 sm:h-[500px] bg-[#FF7819]/5 rounded-full blur-[100px] pointer-events-none -mr-20 -mt-20" />
+        <div className="absolute bottom-0 left-0 w-72 sm:w-[450px] h-72 sm:h-[450px] bg-[#002140]/5 rounded-full blur-[90px] pointer-events-none -ml-20 -mb-20" />
 
-        {/* 🪙 Floating 3D Gold Coin 1 */}
-        <motion.div
-          animate={{ y: [0, -14, 0], rotate: [0, 8, -4, 0] }}
-          transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }}
-          className="hidden lg:flex absolute top-32 left-12 xl:left-24 w-16 h-16 rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-200 p-1 shadow-[0_15px_35px_rgba(245,158,11,0.4)] items-center justify-center text-amber-950 font-black text-2xl border-2 border-white/70 select-none pointer-events-none z-20"
-        >
-          ₹
-        </motion.div>
+        {/* Ambient Mantra Ribbon */}
+        <div className="relative z-10 flex items-center justify-center gap-2 sm:gap-3 text-[#002140]/40 font-serif tracking-[0.25em] sm:tracking-[0.3em] uppercase text-[9px] sm:text-[11px] font-bold mb-3 sm:mb-4 select-none">
+          <span className="h-px w-6 sm:w-14 bg-gradient-to-r from-transparent to-[#002140]/25" />
+          <span>सत्यम शिवम सुंदरम</span>
+          <span className="h-px w-6 sm:w-14 bg-gradient-to-l from-transparent to-[#002140]/25" />
+        </div>
 
-        {/* 🪙 Floating 3D Gold Coin 2 */}
-        <motion.div
-          animate={{ y: [0, 14, 0], rotate: [0, -8, 6, 0] }}
-          transition={{ repeat: Infinity, duration: 4.8, ease: "easeInOut", delay: 0.4 }}
-          className="hidden lg:flex absolute bottom-20 right-10 xl:right-24 w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-200 p-1 shadow-[0_15px_30px_rgba(245,158,11,0.35)] items-center justify-center text-amber-950 font-black text-xl border-2 border-white/70 select-none pointer-events-none z-20"
-        >
-          ₹
-        </motion.div>
+        <div className="max-w-6xl mx-auto relative z-10 text-center">
+          
+          {/* Top Status Badges (Coming Soon & Fast-Track) */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-3 sm:mb-3.5">
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-[#FF7819]/10 border border-[#FF7819]/25 text-[#FF7819] text-[9px] sm:text-xs font-bold uppercase tracking-wider shadow-2xs"
+            >
+              <Clock3 size={11} className="animate-spin" style={{ animationDuration: '6s' }} />
+              <span>Coming Soon • Pre-Launch Pipeline</span>
+            </motion.div>
 
-        <div className="relative max-w-6xl mx-auto text-center z-10">
-          {/* COMING SOON Badge */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="inline-flex items-center gap-2 px-5 py-2 mb-8 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-[0_0_25px_rgba(255,120,25,0.3)]"
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-[#002140]/5 border border-[#002140]/10 text-[#002140] text-[9px] sm:text-xs font-bold uppercase tracking-wider shadow-2xs"
+            >
+              <Sparkles size={11} className="text-[#FF7819]" />
+              <span>Fast-Track Enterprise Capital</span>
+            </motion.div>
+          </div>
+
+          {/* Main Hero Heading: Exactly matching about-client.tsx */}
+          <motion.h1
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="text-xl sm:text-2xl md:text-3xl lg:text-[38px] font-black text-[#002140] mb-2 sm:mb-3 leading-[1.2] tracking-tight max-w-3xl mx-auto"
           >
-            <Sparkles size={14} className="text-[#FF7819]" />
-            <span className="text-xs font-black tracking-[0.2em] text-[#FF7819] uppercase">
-              Fast-Track Enterprise Capital
-            </span>
-          </motion.div>
-
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 leading-[1.1] tracking-tighter">
-            Empower Your Business with <br className="hidden md:block"/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] via-[#FFB900] to-[#FF8A33]">
+            Empower Your Business with <br className="hidden sm:inline" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] via-[#e5670d] to-[#002140]">
               Flexible Funding
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="text-base md:text-xl mb-16 text-slate-300 max-w-3xl mx-auto font-medium leading-relaxed">
-            Tailored loan solutions for Startups, MSMEs, and Enterprises. <br className="hidden md:block"/>
-            Faster digital approvals. Competitive interest rates. Zero hassle.
-          </p>
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.15 }}
+            className="text-xs sm:text-sm md:text-[15px] text-[#002140]/75 leading-relaxed font-normal max-w-2xl mx-auto px-2 mb-8 sm:mb-10"
+          >
+            Tailored loan solutions for Startups, MSMEs, and Enterprises. Faster digital approvals. Competitive interest rates. Zero hassle.
+          </motion.p>
 
-          {/* Target Cards 3D Row */}
-          <div className="grid gap-6 md:grid-cols-3 text-left">
+          {/* Target Cards Row (Startups, SMEs, Enterprises) */}
+          <div className="grid gap-3.5 sm:gap-4 md:gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 text-left">
             {[
-              { icon: <FaRocket />, title: "For Startups", desc: "Fast working capital and seed-stage funds to build, hire, and scale your product." },
-              { icon: <FaBuilding />, title: "For SMEs", desc: "Grow your business with inventory, machinery, marketing, and team expansion loans." },
-              { icon: <FaCity />, title: "For Enterprises", desc: "Large-scale credit lines with customized tenure, competitive APR, and dedicated support." },
+              {
+                icon: <FaRocket />,
+                title: "For Startups",
+                desc: "Fast working capital and seed-stage funds to build, hire, and scale your product.",
+                tag: "Seed to Series A",
+              },
+              {
+                icon: <FaBuilding />,
+                title: "For SMEs",
+                desc: "Grow your business with inventory, machinery, marketing, and team expansion loans.",
+                tag: "Working Capital",
+              },
+              {
+                icon: <FaCity />,
+                title: "For Enterprises",
+                desc: "Large-scale credit lines with customized tenure, competitive APR, and dedicated support.",
+                tag: "Bespoke Lines",
+              },
             ].map((card, i) => (
               <motion.div
                 key={i}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="bg-white/[0.04] backdrop-blur-2xl p-8 rounded-[2.8rem] border-2 border-white/10 hover:border-[#FF7819]/50 hover:bg-white/[0.07] transition-all duration-300 shadow-2xl group"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.35 }}
+                className="group bg-white rounded-xl sm:rounded-2xl border border-[#E5E2DA] p-5 sm:p-6 shadow-2xs hover:border-[#FF7819]/50 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
               >
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FF7819] to-[#E65C00] flex items-center justify-center text-white text-2xl mb-6 shadow-[0_8px_20px_rgba(234,88,12,0.4)] group-hover:scale-110 transition-transform">
-                  {card.icon}
+                <div>
+                  <div className="flex items-center justify-between gap-2 pb-2.5 mb-3 border-b border-[#E5E2DA]/60">
+                    <span className="inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                      <BadgeCheck size={11} /> {card.tag}
+                    </span>
+                    <span className="text-[9px] sm:text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 font-bold uppercase">
+                      Upcoming
+                    </span>
+                  </div>
+
+                  <div className="w-11 h-11 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA]/60 flex items-center justify-center text-[#FF7819] text-lg mb-3.5 group-hover:bg-[#FF7819] group-hover:text-white transition-all duration-300 shadow-2xs">
+                    {card.icon}
+                  </div>
+
+                  <h3 className="text-sm sm:text-base font-black text-[#002140] mb-1.5 tracking-tight group-hover:text-[#FF7819] transition-colors">
+                    {card.title}
+                  </h3>
+                  <p className="text-[#002140]/75 text-xs sm:text-[13px] leading-relaxed font-normal">
+                    {card.desc}
+                  </p>
                 </div>
-                <h3 className="text-xl font-black text-white mb-3 tracking-tight">{card.title}</h3>
-                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-medium">{card.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 📖 EDUCATIONAL SECTION */}
-      <section className="py-24 px-4 max-w-4xl mx-auto text-center" data-aos="fade-up">
-        <h2 className="text-3xl md:text-5xl font-black mb-6 text-[#08101E] tracking-tight">
-          What is a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7819] to-[#E65C00]">Business Loan?</span>
+      {/* ========================================================================= */}
+      {/* 2. EDUCATIONAL SECTION                                                    */}
+      {/* ========================================================================= */}
+      <section className="py-12 sm:py-16 px-3.5 sm:px-6 max-w-4xl mx-auto text-center" data-aos="fade-up">
+        <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-[#002140]/5 border border-[#002140]/10 text-[#002140] text-[9px] sm:text-xs font-bold uppercase tracking-wider mb-2.5 shadow-2xs">
+          <ShieldCheck size={12} className="text-[#FF7819]" />
+          <span>Product Overview & Objectives</span>
+        </div>
+
+        <h2 className="text-lg sm:text-xl md:text-2xl font-black mb-2 text-[#002140] tracking-tight">
+          What is a <span className="text-[#FF7819]">Business Loan?</span>
         </h2>
-        <div className="w-20 h-1.5 bg-[#FF7819] mx-auto rounded-full mb-8 shadow-sm" />
-        <p className="text-[#08101E]/70 text-base md:text-lg leading-relaxed font-semibold">
-          A business loan provides financial support for growth, working capital, commercial expansion,
-          equipment purchase, or other operational needs. Whether you're launching a venture or taking an established
-          business to the next stage, our digital loan solutions fuel your vision with total transparency.
+        <div className="w-12 h-1 bg-[#FF7819] mx-auto rounded-full mb-3" />
+        
+        <p className="text-[#002140]/75 text-xs sm:text-sm md:text-[14px] leading-relaxed font-normal max-w-3xl mx-auto">
+          A business loan provides financial support for growth, working capital, commercial expansion, equipment purchase, or other operational needs. Whether you're launching a venture or taking an established business to the next stage, our upcoming digital loan solutions fuel your vision with total transparency and zero hidden markups.
         </p>
       </section>
 
-      {/* 💎 TYPES SECTION - 3D CLAYMORPHIC CARDS */}
-      <section className="py-24 px-4 sm:px-6 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-[#08101E] tracking-tight">
+      {/* ========================================================================= */}
+      {/* 3. TYPES OF BUSINESS LOANS (6 TILES GRID)                                 */}
+      {/* ========================================================================= */}
+      <section className="py-12 sm:py-16 px-3.5 sm:px-6 lg:px-8 border-y border-[#E5E2DA] bg-white">
+        <div className="max-w-6xl mx-auto">
+          
+          <div className="text-center mb-8 sm:mb-10">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-black text-[#002140] tracking-tight mb-1.5">
               Types of <span className="text-[#FF7819]">Business Loans</span>
             </h2>
-            <p className="text-slate-500 font-semibold text-sm mt-3">Tailored financial vehicles matched to your operational needs</p>
+            <p className="text-slate-500 font-medium text-xs sm:text-[13px]">
+              Tailored financial vehicles matched to your operational revenue cycles
+            </p>
           </div>
 
-          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3.5 sm:gap-4 md:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {[
               { icon: <FaTools />, title: "Working Capital Loans", desc: "Short-term funds to balance seasonal cash flows, vendor payments, and daily overheads." },
               { icon: <FaRocket />, title: "Startup Seed Loans", desc: "Collateral-free capital designed to help registered startups scale early traction." },
@@ -126,85 +184,152 @@ export default function BusinessLoansPage() {
             ].map((item, i) => (
               <motion.div
                 key={i}
-                whileHover={{ y: -6, scale: 1.02 }}
-                className="p-8 bg-gradient-to-b from-white via-[#FFFDFB] to-[#FFF7ED]/90 rounded-[2.8rem] border-4 border-white shadow-[0_20px_50px_-15px_rgba(255,120,25,0.12),0_10px_25px_rgba(0,0,0,0.04),inset_0_3px_6px_rgba(255,255,255,1)] hover:border-[#FF7819]/40 transition-all duration-300 group"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+                className="p-5 sm:p-6 bg-[#FAF8F5] rounded-xl sm:rounded-2xl border border-[#E5E2DA] shadow-2xs hover:border-[#FF7819]/50 hover:bg-white transition-all duration-300 group flex flex-col justify-between"
               >
-                <div className="w-14 h-14 rounded-2xl bg-[#FF7819]/10 flex items-center justify-center text-[#FF7819] mb-6 group-hover:bg-[#FF7819] group-hover:text-white transition-all duration-300 shadow-sm">
-                  {item.icon}
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-white border border-[#E5E2DA]/80 flex items-center justify-center text-[#FF7819] mb-3 group-hover:bg-[#FF7819] group-hover:text-white transition-all duration-300 shadow-2xs text-base">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-sm sm:text-[15px] font-black mb-1.5 text-[#002140] tracking-tight group-hover:text-[#FF7819] transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-[#002140]/75 text-xs sm:text-[13px] font-normal leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
-                <h3 className="text-xl font-black mb-3 text-[#08101E] tracking-tight">{item.title}</h3>
-                <p className="text-slate-600 text-xs sm:text-sm font-medium leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* 🏆 WHY CHOOSE US */}
-      <section className="py-24 px-4 max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-5xl font-black mb-16 text-center text-[#08101E] tracking-tight">
-          Why Choose Our <span className="text-[#FF7819]">Business Loans?</span>
-        </h2>
+      {/* ========================================================================= */}
+      {/* 4. WHY CHOOSE OUR BUSINESS LOANS? (3 PILLARS)                             */}
+      {/* ========================================================================= */}
+      <section className="py-12 sm:py-16 px-3.5 sm:px-6 max-w-6xl mx-auto">
+        <div className="text-center mb-8 sm:mb-10">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-black text-[#002140] tracking-tight mb-1.5">
+            Why Choose Our <span className="text-[#FF7819]">Business Loans?</span>
+          </h2>
+          <p className="text-slate-500 font-medium text-xs sm:text-[13px]">
+            Institutional underwriting built on speed, compliance, and custom tenures
+          </p>
+        </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-3.5 sm:gap-5 md:grid-cols-3">
           {[
             {
               icon: <HiLightningBolt />,
               title: "Fast Disbursal",
-              desc: "Automated underwriting algorithms ensure rapid decisions and swift capital deployment.",
+              desc: "Automated underwriting algorithms ensure rapid decisions and swift capital deployment directly into your account.",
             },
             {
               icon: <HiChartBar />,
               title: "Custom Loan Plans",
-              desc: "Flexible tenure and repayment terms crafted to match your business revenue cycles.",
+              desc: "Flexible tenure and structured repayment terms crafted to match your business seasonal cash flow patterns.",
             },
             {
               icon: <HiClipboardCheck />,
               title: "Minimal Documentation",
-              desc: "Digitally upload bank statements and GST filings with zero physical branch visits.",
+              desc: "Digitally upload bank statements and GST filings with zero physical branch visits or manual paperwork.",
             },
           ].map((item, i) => (
             <motion.div
               key={i}
-              whileHover={{ y: -8 }}
-              className="relative p-10 bg-[#08101E] rounded-[3rem] text-center group overflow-hidden shadow-2xl border border-white/10"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.2 }}
+              className="p-5 sm:p-6 bg-white rounded-xl sm:rounded-2xl border border-[#E5E2DA] shadow-2xs hover:border-[#FF7819]/50 transition-all duration-300 text-left"
             >
-              <div className="absolute top-0 right-0 w-36 h-36 bg-[#FF7819]/15 rounded-full blur-3xl group-hover:bg-[#FF7819]/25 transition-all" />
-              <div className="relative z-10">
-                <div className="text-5xl text-[#FF7819] flex justify-center mb-6">{item.icon}</div>
-                <h3 className="text-2xl font-black mb-4 text-white tracking-tight">{item.title}</h3>
-                <p className="text-slate-300 text-sm font-medium leading-relaxed">{item.desc}</p>
+              <div className="w-11 h-11 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA] flex items-center justify-center text-xl text-[#FF7819] mb-3.5 shadow-2xs">
+                {item.icon}
               </div>
+              <h3 className="text-sm sm:text-base font-black mb-1.5 text-[#002140] tracking-tight">
+                {item.title}
+              </h3>
+              <p className="text-[#002140]/75 text-xs sm:text-[13px] font-normal leading-relaxed">
+                {item.desc}
+              </p>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* 📣 3D CANDY CTA SECTION */}
-      <section className="py-20 px-4 sm:px-6">
-        <motion.div 
-          whileHover={{ scale: 1.01 }}
-          className="max-w-6xl mx-auto rounded-[3.5rem] md:rounded-[4.5rem] p-10 md:p-20 bg-gradient-to-br from-[#FF7819] via-[#FF8A33] to-[#E65C00] text-center text-white shadow-[0_30px_70px_rgba(234,88,12,0.4),inset_0_2px_4px_rgba(255,255,255,0.4)] border-4 border-white/20 relative overflow-hidden"
-        >
-          <div className="absolute -top-10 -right-10 w-48 md:w-80 h-48 md:h-80 bg-white/20 rounded-full blur-3xl pointer-events-none" />
-          
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black mb-6 relative z-10 tracking-tight">
-            Ready to Accelerate Your Business?
-          </h2>
-          <p className="mb-10 text-base md:text-lg text-white font-semibold max-w-2xl mx-auto relative z-10 leading-relaxed">
-            Apply today and unlock smart capital designed to help your enterprise thrive. 100% digital and transparent.
-          </p>
+      {/* ========================================================================= */}
+      {/* 5. EXECUTIVE STATUTORY UNDERWRITING DOCKET & CTA (30% DARK ANCHOR)        */}
+      {/* ========================================================================= */}
+      <section className="pb-14 sm:pb-20 px-3.5 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto bg-gradient-to-br from-[#002140] via-[#00172e] to-[#000f20] rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 text-white border border-[#00386b] shadow-xl relative overflow-hidden">
+          {/* Subtle Ambient Glows */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF7819]/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-60 h-60 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
 
-          <motion.a
-            whileHover={{ scale: 1.03, y: -2 }}
-            whileTap={{ scale: 0.97, y: 3 }}
-            href="/contact"
-            className="inline-flex items-center gap-3 bg-[#08101E] text-white px-10 py-4.5 rounded-2xl font-black text-sm uppercase tracking-wider shadow-[0_8px_0_#040810,0_20px_35px_rgba(0,0,0,0.5),inset_0_2px_4px_rgba(255,255,255,0.2)] active:shadow-[0_2px_0_#040810] transition-all relative z-10 cursor-pointer"
-          >
-            <span>Talk to a Loan Specialist</span>
-            <ArrowRight size={18} className="text-[#FF7819]" />
-          </motion.a>
-        </motion.div>
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
+            
+            {/* Left Column: Heading, Subtitle & Statutory Trust Badges */}
+            <div className="lg:col-span-8">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-[#FF7819] text-[9px] sm:text-[10px] font-bold uppercase tracking-wider mb-2.5">
+                <Lock size={10} />
+                <span>Statutory Enterprise Governance Standards</span>
+              </div>
+
+              <h2 className="text-lg sm:text-xl md:text-2xl font-black text-white tracking-tight mb-2">
+                Ready to Accelerate Your Business?
+              </h2>
+
+              <p className="text-xs sm:text-[13px] text-slate-300 leading-relaxed font-normal mb-3 sm:mb-4 max-w-2xl">
+                Apply today and unlock smart capital designed to help your enterprise thrive. CoverMantra operates strictly under the Reserve Bank of India’s Digital Lending Framework. 100% digital, transparent, and direct from regulated partner balance sheets.
+              </p>
+
+              {/* Statutory Pillars */}
+              <div className="flex flex-wrap gap-2 text-[10px] font-semibold text-slate-300 mb-4 sm:mb-5">
+                <span className="px-2.5 py-1 bg-white/5 rounded-md border border-white/10 flex items-center gap-1">
+                  <CheckCircle2 size={11} className="text-emerald-400" /> Direct Bank Disbursals
+                </span>
+                <span className="px-2.5 py-1 bg-white/5 rounded-md border border-white/10 flex items-center gap-1">
+                  <CheckCircle2 size={11} className="text-emerald-400" /> 256-Bit SSL Encryption
+                </span>
+                <span className="px-2.5 py-1 bg-white/5 rounded-md border border-white/10 flex items-center gap-1">
+                  <CheckCircle2 size={11} className="text-emerald-400" /> Zero Upfront Cash
+                </span>
+              </div>
+
+              {/* Direct CTA Button (No form) */}
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-[#FF7819] hover:bg-[#e0650d] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-xs sm:text-[13px] uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer"
+              >
+                <span>Talk to a Loan Specialist</span>
+                <ArrowRight size={14} />
+              </motion.a>
+            </div>
+
+            {/* Right Column: Statutory Corporate Details */}
+            <div className="lg:col-span-4 bg-white/[0.05] backdrop-blur-md rounded-xl p-4 border border-white/10 text-xs space-y-2.5">
+              <div>
+                <span className="text-[9px] text-slate-400 uppercase font-bold block">Authorized Operating Entity</span>
+                <span className="font-bold text-white text-xs">CoverMantra Services Private Limited</span>
+              </div>
+              <div>
+                <span className="text-[9px] text-slate-400 uppercase font-bold block">Corporate Identity (CIN)</span>
+                <span className="font-mono text-[#FF7819] font-bold text-xs">U46109DL2024PTC438732</span>
+              </div>
+              <div>
+                <span className="text-[9px] text-slate-400 uppercase font-bold block">Goods & Services Tax (GSTIN)</span>
+                <span className="font-mono text-white font-bold text-xs">06AAMCC2334C1Z3</span>
+              </div>
+              <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] text-slate-400">
+                <span>Enterprise Desk</span>
+                <span className="text-emerald-400 font-semibold">Active & Monitored</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </section>
 
     </main>
